@@ -26,7 +26,7 @@ Please read [CONTRIBUTING.md](https://github.com/niemopen/niem-open-training/blo
 
 # Governance
 
-NIEM Open operates under the terms of the [Open Project Rules](https://www.oasis-open.org/policies-guidelines/open-projects-process) and the applicable license(s) specified in [LICENSE.md](https://github.com/niemopen/niem-open-training/blob/main/LICENSE.md). Further details can be found in [GOVERNANCE.md](GOVERNANCE.md), [GOVERNANCE-NBAC.md](GOVERNANCE-NBAC.md), and [GOVERNANCE-NTAC.md](GOVERNANCE-NTAC.md).
+NIEM Open operates under the terms of the [Open Project Rules](https://www.oasis-open.org/policies-guidelines/open-projects-process) and the applicable license(s) specified in [LICENSE.md](https://github.com/niemopen/niem-open-training/blob/main/LICENSE.md). Further details can be found in [GOVERNANCE.md]([GOVERNANCE.md](https://github.com/niemopen/oasis-open-project/blob/main/GOVERNANCE.md)), [GOVERNANCE-NBAC.md]([GOVERNANCE-NBAC.md](https://github.com/niemopen/nbac-admin)), and [GOVERNANCE-NTAC.md]([GOVERNANCE-NTAC.md](https://github.com/niemopen/ntac-admin).
 
 # CLA & Non-assert signatures required
 
