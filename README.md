@@ -22,11 +22,11 @@ In addition to this GitHub organization, this project also makes use of other as
 
 # Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details how to join the project, contribute changes to our repositories and communicate with the rest of the project contributors. Please become familiar with and follow the [code of conduct](CODE-OF-CONDUCT.md).
+Please read [CONTRIBUTING.md](https://github.com/niemopen/niem-open-training/blob/main/CONTRIBUTING.md) for details how to join the project, contribute changes to our repositories and communicate with the rest of the project contributors. Please become familiar with and follow the [code of conduct](CODE-OF-CONDUCT.md).
 
 # Governance
 
-NIEM Open operates under the terms of the [Open Project Rules](https://www.oasis-open.org/policies-guidelines/open-projects-process) and the applicable license(s) specified in [LICENSE.md](LICENSE.md). Further details can be found in [GOVERNANCE.md](GOVERNANCE.md), [GOVERNANCE-NBAC.md](GOVERNANCE-NBAC.md), and [GOVERNANCE-NTAC.md](GOVERNANCE-NTAC.md).
+NIEM Open operates under the terms of the [Open Project Rules](https://www.oasis-open.org/policies-guidelines/open-projects-process) and the applicable license(s) specified in [LICENSE.md](https://github.com/niemopen/niem-open-training/blob/main/LICENSE.md). Further details can be found in [GOVERNANCE.md](GOVERNANCE.md), [GOVERNANCE-NBAC.md](GOVERNANCE-NBAC.md), and [GOVERNANCE-NTAC.md](GOVERNANCE-NTAC.md).
 
 # CLA & Non-assert signatures required
 
