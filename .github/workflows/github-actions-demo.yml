@@ -14,6 +14,12 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - run: echo "Hello world!" > test.txt
       - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
+      - run: ls ${{ github.workspace }}
+      - run: git add ./test.txt
+      - run: git commit -m "Add changes"
+      - name: Push changes # push the output folder to your repo
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        force: true
       - run: echo "🍏 This job's status is ${{ job.status }}."
