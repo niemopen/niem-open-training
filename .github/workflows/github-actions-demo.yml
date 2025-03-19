@@ -16,6 +16,8 @@ jobs:
         run: |
           echo "Hello World" > test.txt
           ls ${{ github.workspace }}
+          git config --local user.email "Thomas.Carlson@gtri.gatech.edu"
+          git config --local user.name "TomCarlson-NTAC"
           git add ./test.txt
           git commit -m "Add changes"
       - run: echo "🍏 This job's status is ${{ job.status }}."
