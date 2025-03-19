@@ -17,4 +17,5 @@ jobs:
           echo "Hello World" > test.txt
           ls ${{ github.workspace }}
           git add ./test.txt
+          git commit -m "Add changes"
       - run: echo "🍏 This job's status is ${{ job.status }}."
