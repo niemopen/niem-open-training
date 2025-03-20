@@ -14,7 +14,7 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: List files in the repository
         run: |
-          echo "Hello World" > test.txt
+          cat source1.md source2.md > output.md
           ls ${{ github.workspace }}
           git config --local user.email "Thomas.Carlson@gtri.gatech.edu"
           git config --local user.name "TomCarlson-NTAC"
