@@ -10,13 +10,13 @@ ___
 - NIEM is available to everyone, including public and private organizations
 - NIEM includes a data model, governance, training, tools, technical support services, and an active community to assist users in adopting a standards-based approach to exchanging data
 
-![NIEM Framework](Intro_Graphics/NIEM_Framework.png)
+![NIEM Framework](/Intro_Graphics/NIEM_Framework.png)
 ___
 ### What is NIEM? – Interop Problem
 - If we don’t understand what each other means, we won’t be able to exchange info
 - Need a common language for defining things
 
-![Interop Problem](Intro_Graphics/Interop_Problem_scaled.png)
+![Interop Problem](/Intro_Graphics/Interop_Problem_scaled.png)
 ___
 ### What is NIEM? And what not?
 **NIEM is:**
@@ -31,37 +31,37 @@ ___
 - Using NIEM, organizations come together to agree on a common vocabulary
 - When additional organizations are added to the information exchange, the initial NIEM exchange can be reused, saving time and money
 
-![Exchanging Data and Components](Intro_Graphics/Exch_Data_Components.png)
+![Exchanging Data and Components](/Intro_Graphics/Exch_Data_Components.png)
 ___
 ### What is NIEM? – Simplified Exchanges
 - When using NIEM, you only need to “speak” two languages: your own and NIEM
 
 | Without NIEM | With NIEM |
 | --- | --- |
-|![Scrambled Exchanges](Intro_Graphics/Scrambled_Exchanges.png)|![Centralized Exchanges](Intro_Graphics/Centralized_Exchanges.png)|
+|![Scrambled Exchanges](/Intro_Graphics/Scrambled_Exchanges.png)|![Centralized Exchanges](/Intro_Graphics/Centralized_Exchanges.png)|
 ___
 ### Scope of NIEM
 - NIEM is a data layer standard and intentionally does not address all the necessary technologies needed for information sharing
 - Exchange partners decide how to store and process the NIEM-conformant data being exchanged
 
-![Scope of NIEM 01](Intro_Graphics/Scope_NIEM_01.png)
+![Scope of NIEM 01](/Intro_Graphics/Scope_NIEM_01.png)
 
-![Scope of NIEM 02](Intro_Graphics/Scope_NIEM_02.png)
+![Scope of NIEM 02](/Intro_Graphics/Scope_NIEM_02.png)
 ___
 ### Scope of NIEM - Open Source Interconnection (OSI) model
 
 **Detailed:**
 
-![OSI Detailed](Intro_Graphics/OSI_01_clean.png)
+![OSI Detailed](/Intro_Graphics/OSI_01_clean.png)
 
 **Simplified:**
 
-![OSI Simplified](Intro_Graphics/OSI_02.png)
+![OSI Simplified](/Intro_Graphics/OSI_02.png)
 ___
 ### Bottle of Liquid
 **A bottle of liquid:**
 
-| ![Bottle 01](Intro_Graphics/Bottle_01.png) | ![Bottle 02](Intro_Graphics/Bottle_02.png) |
+| ![Bottle 01](/Intro_Graphics/Bottle_01.png) | ![Bottle 02](/Intro_Graphics/Bottle_02.png) |
 | --- | --- |
 | Has some combination of liquids inside | NIEM is the liquid inside, the payload document |
 | Has a shape | NIEM doesn’t care about the shape |
@@ -80,7 +80,7 @@ ___
 - NIEM core includes data elements commonly agreed upon across all NIEM domains (i.e., person, activity, location, and item, etc.)
 - Individual NIEM domains contain mission-specific data components that build upon NIEM core concepts
 
-![Domain Diagram](Intro_Graphics/Domain_Diagram_scaled.png)
+![Domain Diagram](/Intro_Graphics/Domain_Diagram_scaled.png)
 
 | Existing Domains                              | Upcoming Domains             |
 | --------------------------------------------- | ---------------------------- |
@@ -104,31 +104,31 @@ ___
 
 | Agriculture | Biometrics |
 | --- | --- |
-| ![Agriculture](Domain_Graphics/ag.png) | ![Biometrics](Domain_Graphics/biom.png) |
+| ![Agriculture](/Domain_Graphics/ag.png) | ![Biometrics](/Domain_Graphics/biom.png) |
 
 | Chemical, Biological, Radiological, & Nuclear | Emergency Management |
 | --- | --- |
-| ![CBRN](Domain_Graphics/cbrn.png) | ![Emergency Management](Domain_Graphics/em.png) |
+| ![CBRN](/Domain_Graphics/cbrn.png) | ![Emergency Management](/Domain_Graphics/em.png) |
 
 | Human Services | Immigration |
 | --- | --- |
-| ![Human Services](Domain_Graphics/hs.png) | ![Immigration](Domain_Graphics/im.png) |
+| ![Human Services](/Domain_Graphics/hs.png) | ![Immigration](/Domain_Graphics/im.png) |
 
 | Infrastructure Protection | Intelligence |
 | --- | --- |
-| ![Infrastructure Protection](Domain_Graphics/ip.png) | ![Intelligence](Domain_Graphics/intel.png) |
+| ![Infrastructure Protection](/Domain_Graphics/ip.png) | ![Intelligence](/Domain_Graphics/intel.png) |
 
 | International Trade | Justice |
 | --- | --- |
-| ![International Trade](Domain_Graphics/it.png) | ![Justice](Domain_Graphics/j.png) |
+| ![International Trade](/Domain_Graphics/it.png) | ![Justice](/Domain_Graphics/j.png) |
 
 | Maritime | Military Operations |
 | --- | --- |
-| ![Maritime](Domain_Graphics/m.png) | ![Military Operations](Domain_Graphics/mo.png) |
+| ![Maritime](/Domain_Graphics/m.png) | ![Military Operations](/Domain_Graphics/mo.png) |
 
 | Screening  | Surface Transportation |
 | --- | --- |
-| ![Screening ](Domain_Graphics/scr.png) | ![Surface Transportation](Domain_Graphics/st.png) |
+| ![Screening ](/Domain_Graphics/scr.png) | ![Surface Transportation](/Domain_Graphics/st.png) |
 
 
 **NIEM Versioning**
@@ -171,7 +171,7 @@ ___
 
 **NIEM Administration and Organization**
 
-![Org Chart](Intro_Graphics/Org_Chart.png)
+![Org Chart](/Intro_Graphics/Org_Chart.png)
 
 **Move to OASIS**
 
@@ -192,4 +192,4 @@ One of the most respected, nonprofit open source and open standards bodies in th
 
 **Get Involved!**
 
-For more information about supporting the NIEM OASIS Open Project, contact Dee Schur, dee.schur@oasis-open.org
+For more information about supporting the NIEM OASIS Open Project, contact TBD, TBD@oasis-open.org
