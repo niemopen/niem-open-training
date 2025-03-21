@@ -14,11 +14,11 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: List files in the repository
         run: |
-          cat source1.md source2.md > output.md
+          cat 'Modules/01 - NIEM Training.md' 'Modules/02 - Introduction to NIEM.md' > 'Main NIEM Training Document.md'
           ls ${{ github.workspace }}
           git config --local user.email "Thomas.Carlson@gtri.gatech.edu"
           git config --local user.name "TomCarlson-NTAC"
-          git add ./output.md
+          git add './Main NIEM Training Document.md'
           git commit -m "Add changes"
       - name: Push changes # push the output folder to your repo
         uses: ad-m/github-push-action@master
