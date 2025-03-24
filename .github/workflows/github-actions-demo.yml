@@ -15,7 +15,7 @@ jobs:
       - name: List files in the repository
         run: |
           cat 'Modules/01 - NIEM Training.md' 'Modules/02 - Introduction to NIEM.md' > 'Main NIEM Training Document.md'
-          echo '\n___\nGenerated on: ' >> 'Main NIEM Training Document.md'
+          echo "\n___\nGenerated on: " >> 'Main NIEM Training Document.md'
           date >> 'Main NIEM Training Document.md'
           ls ${{ github.workspace }}
           git config --local user.email "Thomas.Carlson@gtri.gatech.edu"
