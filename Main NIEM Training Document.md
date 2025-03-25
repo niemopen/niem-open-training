@@ -325,7 +325,7 @@ sequenceDiagram
 	- From NIEM repositories (_huge caveat_)
 	- There's a community to draw from
 
-![Participants](Scenario_Planning_Graphics/Participants.png)
+![Participants](/Scenario_Planning_Graphics/Participants.png)
 ___
 ### Existing Documentation
 
@@ -341,4 +341,4 @@ ___
 Remove this later!
 ___
 Generated on: 
-Tue Mar 25 15:33:44 UTC 2025
+Tue Mar 25 15:40:27 UTC 2025
