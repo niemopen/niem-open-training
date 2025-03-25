@@ -21,7 +21,6 @@ jobs:
           echo '___' >> 'Main NIEM Training Document.md'
           echo 'Generated on: ' >> 'Main NIEM Training Document.md'
           date >> 'Main NIEM Training Document.md'
-          ls ${{ github.workspace }}
           git config --local user.email "Thomas.Carlson@gtri.gatech.edu"
           git config --local user.name "TomCarlson-NTAC"
           git add './Main NIEM Training Document.md'
