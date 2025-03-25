@@ -31,4 +31,3 @@ ___
 		- Current structure of the data (logical, physical)
 		- Use of external standards
 ___
-Remove this later!
