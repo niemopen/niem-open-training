@@ -18,7 +18,7 @@ sequenceDiagram
 	- From NIEM repositories (_huge caveat_)
 	- There's a community to draw from
 
-![Participants](Scenario_Planning_Graphics/Participants.png)
+![Participants](/Scenario_Planning_Graphics/Participants.png)
 ___
 ### Existing Documentation
 
