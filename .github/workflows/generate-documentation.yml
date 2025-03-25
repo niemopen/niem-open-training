@@ -14,16 +14,28 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: Generate the docs
         run: |
-          cat 'Modules/01 - NIEM Training.md' > 'Main NIEM Training Document.md'
-          cat 'Modules/02 - Introduction to NIEM.md' >> 'Main NIEM Training Document.md'
-          cat 'Modules/03 - Message Spec (IEPD) Overview.md' >> 'Main NIEM Training Document.md'
-          cat 'Modules/04 - Scenario Planning.md' >> 'Main NIEM Training Document.md'
-          echo '___' >> 'Main NIEM Training Document.md'
-          echo 'Generated on: ' >> 'Main NIEM Training Document.md'
-          date >> 'Main NIEM Training Document.md'
+          cat 'Modules/01 - NIEM Training.md' > 'Main NIEM XML Training Document.md'
+          cat 'Modules/02 - Introduction to NIEM.md' >> 'Main NIEM XML Training Document.md'
+          cat 'Modules/03 - Message Spec (IEPD) Overview.md' >> 'Main NIEM XML Training Document.md'
+          cat 'Modules/04 - Scenario Planning.md' >> 'Main NIEM XML Training Document.md'
+          cat 'Modules/05 - Analyze Requirements.md' >> 'Main NIEM XML Training Document.md'
+          cat 'Modules/06 - XML Schema in a Nutshell.md' >> 'Main NIEM XML Training Document.md'
+          echo '___' >> 'Main NIEM XML Training Document.md'
+          echo 'Generated on: ' >> 'Main NIEM XML Training Document.md'
+          date >> 'Main NIEM XML Training Document.md'
+          cat 'Modules/01 - NIEM Training.md' > 'Main NIEM JSON Training Document.md'
+          cat 'Modules/02 - Introduction to NIEM.md' >> 'Main NIEM JSON Training Document.md'
+          cat 'Modules/03 - Message Spec (IEPD) Overview.md' >> 'Main NIEM JSON Training Document.md'
+          cat 'Modules/04 - Scenario Planning.md' >> 'Main NIEM JSON Training Document.md'
+          cat 'Modules/05 - Analyze Requirements.md' >> 'Main NIEM JSON Training Document.md'
+          cat 'Modules/06 - JSON Schema in a Nutshell.md' >> 'Main NIEM JSON Training Document.md'
+          echo '___' >> 'Main NIEM JSON Training Document.md'
+          echo 'Generated on: ' >> 'Main NIEM JSON Training Document.md'
+          date >> 'Main NIEM JSON Training Document.md'
           git config --local user.email "Thomas.Carlson@gtri.gatech.edu"
           git config --local user.name "TomCarlson-NTAC"
-          git add './Main NIEM Training Document.md'
+          git add './Main NIEM XML Training Document.md'
+          git add './Main NIEM JSON Training Document.md'
           git commit -m "Add changes"
       - name: Push changes # push the output folder to your repo
         uses: ad-m/github-push-action@master
