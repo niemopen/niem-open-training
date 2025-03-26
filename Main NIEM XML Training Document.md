@@ -51,7 +51,7 @@ ___
 - Ask questions via chat _when you have them_
 	- Someone is monitoring chat and will interrupt me as needed
 - This document and supporting materials are at:
-	- https://github.com/niem/niem-training
+	- https://github.com/niemopen/niem-open-training/
 ___
 ## Introduction to NIEM
 
@@ -672,4 +672,4 @@ The resulting instance document that all this creates might look like this:
 ___
 ___
 Generated on: 
-Wed Mar 26 20:48:15 UTC 2025
+Wed Mar 26 20:50:09 UTC 2025
