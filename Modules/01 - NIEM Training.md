@@ -1,4 +1,4 @@
-![NIEMOPEN Logo](/Intro_Graphics/NIEMOPEN_Logo.png)
+![NIEMOPEN Logo](/Intro_Graphics/NIEMOPEN_logo.png)
 
 # Main NIEM Training Document
 NIEM Training
