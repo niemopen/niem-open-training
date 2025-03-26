@@ -14,12 +14,20 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: Generate the docs
         run: |
+          cat 'Modules/01 - NIEM Training.md' > 'NIEM 101.md'
+          cat 'Modules/02 - Introduction to NIEM.md' >> 'NIEM 101.md'
+          cat 'Modules/03 - Message Spec (IEPD) Overview.md' >> 'NIEM 101.md'
+          echo '___' >> 'NIEM 101.md'
+          echo 'Generated on: ' >> 'NIEM 101.md'
+          date >> 'NIEM 101.md'
           cat 'Modules/01 - NIEM Training.md' > 'Main NIEM XML Training Document.md'
           cat 'Modules/02 - Introduction to NIEM.md' >> 'Main NIEM XML Training Document.md'
           cat 'Modules/03 - Message Spec (IEPD) Overview.md' >> 'Main NIEM XML Training Document.md'
           cat 'Modules/04 - Scenario Planning.md' >> 'Main NIEM XML Training Document.md'
           cat 'Modules/05 - Analyze Requirements.md' >> 'Main NIEM XML Training Document.md'
           cat 'Modules/06 - XML Schema in a Nutshell.md' >> 'Main NIEM XML Training Document.md'
+          cat 'Modules/07 - Map and Model.md' >> 'Main NIEM XML Training Document.md'
+          cat 'Modules/08 - Mapping and NIEM Technical Details in XML' >> 'Main NIEM XML Training Document.md'
           echo '___' >> 'Main NIEM XML Training Document.md'
           echo 'Generated on: ' >> 'Main NIEM XML Training Document.md'
           date >> 'Main NIEM XML Training Document.md'
@@ -29,11 +37,14 @@ jobs:
           cat 'Modules/04 - Scenario Planning.md' >> 'Main NIEM JSON Training Document.md'
           cat 'Modules/05 - Analyze Requirements.md' >> 'Main NIEM JSON Training Document.md'
           cat 'Modules/06 - JSON Schema in a Nutshell.md' >> 'Main NIEM JSON Training Document.md'
+          cat 'Modules/07 - Map and Model.md' >> 'Main NIEM JSON Training Document.md'
+          cat 'Modules/08 - Mapping and NIEM Technical Details in JSON.md' >> 'Main NIEM JSON Training Document.md'
           echo '___' >> 'Main NIEM JSON Training Document.md'
           echo 'Generated on: ' >> 'Main NIEM JSON Training Document.md'
           date >> 'Main NIEM JSON Training Document.md'
           git config --local user.email "Thomas.Carlson@gtri.gatech.edu"
           git config --local user.name "TomCarlson-NTAC"
+          git add './NIEM 101.md'
           git add './Main NIEM XML Training Document.md'
           git add './Main NIEM JSON Training Document.md'
           git commit -m "Add changes"
