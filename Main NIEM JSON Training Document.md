@@ -1,4 +1,4 @@
-![NIEM Logo](/Intro_Graphics/NIEM_Logo.png)
+![NIEMOPEN Logo](/Intro_Graphics/NIEMOPEN_Logo.png)
 
 # Main NIEM Training Document
 NIEM Training
@@ -52,6 +52,7 @@ ___
 	- Someone is monitoring chat and will interrupt me as needed
 - This document and supporting materials are at:
 	- https://github.com/niem/niem-training
+___
 ## Introduction to NIEM
 
 - What is NIEM?
@@ -710,4 +711,4 @@ JSON-LD and JSON Schema are separate concepts. NIEM does not _yet_ support JSON 
 Throughout the training, matching JSON instances will be included with XML instances.
 ___
 Generated on: 
-Wed Mar 26 20:41:48 UTC 2025
+Wed Mar 26 20:45:04 UTC 2025
