@@ -1,4 +1,4 @@
-![NIEMOPEN Logo](/Intro_Graphics/NIEMOPEN_Logo.png)
+![NIEMOPEN Logo](/Intro_Graphics/NIEMOPEN_logo.png)
 
 # Main NIEM Training Document
 NIEM Training
@@ -711,4 +711,4 @@ JSON-LD and JSON Schema are separate concepts. NIEM does not _yet_ support JSON 
 Throughout the training, matching JSON instances will be included with XML instances.
 ___
 Generated on: 
-Wed Mar 26 20:45:04 UTC 2025
+Wed Mar 26 20:48:15 UTC 2025
