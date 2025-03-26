@@ -436,16 +436,15 @@ For example, this bit of XML Schema defines what a `PersonName` object needs to 
 And here's what the matching XML _instance_ document might look like.
 
 ```xml
-	<PersonName personNameCommentText="copied">
-		<PersonGivenName>Peter</PersonGivenName>
-		<PersonMiddleName>Bredon</PersonMiddleName>
-		<PersonMiddleName>Death</PersonMiddleName>
-		<PersonSurName>Wimsey</PersonSurName>
-	</PersonName>
+<PersonName personNameCommentText="copied">
+	<PersonGivenName>Peter</PersonGivenName>
+	<PersonMiddleName>Bredon</PersonMiddleName>
+	<PersonMiddleName>Death</PersonMiddleName>
+	<PersonSurName>Wimsey</PersonSurName>
+</PersonName>
 ```
 
 We will see much more of this. This is just an initial glance at it.
 ___
-___
 Generated on: 
-Wed Mar 26 19:09:26 UTC 2025
+Wed Mar 26 19:26:51 UTC 2025
