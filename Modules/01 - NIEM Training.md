@@ -51,5 +51,5 @@ ___
 - Ask questions via chat _when you have them_
 	- Someone is monitoring chat and will interrupt me as needed
 - This document and supporting materials are at:
-	- https://github.com/niem/niem-training
+	- https://github.com/niemopen/niem-open-training/
 ___
