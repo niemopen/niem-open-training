@@ -27,7 +27,7 @@ jobs:
           cat 'Modules/05 - Analyze Requirements.md' >> 'Main NIEM XML Training Document.md'
           cat 'Modules/06 - XML Schema in a Nutshell.md' >> 'Main NIEM XML Training Document.md'
           cat 'Modules/07 - Map and Model.md' >> 'Main NIEM XML Training Document.md'
-          cat 'Modules/08 - Mapping and NIEM Technical Details in XML' >> 'Main NIEM XML Training Document.md'
+          cat 'Modules/08 - Mapping and NIEM Technical Details in XML.md' >> 'Main NIEM XML Training Document.md'
           echo '___' >> 'Main NIEM XML Training Document.md'
           echo 'Generated on: ' >> 'Main NIEM XML Training Document.md'
           date >> 'Main NIEM XML Training Document.md'
