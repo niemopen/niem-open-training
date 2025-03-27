@@ -10,7 +10,7 @@ Thomas.Carlson@gtri.gatech.edu
 
 ## Purpose
 
-A technical webinar focused on developers and implementers who are interested in a deep-dive of the National Information Exchange Model.
+A technical webinar focused on developers and implementers who are interested in a deep-dive of NIEM.
 
 ## Supporting Documents
 
@@ -672,4 +672,4 @@ The resulting instance document that all this creates might look like this:
 ___
 ___
 Generated on: 
-Wed Mar 26 20:50:09 UTC 2025
+Thu Mar 27 12:29:05 UTC 2025

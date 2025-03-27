@@ -10,7 +10,7 @@ Thomas.Carlson@gtri.gatech.edu
 
 ## Purpose
 
-A technical webinar focused on developers and implementers who are interested in a deep-dive of the National Information Exchange Model.
+A technical webinar focused on developers and implementers who are interested in a deep-dive of NIEM.
 
 ## Supporting Documents
 
@@ -711,4 +711,4 @@ JSON-LD and JSON Schema are separate concepts. NIEM does not _yet_ support JSON 
 Throughout the training, matching JSON instances will be included with XML instances.
 ___
 Generated on: 
-Wed Mar 26 20:50:09 UTC 2025
+Thu Mar 27 12:29:05 UTC 2025
