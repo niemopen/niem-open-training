@@ -14,15 +14,17 @@ A technical webinar focused on developers and implementers who are interested in
 
 ## Supporting Documents
 
-All materials are available on the NIEM Training Github repo at [https://github.com/NIEM/NIEM-Training](https://github.com/NIEM/NIEM-Training). Specific materials used are listed on the README page and include:
+All materials are available on the NIEM Training Github repo at [https://github.com/niemopen/niem-open-training](https://github.com/niemopen/niem-open-training). Specific materials used are listed on the README page and include:
 
-- [**Master NIEM Training Document**](https://github.com/NIEM/NIEM-Training/blob/main/Master%20NIEM%20Training%20Document.md)
-- [Mapping Spreadsheets](https://github.com/NIEM/NIEM-Training/tree/main/Mapping_Spreadsheets)
-- [Ersatz Textual Instances](https://github.com/NIEM/NIEM-Training/tree/main/Text_Document)
+- **Master NIEM Training Document**
+	- [Master NIEM Training Document (XML)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20XML%20Training%20Document.md)
+	- [Master NIEM Training Document (JSON)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20JSON%20Training%20Document.md)
+- [Mapping Spreadsheets](https://github.com/niemopen/niem-open-training/tree/main/Mapping_Spreadsheets)
+- [Ersatz Textual Instances](https://github.com/niemopen/niem-open-training/tree/main/Text_Document)
 
 ## Sample Message Specification
 
-- [Crash Driver Message Specification](https://github.com/NIEM/NIEM-Training/tree/main/Crash%20Driver%20IEPD)
+- [Crash Driver Message Specification](https://github.com/niemopen/niem-open-training/tree/main/Crash%20Driver%20IEPD)
 
 ## Agenda
 
