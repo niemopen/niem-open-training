@@ -139,10 +139,10 @@ ___
 
 | Existing Domains                              | Upcoming Domains             |
 | --------------------------------------------- | ---------------------------- |
-| Agriculture                                   | Learning and Development     |
-| Biometrics                                    | International Human Services |
+| Agriculture                                   | International Human Services |
+| Biometrics                                    |                              |
 | Chemical, Biological, Radiological, & Nuclear |                              |
-| Cyber (new in 5.1)                            |                              |
+| Cyber                                         |                              |
 | Emergency Management                          |                              |
 | Human Services                                |                              |
 | Immigration                                   |                              |
@@ -150,6 +150,7 @@ ___
 | Intelligence                                  |                              |
 | International Trade                           |                              |
 | Justice                                       |                              |
+| Learning and Development                      |                              |
 | Maritime                                      |                              |
 | Military Operations                           |                              |
 | Screening                                     |                              |
@@ -189,7 +190,7 @@ ___
 **NIEM Versioning**
 
 - NIEM has major and minor versions, plus domain updates
-- Major version releases, e.g. 4.2 to 5.0
+- Major version releases, e.g. 5.2 to 6.0
 	- Every 3 years
 	- All bets are off
 	- NIEM-Core can and will change
@@ -201,8 +202,8 @@ ___
 		- Misplaced content is moved, either to other domains or to core
 		- New content is added
 	- _Nothing_ in a major version change is guaranteed to be backwards compatible with earlier major releases
-	- NIEM 6.0 scheduled for end of 2023
-- Minor version releases, e.g. 5.0 to 5.1:
+	- NIEM 6.0 schemas out now, support documentation mid-2025
+- Minor version releases, e.g. 5.1 to 5.2:
 	- Annually
 	- **NIEM-Core does not change!**
 		- **Neither does the underlying infrastructure**
@@ -211,7 +212,7 @@ ___
 	- Domains can be added, like Cyber in 5.1
 	- Domains are not guaranteed to be backwards compatible with earlier minor releases
 		- But they often are
-	- NIEM 5.2 scheduled for end of 2022
+	- NIEM 6.1 is planned
 - Domain updates are done per-domain
 	- Domains can update their content in between minor releases
 	- Those updates then are normally folded into the next minor release
@@ -248,7 +249,7 @@ One of the most respected, nonprofit open source and open standards bodies in th
 **Get Involved!**
 
 For more information about supporting the NIEM OASIS Open Project, contact TBD, TBD@oasis-open.org
-# Message Spec / IEPD Overview
+___# Message Spec / IEPD Overview
 - "Information Exchange Package Documentation"
 - Slowly changing to "Message Specification"
 - Defines an exchange
@@ -672,4 +673,4 @@ The resulting instance document that all this creates might look like this:
 ___
 ___
 Generated on: 
-Thu Mar 27 12:29:05 UTC 2025
+Thu Mar 27 13:53:01 UTC 2025
