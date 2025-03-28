@@ -694,7 +694,8 @@ We've already seen the schema for these in detail.
 	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/01_Native_Properties.xlsx)
 	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/01_Native_Properties.pdf)
 
-___## Substitution Groups
+___
+## Substitution Groups
 
 ![Substitution Groups](/Req_Analysis_Graphics/02_Substitution_Groups_CrashDriverClassDiagram.png)
 
@@ -786,4 +787,4 @@ In the resulting instance document, you don't see `nc:DateRepresentation` at all
 ___
 ___
 Generated on: 
-Fri Mar 28 20:53:57 UTC 2025
+Fri Mar 28 20:57:24 UTC 2025
