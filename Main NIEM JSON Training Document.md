@@ -712,6 +712,66 @@ Note that the structure of the JSON mirrors the structure of the XML. NIEM with 
 JSON-LD and JSON Schema are separate concepts. NIEM does not _yet_ support JSON Schema, although efforts are underway to enable that. Currently, JSON with NIEM is all about the JSON instance documents. NIEM itself is still defined in XML Schema.
 
 Throughout the training, matching JSON instances will be included with XML instances.
+## Native Properties
+
+![Native Properties](/Req_Analysis_Graphics/01_Native_Properties_CrashDriverClassDiagram.png)
+
+- Some things will be easy to find
+- Will map directly to NIEM objects
+- Examples:
+	- `nc:Person`, `nc:PersonName`, `nc:PersonGivenName`, etc.
+	- Search for `nc:Person` in the [SSGT](http://niem5.org/ssgt_redirect.php?query=person)
+	- Search for `nc:Person` in [Wayfarer](http://niem5.org/wayfarer/search.php?option=exact&query=person)
+
+We've already seen the schema for these in detail.
+
+### Artifacts
+
+- [Native Properties](/Text_Document/01_Native_Properties.md)
+- Mapping Spreadsheets
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/01_Native_Properties.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/01_Native_Properties.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/01_Native_Properties.pdf)
+
+___![Substitution Groups](/Req_Analysis_Graphics/02_Substitution_Groups_CrashDriverClassDiagram.png)
+
+- Some concepts can be represented multiple ways
+- Text / code combinations are common
+- Date can be a date, datetime, or a range
+- NIEM uses substitution groups to support both:
+	- The single concept, and
+	- Multiple representations of that concept
+- Examples:
+	- `nc:PersonBirthDate` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-11r)/[Wayfarer](http://niem5.org/wayfarer/nc/PersonBirthDate.html)) contains a `nc:DateRepresentation` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-92a)/[Wayfarer](http://niem5.org/wayfarer/nc/DateRepresentation.html))
+	- Substitution group heads follow the form of: `SomethingRepresentation` or `WhateverAbstract`
+
+The matching JSON similarly just shows `nc:Date`:
+
+```json
+"nc:Person": {
+	"nc:PersonBirthDate": {
+		"nc:Date": "1890-05-04"
+	},
+	"nc:PersonName": {
+		"nc:PersonGivenName": "Peter",
+		"nc:PersonMiddleName": [
+			"Death",
+			"Bredon"
+		],
+		"nc:PersonSurName": "Wimsey"
+	}
+}
+```
+
+### Artifacts
+
+- [Substitition Groups](/Text_Document/02_Substitution_Groups.md)
+- Mapping Spreadsheets
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/02_Substitution_Groups.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/02_Substitution_Groups.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/02_Substitution_Groups.pdf)
+
+___
 ___
 Generated on: 
-Fri Mar 28 20:46:25 UTC 2025
+Fri Mar 28 20:53:57 UTC 2025

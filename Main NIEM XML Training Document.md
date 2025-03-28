@@ -673,6 +673,117 @@ The resulting instance document that all this creates might look like this:
 
 (Who is [Peter Wimsey](https://en.wikipedia.org/wiki/Lord_Peter_Wimsey)?)
 ___
+## Native Properties
+
+![Native Properties](/Req_Analysis_Graphics/01_Native_Properties_CrashDriverClassDiagram.png)
+
+- Some things will be easy to find
+- Will map directly to NIEM objects
+- Examples:
+	- `nc:Person`, `nc:PersonName`, `nc:PersonGivenName`, etc.
+	- Search for `nc:Person` in the [SSGT](http://niem5.org/ssgt_redirect.php?query=person)
+	- Search for `nc:Person` in [Wayfarer](http://niem5.org/wayfarer/search.php?option=exact&query=person)
+
+We've already seen the schema for these in detail.
+
+### Artifacts
+
+- [Native Properties](/Text_Document/01_Native_Properties.md)
+- Mapping Spreadsheets
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/01_Native_Properties.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/01_Native_Properties.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/01_Native_Properties.pdf)
+
+___## Substitution Groups
+
+![Substitution Groups](/Req_Analysis_Graphics/02_Substitution_Groups_CrashDriverClassDiagram.png)
+
+- Some concepts can be represented multiple ways
+- Text / code combinations are common
+- Date can be a date, datetime, or a range
+- NIEM uses substitution groups to support both:
+	- The single concept, and
+	- Multiple representations of that concept
+- Examples:
+	- `nc:PersonBirthDate` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-11r)/[Wayfarer](http://niem5.org/wayfarer/nc/PersonBirthDate.html)) contains a `nc:DateRepresentation` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-92a)/[Wayfarer](http://niem5.org/wayfarer/nc/DateRepresentation.html))
+	- Substitution group heads follow the form of: `SomethingRepresentation` or `WhateverAbstract`
+
+### Schemas
+
+Here we see [`nc:PersonBirthDate`](http://niem5.org/schemas/nc.html#PersonBirthDate) and its type, `nc:DateType`:
+
+```xml
+<xs:element name="PersonBirthDate" type="nc:DateType" nillable="true">
+	<xs:annotation>
+		<xs:documentation>A date a person was born.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+```
+
+[`nc:DateType`](http://niem5.org/schemas/nc.html#DateType) contains `nc:DateRepresentation`, along with other date properties:
+
+```xml
+<xs:complexType name="DateType">
+	<xs:annotation>
+		<xs:documentation>A data type for a calendar date.</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="structures:ObjectType">
+			<xs:sequence>
+				<xs:element ref="nc:DateRepresentation" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:DateAccuracyAbstract" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="nc:DateMarginOfErrorDuration" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="nc:DateAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+```
+[`nc:DateRepresentation`](http://niem5.org/schemas/nc.html#DateRepresentation) is _abstract_, meaning it has no type and must be substituted with another object:
+
+```xml
+<xs:element name="DateRepresentation" abstract="true">
+	<xs:annotation>
+		<xs:documentation>A data concept for a representation of a date.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+```
+Those other objects are identified by having a `substitutionGroup` attribute set to the name of the substitution group head. The most common one you'll see for `nc:DateRepresentation` is [`nc:Date`](http://niem5.org/schemas/nc.html#Date):
+
+```xml
+<xs:element name="Date" type="niem-xs:date" substitutionGroup="nc:DateRepresentation" nillable="true">
+	<xs:annotation>
+		<xs:documentation>A full date.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+```
+
+### Instance Documents
+
+In the resulting instance document, you don't see `nc:DateRepresentation` at all. You just see `nc:Date`, which is taking its place:
+
+```xml
+<nc:Person>
+	<nc:PersonBirthDate>
+		<nc:Date>1890-05-04</nc:Date>
+	</nc:PersonBirthDate>
+	<nc:PersonName>
+		<nc:PersonGivenName>Peter</nc:PersonGivenName>
+		<nc:PersonMiddleName>Death</nc:PersonMiddleName>
+		<nc:PersonMiddleName>Bredon</nc:PersonMiddleName>
+		<nc:PersonSurName>Wimsey</nc:PersonSurName>
+	</nc:PersonName>
+</nc:Person>
+```
+### Artifacts
+
+- [Substitition Groups](/Text_Document/02_Substitution_Groups.md)
+- Mapping Spreadsheets
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/02_Substitution_Groups.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/02_Substitution_Groups.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/02_Substitution_Groups.pdf)
+
+___
 ___
 Generated on: 
-Fri Mar 28 20:46:25 UTC 2025
+Fri Mar 28 20:53:57 UTC 2025
