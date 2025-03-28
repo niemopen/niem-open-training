@@ -1,3 +1,5 @@
+## Substitution Groups
+
 ![Substitution Groups](/Req_Analysis_Graphics/02_Substitution_Groups_CrashDriverClassDiagram.png)
 
 - Some concepts can be represented multiple ways
