@@ -714,4 +714,4 @@ JSON-LD and JSON Schema are separate concepts. NIEM does not _yet_ support JSON 
 Throughout the training, matching JSON instances will be included with XML instances.
 ___
 Generated on: 
-Thu Mar 27 14:00:33 UTC 2025
+Fri Mar 28 20:46:25 UTC 2025
