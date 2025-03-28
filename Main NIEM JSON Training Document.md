@@ -734,6 +734,8 @@ We've already seen the schema for these in detail.
 	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/01_Native_Properties.pdf)
 
 ___
+## Substitution Groups
+
 ![Substitution Groups](/Req_Analysis_Graphics/02_Substitution_Groups_CrashDriverClassDiagram.png)
 
 - Some concepts can be represented multiple ways
@@ -775,4 +777,4 @@ The matching JSON similarly just shows `nc:Date`:
 ___
 ___
 Generated on: 
-Fri Mar 28 20:57:24 UTC 2025
+Fri Mar 28 21:00:55 UTC 2025
