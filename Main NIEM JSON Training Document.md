@@ -775,6 +775,174 @@ The matching JSON similarly just shows `nc:Date`:
 	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/02_Substitution_Groups.pdf)
 
 ___
+## An Aside about Namespaces
+
+Below you can see object with different prefixes, `j:Crash` and `nc:ActivityDate`. The `j` and `nc` refer to different namespaces in XML Schema.
+
+- Namespaces organize elements by context
+- Identified by prefix, a nickname for the namespace
+- NIEM governance is organized along these lines
+
+![Namespaces and Case](Mapping_Graphics/Namespace_Case.png)
+
+JSON-LD maps JSON objects to NIEM namespaces in the `@context`. Each of these entries maps a prefix to a NIEM namespace, providing a link back to the NIEM object. 
+
+```json
+"@context": {
+	"ext": "http://training.niem.gov/CrashDriver/1.0/extension#",
+	"j": "http://release.niem.gov/niem/domains/jxdm/7.0/#",
+	"nc": "http://release.niem.gov/niem/niem-core/5.0/#"
+}
+```
+
+As mentioned earlier, NIEM doesn't support JSON Schema well yet. Using NIEM with JSON is currently focused on creating matching instance documents. Upcoming NIEM developments will greatly enhance the ability to work in JSON as a similar level as with XML and XML Schema.
 ___
+![Inherited Properties](/Req_Analysis_Graphics/03_Inherited_Properties_CrashDriverClassDiagram.png)
+
+- NIEM is a model, not a flat data dictionary
+- Some concepts don’t exist as elements using the terms for the concept
+- Instead, properties are "inherited"
+	- Scare quotes because JSON Schema doesn't really support inheritance
+	- Instead, you combine groups of elements
+	- End result is similar
+- There is no “Crash Date” in NIEM ([SSGT](http://niem5.org/ssgt_redirect.php?query=crash+date)/[Wayfarer](http://niem5.org/wayfarer/search.php?option=both&query=crash+date))
+- There _is_ an `ActivityDate` which can be inside a `Crash` object ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-44f)/[Wayfarer](http://niem5.org/wayfarer/j/Crash.html))
+
+### Schemas
+
+Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:CrashType`:
+
+```json
+"j:Crash": {
+	"description": "A traffic accident.",
+	"$ref": "#/definitions/j:CrashType"
+}
+```
+
+[`j:CrashType`](http://niem5.org/schemas/j.html#CrashType) contains several things, but the important thing here is what it's based on, `j:DrivingIncidentType`:
+
+```json
+"j:CrashType": {
+	"description": "A data type for a traffic accident.",
+	"allOf": [
+		{"$ref": "#/definitions/j:DrivingIncidentType"},
+		{
+			"type": "object",
+			"properties": {
+				"j:CrashVehicle": {"$ref": "#/properties/j:CrashVehicle"},
+				"j:CrashPerson": {"$ref": "#/properties/j:CrashPerson"},
+				"nc:Location": {"$ref": "#/properties/nc:Location"}
+			},
+			"required": [
+				"j:CrashVehicle",
+				"nc:Location"
+			]
+		}
+	]
+}
+```
+
+[`j:DrivingIncidentType`](http://niem5.org/schemas/j.html#DrivingIncidentType) is, in turn, based on an even more generic type, `nc:IncidentType`:
+
+```json
+"j:DrivingIncidentType": {
+	"description": "A data type for details of an incident involving a vehicle.",
+	"$ref": "#/definitions/nc:IncidentType"
+}
+```
+
+[`nc:IncidentType`](http://niem5.org/schemas/nc.html#IncidentType) is, also in turn, based on a very generic type, `nc:ActivityType`:
+
+```json
+"nc:IncidentType": {
+	"description": "A data type for an occurrence or an event that may require a response.",
+	"$ref": "#/definitions/nc:ActivityType"
+}
+```
+
+And we finally get to [`nc:ActivityType`](http://niem5.org/schemas/nc.html#ActivityType), which contains [`nc:ActivityDate`](http://niem5.org/schemas/nc.html#ActivityDate):
+
+```json
+"nc:ActivityType": {
+	"description": "A data type for a single or set of related actions, events, or process steps.",
+	"type": "object",
+	"properties": {
+		"nc:ActivityDate": {"$ref": "#/properties/nc:ActivityDate"}
+	},
+	"required": ["nc:ActivityDate"]
+}
+```
+
+What this all means is that a `j:Crash` object can contain a `nc:ActivityDate`, which is, contextually, a Crash Date.
+
+### Instance Documents
+
+Instance in JSON:
+
+```json
+"j:Crash": {
+	"nc:ActivityDate": {
+		"nc:Date": "1900-05-04"
+	}
+}
+```
+
+You need to understand this concept in order to know to look for these cases, which are very common, but just use tools to figure out the details, e.g:
+
+- [`j:Crash` in the SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-44f)
+- [`j:Crash` in Wayfarer](http://niem5.org/wayfarer/j/Crash.html)
+	- Wayfarer has a new feature that does some level of [contextual searching](http://niem5.org/wayfarer/searchcontextuals.php)
+	- [Search contextually for "crash date" in Wayfarer](http://niem5.org/wayfarer/searchcontextuals.php?query=crash+date)
+
+### Artifacts
+
+- [Inherited Properties](Text_Document/03_Inherited_Properties.md)
+- Mapping Spreadsheets
+	- [Mapping Spreadsheet (Numbers)](Mapping_Spreadsheets/03_Inherited_Properties.numbers)
+	- [Mapping Spreadsheet (Excel)](Mapping_Spreadsheets/03_Inherited_Properties.xlsx)
+	- [Mapping Spreadsheet (PDF)](Mapping_Spreadsheets/03_Inherited_Properties.pdf)
+
+___## Linking Things Together
+
+- NIEM is relational in many senses
+- Objects can refer to each other across an XML hierarchy
+- Allows NIEM to represent real world, many-to-many relationships
+- `structures` namespace provides the infrastructure to make this work
+
+### NIEM Structural "Layers"
+
+NIEM has several conceptual layers which build on top of each other:
+
+- `structures` provides infrastructure
+	- All namespaces draw from it
+- `niem-core` provides common objects to be used or built upon
+	- Domains draw from it
+- Domains provide domain-specific content, often built from `niem-core`
+	- Domains can draw from each other, although this is limited in practice
+- Code table namespaces define many of the code tables, built with infrastructure from `structures`
+	- Domains draw from it for code definitions
+- Wrappers for external standards, built with infrastructure from `structures`
+
+![Structural Diagram](/Mapping_Graphics/Structural_Diagram_scaled.png)
+
+## Referencing - JSON-LD
+
+JSON itself doesn't provide a means of linking objects together. NIEM leverages [JSON-LD](https://en.wikipedia.org/wiki/JSON-LD) to provide that functionality. We've seen earlier how the `@context` section provides a mapping from a JSON instance back to NIEM object. NIEM also uses `@id` objects to both mark objects with an ID as well as refer to IDs applied to other objects.
+
+Again, we will see example throughout the next few sections.
+
+```json
+"Cat": {
+	"CatName": "Jett",	
+	"CatOwner": {
+		"@id": "#owner01"
+	}
+},
+"Human": {
+	"@id": "#owner01",
+	"HumanName": "Tom"
+}
+```
+______
 Generated on: 
-Fri Mar 28 21:00:55 UTC 2025
+Mon Mar 31 19:45:39 UTC 2025
