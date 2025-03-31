@@ -943,7 +943,8 @@ Again, we will see example throughout the next few sections.
 	"HumanName": "Tom"
 }
 ```
-___## Associations
+___
+## Associations
 
 ![Associations](/Req_Analysis_Graphics/04_Associations_CrashDriverClassDiagram.png)
 
@@ -1083,4 +1084,4 @@ Additionally, while referencing is part of XML Schema, it is _not_ part of JSON 
 ___
 ___
 Generated on: 
-Mon Mar 31 20:27:08 UTC 2025
+Mon Mar 31 20:36:41 UTC 2025
