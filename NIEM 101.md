@@ -252,6 +252,7 @@ One of the most respected, nonprofit open source and open standards bodies in th
 
 For more information about supporting the NIEM OASIS Open Project, contact TBD, TBD@oasis-open.org
 ___# Message Spec / IEPD Overview
+
 - "Information Exchange Package Documentation"
 - Slowly changing to "Message Specification"
 - Defines an exchange
@@ -259,7 +260,9 @@ ___# Message Spec / IEPD Overview
 	- Some meant for humans
 	- Some meant for computers
 ___
+
 ## Message Spec Process
+
 Creating a Message Spec is a multi-step process:
 
 1. Scenario Planning
@@ -269,7 +272,7 @@ Creating a Message Spec is a multi-step process:
 5. Assemble and Document (and Publish) 
 6. Implement
 
-![IEPD Process](IEPD_Process_Graphics/IEPD_Process_scaled.png)
+![IEPD Process](/IEPD_Process_Graphics/IEPD_Process_scaled.png)
 
 Each step produces artifacts used by subsequent steps:
 
@@ -280,16 +283,17 @@ Each step produces artifacts used by subsequent steps:
 5. Textual Documents
 6. Code
 
-![Message Spec / IEPD Process](IEPD_Process_Graphics/Process_Artifacts_scaled.png)
+![Message Spec / IEPD Process](/IEPD_Process_Graphics/Process_Artifacts_scaled.png)
 
 **Message Spec / IEPD Process – Idealized**
 
-![Message Spec Seq Ideal](IEPD_Process_Graphics/Process_Seq_Ideal.png)
+![Message Spec Seq Ideal](/IEPD_Process_Graphics/Process_Seq_Ideal.png)
 
 **Message Spec / IEPD Process – Real Life**
 
-![Message Spec Seq Ideal](IEPD_Process_Graphics/Process_Seq_Real.png)
+![Message Spec Seq Ideal](/IEPD_Process_Graphics/Process_Seq_Real.png)
 ___
+
 ### Message Spec / IEPD Artifacts - Documentation
 
 - Master Documentation (Word)
@@ -298,8 +302,8 @@ ___
 - README (text)
 - Conformance assertion (text)
 - Mapping Spreadsheet
-
 ___
+
 ### Message Spec / IEPD Artifacts - Definitional
 
 - Wantlist (`wantlist.xml`)
@@ -311,4 +315,4 @@ ___
 ___
 ___
 Generated on: 
-Mon Mar 31 20:36:41 UTC 2025
+Tue Apr  1 14:44:26 UTC 2025
