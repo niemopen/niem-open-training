@@ -54,7 +54,7 @@ jobs:
           cat 'Modules/13 - Referencing (JSON).md' >> 'Main NIEM JSON Training Document.md'
           cat 'Modules/14 - Associations (JSON).md' >> 'Main NIEM JSON Training Document.md'
           cat 'Modules/15 - Roles (JSON).md' >> 'Main NIEM JSON Training Document.md'
-          cat 'Modules/16 - Code Tables  (JSON).md' >> 'Main NIEM JSON Training Document.md'
+          cat 'Modules/16 - Code Tables (JSON).md' >> 'Main NIEM JSON Training Document.md'
           echo '___' >> 'Main NIEM JSON Training Document.md'
           echo 'Generated on: ' >> 'Main NIEM JSON Training Document.md'
           date >> 'Main NIEM JSON Training Document.md'
