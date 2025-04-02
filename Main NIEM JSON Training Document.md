@@ -1086,6 +1086,192 @@ Additionally, while referencing is part of XML Schema, it is _not_ part of JSON 
 	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/04_Associations.pdf)
 
 ___
+## Roles
+
+![Roles](/Req_Analysis_Graphics/05_Roles_CrashDriverClassDiagram.png)
+
+- Modeling some objects as specialized things gets complicated
+- Roles are roles that objects play
+	- People, organizations, items are the major ones
+- Roles and objects playing the roles are linked together using the `uri` attribute
+	- An object can play multiple roles, because multiple role objects can have the same `uri` value
+- Roles contain other information about the role
+- Roles are _not_ explicitly defined as such
+- Examples:
+	- `j:CrashPerson` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-45q)/[Wayfarer](http://niem5.org/wayfarer/j/CrashPerson.html))
+	- `j:CrashDriver`
+
+### Searching for Injured Person
+
+How do we find the match for "injured person"? Here's one way:
+
+- Search for `injured person`
+	- [SSGT](http://niem5.org/ssgt_redirect.php?query=injured+person)
+	- [Wayfarer](http://niem5.org/wayfarer/search.php?option=both&query=injured+person)
+- No results! How about `person injury`?
+	- [SSGT](http://niem5.org/ssgt_redirect.php?query=person+injury)
+	- [Wayfarer](http://niem5.org/wayfarer/search.php?option=both&query=person+injury)
+- Notice that [`j:InjuryLocationCode`](http://niem5.org/wayfarer/j/InjuryLocationCode.html) looks like something an injured person would have
+- That's inside of things of [`nc:InjuryType`](http://niem5.org/wayfarer/nc/InjuryType.html)
+- [`j:CrashPersonInjury`](http://niem5.org/wayfarer/j/CrashPersonInjury.html) is one of the things of that type
+- And that's inside of [`j:CrashPerson`](http://niem5.org/wayfarer/j/CrashPerson.html)
+
+
+### Roles - Not Special Kinds of People
+
+| Roles | Just a Guy |
+| --- | --- |
+| ![Role Hats](/Mapping_Graphics/Role_Hats_01.png) | ![Role Hats](/Mapping_Graphics/Role_Hats_02.png) |
+
+### Roles – Allows an Object to Play Multiple Roles
+![Role Hats](/Mapping_Graphics/Role_Hats_03.png)
+
+### Roles - How They Work
+Roles are linked to the Object playing the Role via the `uri` attribute:
+
+![Role Hats](/Mapping_Graphics/Role_Hats_04.png)
+
+Roles contain information about the Role:
+
+![Role Hats](/Mapping_Graphics/Role_Hats_05.png)
+
+### Schemas
+
+[`j:CrashPerson`](http://niem5.org/schemas/j.html#CrashPerson) is of `j:CrashPersonType`:
+
+```json
+"j:CrashPerson": {
+	"description": "A person involved in a traffic accident.",
+	"type": "array",
+	"items": {"$ref": "#/definitions/j:CrashPersonType"}
+}
+```
+
+[`j:CrashPersonType`](http://niem5.org/schemas/j.html#CrashPersonType) contains information specific to this role. In the sample Message Spec / IEPD, we're also using `j:CrashPersonInjury`:
+
+```json
+"j:CrashPersonType": {
+	"description": "A data type for any person involved in a traffic accident.",
+	"type": "object",
+	"properties": {
+		"j:CrashPersonInjury": {"$ref": "#/properties/j:CrashPersonInjury"},
+		"ext:PersonDefenestrationIndicator": {"$ref": "#/properties/ext:PersonDefenestrationIndicator"}
+	}
+}
+```
+
+### Instance Documents
+
+JSON-LD is used to link the role to the object playing the role. Here the `j:CrashPerson` object has a `@uri` that matches the one in the `nc:Person` object:
+
+```json
+"j:CrashPerson": {
+	"@uri": "http://some.uri/",
+	"j:CrashPersonInjury": {
+		"nc:InjuryDescriptionText" : "Broken Arm"
+	}
+},
+
+"nc:Person": {
+	"@uri": "http://some.uri/",
+	"nc:PersonName": {
+		"nc:PersonGivenName": "Peter"
+	}
+}
+```
+
+### Artifacts
+
+- [Roles](/Text_Document/05_Roles.md)
+- Mapping Spreadsheets
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/05_Roles.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/05_Roles.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/05_Roles.pdf)
+
+___
+## Code Tables
+
+![Code Tables](/Req_Analysis_Graphics/06_Code_Tables_CrashDriverClassDiagram.png)
+
+- Codes help ensure accurate information
+- Codes are, essentially, strings, simple data
+- A few in NIEM are integers
+- Elements defined in the domains
+- Types are often defined in their own namespaces
+- NIEM wraps them in a complex type in order to apply some attributes needed for infrastructure
+	- Which we will need in the next section…
+- Examples:
+	- `j:InjurySeverityCode` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-45s)/[Wayfarer](http://niem5.org/wayfarer/j/InjurySeverityCode.html))
+		- In the SSGT, the actual codes are viewable on the page for the base simple type, e.g. [`aamva_d20:AccidentSeverityCodeSimpleType`](https://tools.niem.gov/niemtools/ssgt/SSGT-GetType.iepd?typeKey=o4-c)
+		- In Wayfarer, there should be a link on the element page bringing up the codes in a separate window, e.g. [`aamva_d20:AccidentSeverityCodeSimpleType`](http://niem5.org/wayfarer/aamva_d20/AccidentSeverityCodeSimpleType_codes.html)
+	- Anything ending in "Code" ([SSGT](http://niem5.org/ssgt_redirect.php?query=code)/[Wayfarer](http://niem5.org/wayfarer/search.php?option=names&query=code))
+- Codes nearly always have a text alternative
+
+### Schemas
+
+[`j:InjurySeverityCode`](http://niem5.org/schemas/j.html#InjurySeverityCode) is a code table, with its codes defined in another namespace, the one for [AAMVA](https://www.aamva.org/). Here's the schema for the element:
+
+```json
+"j:InjurySeverityCode": {
+	"description": "A severity of an injury received by a person, such as in a traffic accident or crash.",
+	"$ref": "#/definitions/aamva_d20:AccidentSeverityCodeType"
+}
+```
+
+The actual codes are defined in  [`aamva_d20:AccidentSeverityCodeType`](http://niem5.org/schemas/aamva_d20.html#AccidentSeverityCodeType), as a `oneOf` construct listing one code per `const` below:
+
+```json
+"aamva_d20:AccidentSeverityCodeType": {
+	"description": "A data type for severity levels of an accident.",
+	"type": "string",
+	"oneOf": [
+		{
+			"const": "1",
+			"description": "Fatal Accident"
+		},
+		{
+			"const": "2",
+			"description": "Incapacitating Injury Accident"
+		},
+		{
+			"const": "3",
+			"description": "Non-incapacitating Evident Injury"
+		},
+		{
+			"const": "4",
+			"description": "Possible Injury Accident"
+		},
+		{
+			"const": "5",
+			"description": "Non-injury Accident"
+		},
+		{
+			"const": "9",
+			"description": "Unknown"
+		}
+	]
+}
+```
+### Instance Documents
+
+The code is what shows up in the instance document. The longer definition does not. If you want to know that "3" means "Non-incapacitating Evident Injury," you need to refer to the schema. JSON Schema validation _will_ verify that the value is one of the enumerated `const` values: 
+
+```json
+"j:CrashPersonInjury": {
+	"nc:InjuryDescriptionText": "Broken Arm",
+	"j:InjurySeverityCode": "3"
+}
+```
+
+### Artifacts
+
+- [Code Tables](/Text_Document/06_Code_Tables.md)
+- Mapping Spreadsheets
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/06_Code_Tables.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/06_Code_Tables.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/06_Code_Tables.pdf)
+
+___
 ___
 Generated on: 
-Tue Apr  1 14:44:26 UTC 2025
+Wed Apr  2 18:20:13 UTC 2025
