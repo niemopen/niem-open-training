@@ -1368,6 +1368,958 @@ And here's the JSON. Note that NIEM does not yet support JSON Schema, so there's
 	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/06_Code_Tables.pdf)
 
 ___
+## Combining Domains (Augmentations)
+
+![Augmentations](/Req_Analysis_Graphics/09_Augmentations_CrashDriverClassDiagram.png)
+
+- Sometimes you just want to add properties from other domains to an object without making a special kind of thing
+- Augmentations are bags of stuff
+- Augmentation Points are hooks onto which to hang the bags of stuff
+- Examples:
+	- `nc:Incident` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-rr))
+	- `j:IncidentAugmentation` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-9l7))
+- **Augmentations are an easy way to extend objects to meet your exchange needs**
+	- We'll add an email address to a driver license using an augmentation we'll build
+	- `j:DriverLicense` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-lb))
+	- `j:DriverLicenseAugmentationPoint` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-11rg))
+
+Does driver's license have what we need? Does it have an email address?
+
+- Try searching for "drivers license":
+	- [SSGT](http://niem5.org/ssgt_redirect.php?query=drivers+license)
+	- [Wayfarer](http://niem5.org/wayfarer/search.php?option=both&query=drivers+license)
+- Try searching for "driver license", singular:
+	- [SSGT](http://niem5.org/ssgt_redirect.php?query=driver+license)
+	- [Wayfarer](http://niem5.org/wayfarer/search.php?option=both&query=driver+license)
+	- It's _usually_ a good idea to drop pluralization in search terms
+- Check to see if it has an email address. (Spoiler, it doesn't.)
+- But we should learn its structure while we're here:
+	- Check what can contain it, specifically [`j:CrashDriver`](http://niem5.org/wayfarer/j/CrashDriver.html)
+	- Follow up to [`j:CrashVehicle`](http://niem5.org/wayfarer/j/CrashVehicle.html)
+	- Follow up to [`j:Crash`](http://niem5.org/wayfarer/j/Crash.html)
+
+Follow a similar process for [`nc:ContactEmailID`](http://niem5.org/wayfarer/nc/ContactEmailID.html) and [`nc:ContactInformation`](http://niem5.org/wayfarer/nc/ContactInformation.html). Learn about the _object_, not just the individual elements.
+
+The SSGT is best for learning overall structure, so check out [`j:Crash`](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-44f) and [`nc:ContactInformation`](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-eh) there, too!
+
+(Why not [`j:CrashDriverLicense`](http://niem5.org/wayfarer/j/CrashDriverLicense.html)? It doesn't go inside a `j:CrashDriver`. Why? The domain submitted it like this. They'll review this for the next release.)
+
+### Schemas
+
+`j:DriverLicense` is defined to be of `j:DriverLicenseType`:
+
+```xml
+<xs:element name="DriverLicense" type="j:DriverLicenseType" nillable="true">
+	<xs:annotation>
+		<xs:documentation>A license issued to a person granting driving privileges.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+```
+
+`j:DriverLicenseType` contains `j:DriverLicenseAugmentationPoint` as a hook for a augmentation bags:
+
+```xml
+<xs:complexType name="DriverLicenseType">
+	<xs:annotation>
+		<xs:documentation>A data type for a license issued to a person granting driving privileges.</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="j:DriverLicenseBaseType">
+			<xs:sequence>
+				<xs:element ref="j:DriverLicenseEnhancedIndicator" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:DriverLicenseCommercialClassAbstract" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:DriverLicenseCommercialStatusAbstract" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:DriverLicenseNonCommercialClassText" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:DriverLicenseNonCommercialStatusAbstract" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:DriverLicensePermit" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:DriverLicensePermitQuantity" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:DriverLicenseWithdrawal" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:DriverLicenseWithdrawalPendingIndicator" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:DriverLicenseCardIdentification" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:DriverLicenseRestriction" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:DriverLicenseEndorsement" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:DriverLicenseAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+```
+
+While NIEM does have some augmentations pre-defined, they're particularly useful for adding new objects, or just putting existing NIEM objects somewhere else. Here we do the latter, creating a bag called `LicenseAugmentation` with `nc:ContactInformation` inside. 
+
+`ext:` is the nickname we're going to use for our own extension namespace, where we'll create our own objects. This is a separate file _we_ create. In it we build new objects, based on existing NIEM objects. We'll learn more about how these files fit together when we get to creating schemas.
+
+We can now "hang" it on the `j:DriverLicenseAugmentationPoint` hook with nothing more than a `substitutionGroup` attribute:
+
+```xml
+<xs:complexType name="LicenseAugmentationType">
+	<xs:annotation>
+		<xs:documentation>
+			A data type for additional information about a license.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="structures:AugmentationType">
+			<xs:sequence>
+				<xs:element ref="nc:ContactInformation"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+
+<xs:element name="LicenseAugmentation" type="ext:LicenseAugmentationType" substitutionGroup="j:DriverLicenseAugmentationPoint">
+	<xs:annotation>
+		<xs:documentation>
+			Additional information about a license.
+		</xs:documentation>
+	</xs:annotation>
+</xs:element>
+```
+
+Our new `ext:LicenseAugmentationType` is based on the built-in [`structures:AugmentationType`](http://niem5.org/schemas/structures.html#AugmentationType). That base type merely adds in infrastructure support for linking objects together:
+
+```xml
+<xs:complexType name="AugmentationType" abstract="true">
+	<xs:annotation>
+		<xs:documentation>A data type for a set of properties to be applied to a base type.</xs:documentation>
+	</xs:annotation>
+	<xs:attribute ref="structures:id"/>
+	<xs:attribute ref="structures:ref"/>
+	<xs:attribute ref="structures:uri"/>
+	<xs:anyAttribute namespace="urn:us:gov:ic:ism urn:us:gov:ic:ntk" processContents="lax"/>
+</xs:complexType>
+```
+
+The resulting XML Instance Document looks like:
+
+```xml
+<j:DriverLicense>
+	<j:DriverLicenseCardIdentification>
+		<nc:IdentificationID>A1234567</nc:IdentificationID>
+	</j:DriverLicenseCardIdentification>
+	<ext:LicenseAugmentation>
+		<nc:ContactInformation>
+			<nc:ContactEmailID>peter@wimsey.org</nc:ContactEmailID>
+		</nc:ContactInformation>
+	</ext:LicenseAugmentation>
+</j:DriverLicense>
+```
+
+### Artifacts
+
+- [Augmentations](/Text_Document/08_Combining_Domains_Augmentations.md)
+- Mapping Spreadsheets
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/08_Combining_Domains_Augmentations.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/08_Combining_Domains_Augmentations.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/08_Combining_Domains_Augmentations.pdf)
+
+___
+## Metadata
+![Metadata](/Req_Analysis_Graphics/07_Metadata_CrashDriverClassDiagram.png)
+
+![Jett](/Mapping_Graphics/Jett_scaled.png)
+
+Metadata is Data about Data. What does that mean? Here's an example:
+
+### Data About Jett
+
+- _Name:_ **Jett**
+- _Sex:_ **Female**
+- _Weight:_ **8 pounds**
+
+### Data About Data About Jett, e.g. Her Weight
+
+- _Reporting Organization:_ **Ark Pet Hospital**
+- _Reported Date:_ **2021-06-10**
+- _Last Verified Date:_ **2025-02-21**
+
+### Object Reference Metadata
+
+- Objects reference the metadata objects that apply to them
+- An object can reference more than one metadata object
+- More than one object can reference the same metadata object
+- Example: `j:Metadata` (containing `j:CriminalInformationIndicator`) ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-4qr)/[Wayfarer](http://niem5.org/wayfarer/j/Metadata.html))
+
+### Connecting Metadata to Objects
+
+| Connections | Diagram |
+| --- | --- |
+| Easy to apply multiple metadata objects to one object | ![One to Many](/Mapping_Graphics/Metadata_One_to_Many.png) |
+| Easy to apply same metadata to many objects | ![Many to One](/Mapping_Graphics/Metadata_Many_to_One.png) |
+| Many-to-many relationships can get messy | ![Many to Many](/Mapping_Graphics/Metadata_Many_to_Many.png) |
+
+
+### Schemas
+
+The [`j:MetadataAugmentation`](http://niem5.org/schemas/j.html#MetadataAugmentation) object is of `j:MetadataAugmentationType`. 
+
+```xml
+<xs:element name="MetadataAugmentation" type="j:MetadataAugmentationType" substitutionGroup="nc:MetadataAugmentationPoint" nillable="true">
+	<xs:annotation>
+		<xs:documentation>Additional information about metadata.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+```
+
+There's nothing special about [`j:MetadataAugmentationType`](http://niem5.org/schemas/j.html#MetadataAugmentationType). It's just an object holding some other objects, in this case a couple booleans indicators, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`. It's based on [`structures:AugmentationType`](http://niem5.org/schemas/structures.html#AugmentationType), which is just an empty container. Substituting it for `nc:MetadataAugmentationPoint` provides the linking infrastructure we've seen with associations and roles as part of the `nc:Metadata` parent object:
+
+```xml
+<xs:complexType name="MetadataAugmentationType">
+	<xs:annotation>
+		<xs:documentation>A data type for additional information about metadata.</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="structures:AugmentationType">
+			<xs:sequence>
+				<xs:element ref="j:CriminalInformationIndicator" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:IntelligenceInformationIndicator" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+```
+
+There are multiple methods for creating metadata objects:
+
+1. NIEM-supplied metadata objects can added to a subset and included in your exchange
+
+```xml
+<xs:complexType name="MetadataType">
+	<xs:annotation>
+		<xs:documentation>A data type for information that further qualifies primary data; data about data.</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="structures:ObjectType">
+			<xs:sequence>
+				<xs:element ref="nc:AdministrativeID" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:CaveatText" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:Comment" minOccurs="0" maxOccurs="unbounded"/>
+				<!-- additional elements remvoed for clarity -->
+				<xs:element ref="nc:MetadataAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+
+<xs:element name="Metadata" type="nc:MetadataType" nillable="true">
+	<xs:annotation>
+		<xs:documentation>Information that further qualifies primary data; data about data.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+
+```
+2. New metadata objects can be created in an extension as an augmentation or as a standalone object
+
+```xml
+<xs:element name="PrivacyMetadataAugmentation"
+			type="ext:PrivacyMetadataAugmentationType"
+			substitutionGroup="nc:MetadataAugmentationPoint">
+	<xs:annotation>
+		<xs:documentation>Additional information about Privacy.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+<xs:complexType name="PrivacyMetadataAugmentationType">
+	<xs:annotation>
+		<xs:documentation>A data type for Additional information about Privacy.</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="structures:AugmentationType">
+			<xs:sequence>
+				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+
+<xs:element name="InjuryPrivacyMetadataAugmentation"
+			type="ext:InjuryPrivacyMetadataAugmentationType"
+			substitutionGroup="nc:InjuryAugmentationPoint">
+	<xs:annotation>
+		<xs:documentation>Additional information about Privacy.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+<xs:complexType name="InjuryPrivacyMetadataAugmentationType">
+	<xs:annotation>
+		<xs:documentation>A data type for Additional information about Privacy.</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="structures:AugmentationType">
+			<xs:sequence>
+				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+
+```
+
+```xml
+<xs:element name="Injury" type="ext:InjuryType">
+	<xs:annotation>
+		<xs:documentation>A form of harm or damage sustained by a person.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+<xs:complexType name="InjuryType">
+	<xs:annotation>
+		<xs:documentation>A data type for a form of harm or damage sustained by a person.</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="nc:InjuryType">
+			<xs:sequence>
+				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+```
+### Instance Documents
+
+There are also multiple methods to relate that metadata to objects in instance documents: 
+
+1. Using a `nc:metadataRef` attribute, which allows simple data objects to point to a standalone metadata object
+
+```xml
+<nc:Person>
+	<nc:PersonBirthDate>
+		<nc:Date nc:metadataRef="PMD01">1890-05-04</nc:Date>
+	</nc:PersonBirthDate>
+</nc:Person>
+
+<nc:Metadata structures:id="PMD01">
+	<ext:PrivacyMetadataAugmentation>
+		<ext:PrivacyCode>PII</ext:PrivacyCode>
+	</ext:PrivacyMetadataAugmentation>
+</nc:Metadata>
+```
+
+```xml
+<j:Charge nc:metadataRef="JMD01">
+	<j:ChargeDescriptionText>Furious Driving</j:ChargeDescriptionText>
+	<j:ChargeFelonyIndicator>false</j:ChargeFelonyIndicator>
+</j:Charge>
+
+<nc:Metadata structures:id="JMD01">
+	<j:MetadataAugmentation>
+		<j:CriminalInformationIndicator>true</j:CriminalInformationIndicator>
+	</j:MetadataAugmentation>
+</nc:Metadata>
+```
+1. Extend an object to include a metadata object
+2. Add a metadata augmentation to an object (metadata or otherwise) via the object's AugmentationPoint
+
+```xml
+<j:CrashPerson>
+	<j:CrashPersonInjury>
+		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
+		<j:InjurySeverityCode>3</j:InjurySeverityCode>
+		<!-- replacing nc:InjuryAugmentationPoint -->
+		<ext:InjuryPrivacyMetadataAugmentation>
+			<ext:PrivacyCode>PII</ext:PrivacyCode>
+		</ext:InjuryPrivacyMetadataAugmentation>
+	</j:CrashPersonInjury>
+	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
+</j:CrashPerson>
+```
+
+### Artifacts
+
+- [Metadata](/Text_Document/07_Metadata.md)
+- Mapping Spreadsheets
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/07_Metadata.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/07_Metadata.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/07_Metadata.pdf)
+
+___
+## External Standards
+
+![External Standards](/Req_Analysis_Graphics/08_External_Standards_CrashDriverClassDiagram.png)
+
+- NIEM supports external standards, if they’re XML
+- Wraps them in NIEM-conformant adapters
+- Example:
+	- NIEM: `nc:LocationGeospatialCoordinateAbstract` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-125z)/[Wayfarer](http://niem5.org/wayfarer/nc/LocationGeospatialCoordinateAbstract.html))
+	- NIEM-conformant adapter: `geo:LocationGeospatialPoint` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-m73))
+	- External standard: `gml:Point` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-fux))
+- You’ll probably never use this, but should know it’s there
+- SSGT supports them; Wayfarer does not
+
+### Schemas
+
+`LocationType` contains a `nc:LocationGeospatialCoordinateAbstract`:
+
+```xml
+<xs:complexType name="LocationType">
+	<xs:annotation>
+		<xs:documentation>A data type for geospatial location.</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="structures:ObjectType">
+			<xs:sequence>
+				<xs:element ref="nc:LocationAddressAbstract" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationArea" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationCategoryAbstract" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationContactInformation" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationDescriptionText" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationDirectionsText" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationGeospatialCoordinateAbstract" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationHeightAbstract" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationIdentification" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationLandmarkAbstract" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationLocale" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationMapLocation" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationName" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationPart" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationRangeDescriptionText" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationRelativeLocation" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationSurroundingAreaDescriptionText" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:LocationAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+```
+`nc:LocationGeospatialCoordinateAbstract` is the head of a substitution group:
+
+```xml
+<xs:element name="LocationGeospatialCoordinateAbstract" abstract="true">
+	<xs:annotation>
+		<xs:documentation>A data concept for a geospatial location.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+```
+
+One of the members of that substitution group is `geo:LocationGeospatialPoint`, which is an adapter to the external standard:
+
+```xml
+<xs:element name="LocationGeospatialPoint" type="geo:PointType" substitutionGroup="nc:LocationGeospatialCoordinateAbstract" nillable="true">
+	<xs:annotation>
+		<xs:documentation>A 2D or 3D geometric point. A gml:Point is defined by a single coordinate tuple.
+			The direct position of a point is specified by the gml:pos element which is of
+			type gml:DirectPositionType.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+```
+Its type is `geo:PointType`. We're still in NIEM, but `gml:Point` isn't:
+
+```xml
+<xs:complexType name="PointType" appinfo:externalAdapterTypeIndicator="true">
+	<xs:annotation>
+		<xs:documentation>A data type for a 2D or 3D geometric point. A gml:Point is defined by a single
+			coordinate tuple. The direct position of a point is specified by the gml:pos element which is
+			of type gml:DirectPositionType.</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="structures:ObjectType">
+			<xs:sequence>
+				<xs:element ref="gml:Point" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>A gml:Point is defined by a single coordinate tuple.
+							The direct position of a point is specified by the gml:pos element
+							which is of type gml:DirectPositionType.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+```
+And here is the `gml:Point` object from the external standard.
+
+```xml
+<element name="Point" type="gml:PointType" substitutionGroup="gml:AbstractGeometricPrimitive">
+	<annotation>
+		<documentation>A Point is defined by a single coordinate tuple. The direct position of a point is specified by the pos element which is of type DirectPositionType.</documentation>
+	</annotation>
+</element>
+
+<complexType name="PointType">
+	<complexContent>
+		<extension base="gml:AbstractGeometricPrimitiveType">
+			<sequence>
+				<choice>
+					<element ref="gml:pos"/>
+					<element ref="gml:coordinates"/>
+				</choice>
+			</sequence>
+		</extension>
+	</complexContent>
+</complexType>
+
+```
+
+The resulting XML instance looks like this:
+
+```xml
+<nc:Location>
+	<geo:LocationGeospatialPoint>
+		<gml:Point gml:id="point1">
+			<gml:pos srsName="urn:ogc:def:crs:EPSG::4326" srsDimension="2">40.689167 -74.044444</gml:pos>
+		</gml:Point>
+	</geo:LocationGeospatialPoint>
+</nc:Location>
+```
+
+### Artifacts
+
+- [External Standards](/Text_Document/09_External_Standards.md)
+- Mapping Spreadsheets
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/09_External_Standards.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/09_External_Standards.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/09_External_Standards.pdf)
+
+___
+## Creating New Objects
+
+![New Element Flowchart](/Mapping_Graphics/New_Element_Flowchart.png)
+
+___
+
+### Creating Simple Data Elements
+
+![Simple Elements](/Req_Analysis_Graphics/10_Simple_Elements_CrashDriverClassDiagram.png)
+
+- Base them on whichever XML Schema data type is appropriate
+	- They're all in the [niem-xs](http://niem5.org/schemas/niem-xs.html) schema
+- Follow the flowchart for help
+- Base on the `niem-xs` adapters if you need referencing
+	- Folks generally do this anyway, for consistency
+- Follow the naming format of existing NIEM elements of that type, especially regarding the last term, e.g. “Text”, “Code”, etc.
+
+Create `PersonDefenestrationIndicator` using the existing NIEM type `niem-xs:boolean`. By giving it `j:CrashPersonAugmentationPoint` as a substitution group head, it can go inside of the `j:CrashPerson`:
+
+```xml
+<xs:element name="PersonDefenestrationIndicator" type="niem-xs:boolean"
+	substitutionGroup="j:CrashPersonAugmentationPoint">
+	<xs:annotation>
+		<xs:documentation>True if this person was thrown through a window; false otherwise.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+```
+The resulting XML instance is then:
+
+```xml
+<j:CrashPerson>
+	<nc:RoleOfPerson structures:ref="P01" xsi:nil="true"/>
+	<j:CrashPersonInjury structures:metadata="PMD01 PMD02">
+		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
+		<j:InjurySeverityCode>3</j:InjurySeverityCode>
+	</j:CrashPersonInjury>
+	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
+</j:CrashPerson>
+```
+And the equivalent JSON-LD is:
+
+```json
+"j:CrashPerson": {
+	"nc:RoleOfPerson": {
+	  "@id": "#P01"
+	},
+	"j:CrashPersonInjury": {
+	  "nc:InjuryDescriptionText": "Broken Arm",
+	  "j:InjurySeverityCode": "3",
+	},
+	"ext:PersonDefenestrationIndicator": "false"
+}
+```
+Note the `@id` that links to an identical `@id` in the nc:Person object.
+
+For a more complicated example, we can create the `ext:PrivacyCode` element along with a `ext:PrivacyMetadata` to hold it.
+
+The actual codes are defined in the simple type, `ext:PrivacyCodeSimpleType`. Each `enumeration` defines a code. The `documentation` tags provide a longer text description of the code:
+
+```xml
+<xs:simpleType name="PrivacyCodeSimpleType">
+	<xs:annotation>
+		<xs:documentation>A data type for a code representing a kind of
+			property.</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:token">
+		<xs:enumeration value="PII">
+			<xs:annotation>
+				<xs:documentation>Personally Identifiable Information</xs:documentation>
+			</xs:annotation>
+		</xs:enumeration>
+		<xs:enumeration value="MEDICAL">
+			<xs:annotation>
+				<xs:documentation>Medical Information</xs:documentation>
+			</xs:annotation>
+		</xs:enumeration>
+	</xs:restriction>
+</xs:simpleType>
+
+```
+
+The complex type `ext:PrivacyCodeType` is then extended from `ext:PrivacyCodeSimpleType`. All this does is add infrastructure attributes to allow things of this type to refer to other elements, or be referred to in turn:
+
+```xml
+<xs:complexType name="PrivacyCodeType">
+	<xs:annotation>
+		<xs:documentation>A data type for a code representing a kind of
+			property.</xs:documentation>
+	</xs:annotation>
+	<xs:simpleContent>
+		<xs:extension base="ext:PrivacyCodeSimpleType">
+			<xs:attributeGroup ref="structures:SimpleObjectAttributeGroup"/>
+		</xs:extension>
+	</xs:simpleContent>
+</xs:complexType>
+```
+Then `ext:PrivacyCode` is created to be of `ext:PrivacyCodeType`:
+
+```xml
+<xs:element name="PrivacyCode" type="ext:PrivacyCodeType">
+	<xs:annotation>
+		<xs:documentation>A code representing a kind of property.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+```
+
+In this exchange, this code is metadata to be applied to other objects, so we can create `ext:PrivacyMetadata` to hold it:
+
+```xml
+<xs:element name="PrivacyMetadata" type="ext:PrivacyMetadataType">
+	<xs:annotation>
+		<xs:documentation>Metadata about Privacy.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+<xs:complexType name="PrivacyMetadataType">
+	<xs:annotation>
+		<xs:documentation>A data type for metadata about Privacy.</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="structures:MetadataType">
+			<xs:sequence>
+				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+```
+
+### Instance Documents
+
+The resulting XML instance document is:
+
+```xml
+<ext:PrivacyMetadata structures:id="PMD01">  
+	<ext:PrivacyCode>PII</ext:PrivacyCode>  
+</ext:PrivacyMetadata>  
+
+<ext:PrivacyMetadata structures:id="PMD02">  
+	<ext:PrivacyCode>MEDICAL</ext:PrivacyCode>  
+</ext:PrivacyMetadata>
+
+<j:CrashPerson>
+	<nc:RoleOfPerson structures:ref="P01" xsi:nil="true"/>
+	<j:CrashPersonInjury structures:metadata="PMD01 PMD02">
+		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
+		<j:InjurySeverityCode>3</j:InjurySeverityCode>
+	</j:CrashPersonInjury>
+	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
+</j:CrashPerson>
+
+```
+
+An equivalent JSON document would be:
+
+```json
+"j:CrashPerson": {
+	"nc:RoleOfPerson": {
+	  "@id": "#P01"
+	},
+	"j:CrashPersonInjury": {
+	  "nc:InjuryDescriptionText": "Broken Arm",
+	  "j:InjurySeverityCode": "3",
+	  "ext:PrivacyCode": [
+		"PII", "MEDICAL"
+	  ]
+	},
+	"ext:PersonDefenestrationIndicator": "false"
+}
+```
+
+Instead of linking to two separate metadata objects, we've embedded those into the `j:CrashPeson`.
+
+### Artifacts
+
+- [Creating New Objects - Simple Data](/Text_Document/10_Creating_New_Objects_Simple_Data.md)
+- Mapping Spreadsheets
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/10_Creating_New_Objects_Simple_Data.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/10_Creating_New_Objects_Simple_Data.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/10_Creating_New_Objects_Simple_Data.pdf)
+
+___
+### Creating Complex Objects
+
+![Complex Objects](/Req_Analysis_Graphics/11_Complex_Objects_CrashDriverClassDiagram.png)
+
+- If you’re making a special kind of existing NIEM type:
+	- Use that type as a base to extend from and add things to it, or
+	- Create an Augmentation to hold your new things
+- If you’re starting from scratch:
+	- Use `structures:ObjectType` as a base to extend from and add things to it
+
+Here we're making the root element that will hold everything else. We create `CrashDriverInfoType`, basing it on `structures:ObjectType` so that it's just an empty object.
+
+To that empty object, we add all the major objects in our exchange, `nc:Person`, `j:Crash`, and `j:Charge`. We also add a `j:PersonChargeAssociation` which lets us link together people and charges. Finally, we add a couple metadata object, the built-in `j:Metadata`, and `ext:PrivacyMetadata`, which we create in the extension schema and is in the prior example.
+
+```xml
+<xs:element name="CrashDriverInfo" type="exch:CrashDriverInfoType">
+	<xs:annotation>
+		<xs:documentation>A collection of information about the driver of a vehicle in a crash.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+
+<xs:complexType name="CrashDriverInfoType">
+	<xs:annotation>
+		<xs:documentation>A data type for a collection of information about the driver of a vehicle in a crash.</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="structures:ObjectType">
+			<xs:sequence>
+				<xs:element ref="nc:Person"/>
+				<xs:element ref="j:Crash"/>
+				<xs:element ref="j:PersonChargeAssociation" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:Charge" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="j:Metadata" minOccurs="0"/>
+				<xs:element ref="ext:PrivacyMetadata" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+```
+
+Another example is when we created `ext:LicenseAugmentation` and `ext:LicenseAugmentationType` when talking about augmentations.
+
+### Adding New Content to the Exchange
+
+To summarize, there are two major ways to add new content to an exchange. We've seen them both above.
+
+If you're _already_ creating a new complex object and type, like `CrashDriverInfo` and `CrashDriverInfoType` above, you can simply add new elements to the new type, as we did with `ext:PrivacyMetadata`. This is called "concrete extension."
+
+But if you're not already creating the new type for other reasons, you should use augmentations. We used added `j:CrashPersonAugmentationPoint` to our exchange and used it as a hook on which we hung `ext:PersonDefenestrationIndicator`.
+
+### Problems with Concrete Extensions
+
+The issue with concrete extensions is that if the extension is happening deep inside an object, all the surrounding objects will also need to be extended. For example, if instead of using `j:DriverLicenseAugmentationPoint`, suppose we extended `j:DriverLicenseType`, making a new `ext:DriverLicenseType` to hold our new object. Now we need a new element for it, `ext:DriverLicense`.
+
+But `j:CrashDriver` doesn't hold an `ext:DriverLicense`, so we need to make a new `ext:CrashDriverType` and `ext:CrashDriver` that can hold an `ext:DriverLicense`.
+
+But `j:CrashVehicle` doesn't hold a `ext:CrashDriver`, so we need to make a new `ext:CrashVehicleType` and `ext:CrashVehicle` that can hold an `ext:CrashDriver`.
+
+But `j:Crash` doesn't hold an `ext:CrashVehicle`, so we need to make a new `ext:CrashType` and `ext:Crash` that can hold `ext:CrashVehicle`.
+
+That's a lot of extra work and muddies the semantics of the elements.
+
+### Artifacts
+
+- [Creating New Objects - Complex Objects](/Text_Document/11_Creating_New_Objects_Complex_Objects.md)
+- Mapping Spreadsheets
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/11_Creating_New_Objects_Complex_Objects.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/11_Creating_New_Objects_Complex_Objects.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/11_Creating_New_Objects_Complex_Objects.pdf)
+
+___
+## Mapping Completed!
+
+- [Crash Driver Report Complete](/Text_Document/12_Crash_Driver_Report_Complete.md)
+- Mapping Spreadsheets
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/12_Crash_Driver_Report_Complete.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/12_Crash_Driver_Report_Complete.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/12_Crash_Driver_Report_Complete.pdf)
+
+| Started With | Ended With |
+| --- | --- |
+| ![Business UML](/Req_Analysis_Graphics/CrashDriverClassDiagram.png) | ![NIEM UML](/Req_Analysis_Graphics/CrashDriverClassDiagram-NIEM.png) |
+
+___
+![Build and Validate](/IEPD_Process_Graphics/Process_Artifacts_3_scaled.png)
+
+# Build and Validate
+- Conformance
+- Subsets
+- Extension and Exchange Schemas
+- How things fit together
+
+## NIEM Conformance
+- Follow the rules in the [Naming and Design Rules (NDR)](http://niem.github.io/reference/specifications/ndr/)
+- Follow the rules in the [IEPD Spec](http://niem.github.io/reference/specifications/iepd/)
+- Many NDR rules exist as Schematron
+	- Can check these via the Conformance Testing Assistant (ConTesA)
+	- Can run the Schematron directly oXygen, with a plug-in in XMLSpy
+
+## Schema Subsets
+- NIEM has ~13,000 elements
+- You don’t want them all
+- NIEM supports mini versions of NIEM
+	- With the elements / types you want
+	- Plus things needed to make the elements / types you want work
+- Use the [SSGT](https://tools.niem.gov/niemtools/ssgt/index.iepd) for this! **Demo Time!**
+- [MEP Builder](http://localhost:3000/) can also help!  **More Demo Time!**
+
+## Extension Schema(s)
+- Create new elements for your exchange
+- Emulate how NIEM does it
+- Utilize Augmentations to add your new objects to existing NIEM objects
+	- Concrete extension is an alternative
+- Can have multiple extension schemas
+- Some folks put code tables into a separate extension schema
+
+## Exchange Schema
+- Entry point to the exchange
+- Defines the root element of the exchange
+- Some put the definition for the root element here
+- Some put that in the extension schema
+- Some lump exchange and extension together
+- An exchange with multiple messages can have multiple exchange schemas, one per
+	- Can share a common extension
+	- Or not
+
+## How Schemas Fit Together
+
+![Schema Import 7](/Schema_Graphics/Schema_Import_7_scaled.png)
+
+
+## Help with Schemas
+- Use a good validating XML editor
+	- XMLSpy
+		- Windows
+	- oXygen
+		- Windows, macOS, Linux
+- Declare a conformance target
+	- Just use the same one I am
+- Declare and import all schemas used
+	- Watch out for schemas incorporated only via substitution groups
+	- Group heads don’t know who the members are
+	- Still need to declare and import those
+
+## Example Instances
+- Required
+- Validating against your schemas ensures your intent
+- Some XML editors can create them from schemas
+	- But you’ll always need to tweak those
+- JSON instances are more of a manual process because NIEM doesn't support JSON Schema
+	- It's in the works
+- Other tools are out there…
+
+## Tips and Tricks
+- Christina’s [oXygen Snippets](https://niem.github.io/reference/tools/oxygen/snippets/)
+	- oXygen only
+- Use [Schematron](https://niem.github.io/reference/tools/oxygen/ndr/) to check your work as you go
+	- oXygen
+	- XMLSpy with plug-in
+- [MEP Builder](https://sourceforge.net/projects/niem-mep-builder/)
+	- Work on mapping spreadsheets
+	- Generate subsets
+
+![Other Artifacts](/IEPD_Process_Graphics/Process_Artifacts_4_scaled.png)
+
+___
+# Assemble and Document
+- IEPD Catalog
+	- Metadata about the Message Spec / IEPD
+	- What file is what
+- Readme
+- Changelog
+- Conformance Assertion
+- Mapping Spreadsheet
+- Master Documentation
+
+## Master Documentation
+- Just a Word document
+	- Or another document format, e.g. Markdown, PDF, etc.
+- A NIEM Message Spec / IEPD master document should (at a minimum) describe:
+	- Message Spec / IEPD purpose
+	- Scope
+	- Business value
+	- Exchange information
+	- Senders/receivers
+	- Interactions
+	- References to other documentation, if applicable
+- Don’t paste schemas into them!
+
+## Message Spec / IEPD Assembly
+- Message Specs / IEPDs are just ZIP files full of artifacts
+- Can organize how you like
+	- The IEPD Catalog is the guide to your organization
+	- Generally, keep it simple
+- MEP Builder will help with this (phase one available now)
+
+___
+# Publishing
+- Existing repositories are out of date
+	- IEPD Clearinghouse
+	- Work With IEPDs (currently not working)
+- New repositories are coming
+	- Restricted (brand new)
+		- Warfighting Mission Area-Architecture Federation and Integration Portal (WMA-AFIP)
+		- If you don't know what this is, you probably don't have access
+	- Unrestricted (coming later)
+
+___
+
+![Implementation](IEPD_Process_Graphics/Process_Artifacts_5_scaled.png)
+
+# Implementation
+
+- Remember that NIEM is just the payload
+	- It’s just plain old XML
+		- Well, okay, with referencing
+	- Or it’s just plain JSON
+		- Well, okay, with JSON-LD
+- Remember the scope of NIEM
+	- Things outside the payload aren't NIEM
+	- You don’t have to do anything special for NIEM outside NIEM’s scope
+
+## Skill level to Implement NIEM
+- Developers with the skills to design and implement a data exchange can learn the NIEM approach in a matter of hours
+- Developer training is available
+- Plenty of example IEPDs to follow
+	- Hard to find right now
+	- _Will_ get better
+- Don’t start from scratch, leverage shared IEPDs
+- The NIEM technical specifications are complex, however
+	- Most developers do not need to read them
+	- Free tools can perform most of the conformance checking
+		- Schematron directly
+		- [Conformance Testing Assistant (ConTesA)](https://tools.niem.gov/contesa/)
+
+___
+# Resources
+
+## Documentation
+
+- NIEM Releases
+	- [http://niem.github.io/niem-releases/](http://niem.github.io/niem-releases/)
+- NIEM Specifications
+	- [http://niem.github.io/reference/specifications/](http://niem.github.io/reference/specifications/)
+- NIEM JSON Spec
+	- [https://niem.github.io/NIEM-JSON-Spec/v5.0/](https://niem.github.io/NIEM-JSON-Spec/v5.0/)
+- Materials from this course:
+	- [https://github.com/niemopen/niem-open-training)
+- NIEM.gov Contact Page
+	- [https://www.niem.gov/contact](https://www.niem.gov/contact)
+
+## Tools
+- SSGT:
+	- [https://tools.niem.gov/niemtools/ssgt/index.iepd](https://tools.niem.gov/niemtools/ssgt/index.iepd)
+- Conformance Testing Assistant (ConTesA)
+	- [https://tools.niem.gov/contesa/](https://tools.niem.gov/contesa/)
+- NDR Schematron
+	- [https://niem.github.io/reference/tools/oxygen/ndr/](https://niem.github.io/reference/tools/oxygen/ndr/)
+- MEP Builder
+	- [https://sourceforge.net/projects/niem-mep-builder/](https://sourceforge.net/projects/niem-mep-builder/)
+- Wayfarer:
+	- [http://niem5.org/wayfarer/](http://niem5.org/wayfarer/)
+- oXygen Snippets
+	- [https://niem.github.io/reference/tools/oxygen/snippets/](https://niem.github.io/reference/tools/oxygen/snippets/)
+
+## Repositories
+- IEPD Clearinghouse
+	- [https://bja.ojp.gov/program/it/policy-implementation/clearinghouse](https://bja.ojp.gov/program/it/policy-implementation/clearinghouse)
+- IEPD Repository (Work with IEPDs) - _currently inoperative_
+	- [https://tools.niem.gov/niemtools/iepdt/index.iepd](https://tools.niem.gov/niemtools/iepdt/index.iepd)
+
 ___
 Generated on: 
-Wed Apr  2 18:20:13 UTC 2025
+Fri Apr  4 20:44:04 UTC 2025
