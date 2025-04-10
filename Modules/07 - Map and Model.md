@@ -58,7 +58,7 @@ ___
 - [Wayfarer](http://niem5.org/wayfarer/) **replace with API-driven Wayfarer
 - NIEM Schemas
 	- [Official Releases](https://niem.github.io/niem-releases/)
-	- [HyperNIEM](http://niem5.org/schemas/) **replace with NIEM 6 HTML schemas at github.io**
+	- [HyperNIEM](https://niemopen.github.io/niem-open-training/) **replace with NIEM 6 HTML schemas at github.io**
 - Spreadsheet (included in the official releases)
 
 **Techniques**
