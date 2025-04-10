@@ -106,7 +106,7 @@ We can now "hang" it on the `j:DriverLicenseAugmentationPoint` hook with nothing
 </xs:element>
 ```
 
-Our new `ext:LicenseAugmentationType` is based on the built-in [`structures:AugmentationType`](http://niem5.org/schemas/structures.html#AugmentationType). That base type merely adds in infrastructure support for linking objects together:
+Our new `ext:LicenseAugmentationType` is based on the built-in [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType). That base type merely adds in infrastructure support for linking objects together:
 
 ```xml
 <xs:complexType name="AugmentationType" abstract="true">

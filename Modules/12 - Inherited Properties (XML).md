@@ -8,7 +8,7 @@
 
 ### Schemas
 
-Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:CrashType`:
+Here's [`j:Crash`](https://niemopen.github.io/niem-open-training/j.html#Crash) and its type, `j:CrashType`:
 
 ```xml
 <xs:element name="Crash" type="j:CrashType" nillable="true">
@@ -17,7 +17,7 @@ Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:Crash
 	</xs:annotation>
 </xs:element>
 ```
-[`j:CrashType`](http://niem5.org/schemas/j.html#CrashType) contains several things, but the important thing here is what it's based on, `j:DrivingIncidentType`:
+[`j:CrashType`](https://niemopen.github.io/niem-open-training/j.html#CrashType) contains several things, but the important thing here is what it's based on, `j:DrivingIncidentType`:
 
 ```xml
 <xs:complexType name="CrashType">
@@ -37,7 +37,7 @@ Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:Crash
 </xs:complexType>
 ```
 
-[`j:DrivingIncidentType`](http://niem5.org/schemas/j.html#DrivingIncidentType) is, in turn, based on an even more generic type, `nc:IncidentType`:
+[`j:DrivingIncidentType`](https://niemopen.github.io/niem-open-training/j.html#DrivingIncidentType) is, in turn, based on an even more generic type, `nc:IncidentType`:
 
 ```xml
 <xs:complexType name="DrivingIncidentType">
@@ -57,7 +57,7 @@ Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:Crash
 </xs:complexType>
 ```
 
-[`nc:IncidentType`](http://niem5.org/schemas/nc.html#IncidentType) is, also in turn, based on a very generic type, `nc:ActivityType`:
+[`nc:IncidentType`](https://niemopen.github.io/niem-open-training/nc.html#IncidentType) is, also in turn, based on a very generic type, `nc:ActivityType`:
 
 ```xml
 <xs:complexType name="IncidentType">
@@ -77,7 +77,7 @@ Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:Crash
 </xs:complexType>
 ```
 
-And we finally get to [`nc:ActivityType`](http://niem5.org/schemas/nc.html#ActivityType), which contains [`nc:ActivityDate`](http://niem5.org/schemas/nc.html#ActivityDate):
+And we finally get to [`nc:ActivityType`](https://niemopen.github.io/niem-open-training/nc.html#ActivityType), which contains [`nc:ActivityDate`](https://niemopen.github.io/niem-open-training/nc.html#ActivityDate):
 
 ```xml
 <xs:complexType name="ActivityType">

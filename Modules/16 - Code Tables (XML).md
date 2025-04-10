@@ -18,7 +18,7 @@
 
 ### Schemas
 
-[`j:InjurySeverityCode`](http://niem5.org/schemas/j.html#InjurySeverityCode) is a code table, with its codes defined in another namespace, the one for [AAMVA](https://www.aamva.org/). Here's the schema for the element:
+[`j:InjurySeverityCode`](https://niemopen.github.io/niem-open-training/j.html#InjurySeverityCode) is a code table, with its codes defined in another namespace, the one for [AAMVA](https://www.aamva.org/). Here's the schema for the element:
 
 ```xml
 <xs:element name="InjurySeverityCode" type="aamva_d20:AccidentSeverityCodeType" substitutionGroup="nc:InjurySeverityAbstract" nillable="true">
@@ -28,7 +28,7 @@
 </xs:element>
 ```
 
-The actual codes are defined in a pair of types. The first, [`aamva_d20:AccidentSeverityCodeSimpleType`](http://niem5.org/schemas/aamva_d20.html#AccidentSeverityCodeSimpleType), defines the actual codes and their definitions, one per `enumeration` below:
+The actual codes are defined in a pair of types. The first, [`aamva_d20:AccidentSeverityCodeSimpleType`](https://niemopen.github.io/niem-open-training/aamva_d20.html#AccidentSeverityCodeSimpleType), defines the actual codes and their definitions, one per `enumeration` below:
 
 ```xml
 <xs:simpleType name="AccidentSeverityCodeSimpleType">
@@ -70,7 +70,7 @@ The actual codes are defined in a pair of types. The first, [`aamva_d20:Accident
 </xs:simpleType>
 ```
 
-This simple type is then wrapped in a complex type, [`aamva_d20:AccidentSeverityCodeType`](http://niem5.org/schemas/aamva_d20.html#AccidentSeverityCodeType), to add infrastructure attributes that we've seen used in associations and roles. The two types are grouped together in the [`aamva_d20`](http://niem5.org/schemas/aamva_d20.html) namespace so they can be governed by AAMVA without needing to change the `j` domain:
+This simple type is then wrapped in a complex type, [`aamva_d20:AccidentSeverityCodeType`](https://niemopen.github.io/niem-open-training/aamva_d20.html#AccidentSeverityCodeType), to add infrastructure attributes that we've seen used in associations and roles. The two types are grouped together in the [`aamva_d20`](https://niemopen.github.io/niem-open-training/aamva_d20.html) namespace so they can be governed by AAMVA without needing to change the `j` domain:
 
 ```xml
 <xs:complexType name="AccidentSeverityCodeType">

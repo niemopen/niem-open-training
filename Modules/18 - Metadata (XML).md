@@ -35,7 +35,7 @@ Metadata is Data about Data. What does that mean? Here's an example:
 
 ### Schemas
 
-The [`j:MetadataAugmentation`](http://niem5.org/schemas/j.html#MetadataAugmentation) object is of `j:MetadataAugmentationType`. 
+The [`j:MetadataAugmentation`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentation) object is of `j:MetadataAugmentationType`. 
 
 ```xml
 <xs:element name="MetadataAugmentation" type="j:MetadataAugmentationType" substitutionGroup="nc:MetadataAugmentationPoint" nillable="true">
@@ -45,7 +45,7 @@ The [`j:MetadataAugmentation`](http://niem5.org/schemas/j.html#MetadataAugmentat
 </xs:element>
 ```
 
-There's nothing special about [`j:MetadataAugmentationType`](http://niem5.org/schemas/j.html#MetadataAugmentationType). It's just an object holding some other objects, in this case a couple booleans indicators, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`. It's based on [`structures:AugmentationType`](http://niem5.org/schemas/structures.html#AugmentationType), which is just an empty container. Substituting it for `nc:MetadataAugmentationPoint` provides the linking infrastructure we've seen with associations and roles as part of the `nc:Metadata` parent object:
+There's nothing special about [`j:MetadataAugmentationType`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentationType). It's just an object holding some other objects, in this case a couple booleans indicators, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`. It's based on [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType), which is just an empty container. Substituting it for `nc:MetadataAugmentationPoint` provides the linking infrastructure we've seen with associations and roles as part of the `nc:Metadata` parent object:
 
 ```xml
 <xs:complexType name="MetadataAugmentationType">

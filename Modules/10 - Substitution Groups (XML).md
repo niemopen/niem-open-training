@@ -14,7 +14,7 @@
 
 ### Schemas
 
-Here we see [`nc:PersonBirthDate`](http://niem5.org/schemas/nc.html#PersonBirthDate) and its type, `nc:DateType`:
+Here we see [`nc:PersonBirthDate`](https://niemopen.github.io/niem-open-training/nc.html#PersonBirthDate) and its type, `nc:DateType`:
 
 ```xml
 <xs:element name="PersonBirthDate" type="nc:DateType" nillable="true">
@@ -24,7 +24,7 @@ Here we see [`nc:PersonBirthDate`](http://niem5.org/schemas/nc.html#PersonBirthD
 </xs:element>
 ```
 
-[`nc:DateType`](http://niem5.org/schemas/nc.html#DateType) contains `nc:DateRepresentation`, along with other date properties:
+[`nc:DateType`](https://niemopen.github.io/niem-open-training/nc.html#DateType) contains `nc:DateRepresentation`, along with other date properties:
 
 ```xml
 <xs:complexType name="DateType">
@@ -43,7 +43,7 @@ Here we see [`nc:PersonBirthDate`](http://niem5.org/schemas/nc.html#PersonBirthD
 	</xs:complexContent>
 </xs:complexType>
 ```
-[`nc:DateRepresentation`](http://niem5.org/schemas/nc.html#DateRepresentation) is _abstract_, meaning it has no type and must be substituted with another object:
+[`nc:DateRepresentation`](https://niemopen.github.io/niem-open-training/nc.html#DateRepresentation) is _abstract_, meaning it has no type and must be substituted with another object:
 
 ```xml
 <xs:element name="DateRepresentation" abstract="true">
@@ -52,7 +52,7 @@ Here we see [`nc:PersonBirthDate`](http://niem5.org/schemas/nc.html#PersonBirthD
 	</xs:annotation>
 </xs:element>
 ```
-Those other objects are identified by having a `substitutionGroup` attribute set to the name of the substitution group head. The most common one you'll see for `nc:DateRepresentation` is [`nc:Date`](http://niem5.org/schemas/nc.html#Date):
+Those other objects are identified by having a `substitutionGroup` attribute set to the name of the substitution group head. The most common one you'll see for `nc:DateRepresentation` is [`nc:Date`](https://niemopen.github.io/niem-open-training/nc.html#Date):
 
 ```xml
 <xs:element name="Date" type="niem-xs:date" substitutionGroup="nc:DateRepresentation" nillable="true">

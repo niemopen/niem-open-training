@@ -49,7 +49,7 @@ Roles contain information about the Role:
 
 ### Schemas
 
-[`j:CrashPerson`](http://niem5.org/schemas/j.html#CrashPerson) is of `j:CrashPersonType`:
+[`j:CrashPerson`](https://niemopen.github.io/niem-open-training/j.html#CrashPerson) is of `j:CrashPersonType`:
 
 ```xml
 <xs:element name="CrashPerson" type="j:CrashPersonType" nillable="true">
@@ -59,7 +59,7 @@ Roles contain information about the Role:
 </xs:element>
 ```
 
-[`j:CrashPersonType`](http://niem5.org/schemas/j.html#CrashPersonType) contains information specific to this role. In the sample Message Spec / IEPD, we're also using `j:CrashPersonInjury`:
+[`j:CrashPersonType`](https://niemopen.github.io/niem-open-training/j.html#CrashPersonType) contains information specific to this role. In the sample Message Spec / IEPD, we're also using `j:CrashPersonInjury`:
 
 ```xml
 <xs:complexType name="CrashPersonType">

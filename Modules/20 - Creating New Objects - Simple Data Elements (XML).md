@@ -9,7 +9,7 @@ ___
 ![Simple Elements](/Req_Analysis_Graphics/10_Simple_Elements_CrashDriverClassDiagram.png)
 
 - Base them on whichever XML Schema data type is appropriate
-	- They're all in the [niem-xs](http://niem5.org/schemas/niem-xs.html) schema
+	- They're all in the [niem-xs](https://niemopen.github.io/niem-open-training/niem-xs.html) schema
 - Follow the flowchart for help
 - Base on the `niem-xs` adapters if you need referencing
 	- Folks generally do this anyway, for consistency

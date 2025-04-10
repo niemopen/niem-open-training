@@ -18,7 +18,7 @@
 
 ### Schemas
 
-[`j:InjurySeverityCode`](http://niem5.org/schemas/j.html#InjurySeverityCode) is a code table, with its codes defined in another namespace, the one for [AAMVA](https://www.aamva.org/). Here's the schema for the element:
+[`j:InjurySeverityCode`](https://niemopen.github.io/niem-open-training/j.html#InjurySeverityCode) is a code table, with its codes defined in another namespace, the one for [AAMVA](https://www.aamva.org/). Here's the schema for the element:
 
 ```json
 "j:InjurySeverityCode": {
@@ -27,7 +27,7 @@
 }
 ```
 
-The actual codes are defined in  [`aamva_d20:AccidentSeverityCodeType`](http://niem5.org/schemas/aamva_d20.html#AccidentSeverityCodeType), as a `oneOf` construct listing one code per `const` below:
+The actual codes are defined in  [`aamva_d20:AccidentSeverityCodeType`](https://niemopen.github.io/niem-open-training/aamva_d20.html#AccidentSeverityCodeType), as a `oneOf` construct listing one code per `const` below:
 
 ```json
 "aamva_d20:AccidentSeverityCodeType": {
