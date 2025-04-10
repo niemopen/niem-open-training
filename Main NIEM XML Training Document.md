@@ -525,7 +525,8 @@ ___
 - Search for Containers
 - Search for Properties
 
-___# Mapping and NIEM Technical Details
+___
+# Mapping and NIEM Technical Details
 
 ## Understanding NIEM Objects
 - XML Schema uses elements and types
@@ -715,7 +716,7 @@ ___
 
 ### Schemas
 
-Here we see [`nc:PersonBirthDate`](http://niem5.org/schemas/nc.html#PersonBirthDate) and its type, `nc:DateType`:
+Here we see [`nc:PersonBirthDate`](https://niemopen.github.io/niem-open-training/nc.html#PersonBirthDate) and its type, `nc:DateType`:
 
 ```xml
 <xs:element name="PersonBirthDate" type="nc:DateType" nillable="true">
@@ -725,7 +726,7 @@ Here we see [`nc:PersonBirthDate`](http://niem5.org/schemas/nc.html#PersonBirthD
 </xs:element>
 ```
 
-[`nc:DateType`](http://niem5.org/schemas/nc.html#DateType) contains `nc:DateRepresentation`, along with other date properties:
+[`nc:DateType`](https://niemopen.github.io/niem-open-training/nc.html#DateType) contains `nc:DateRepresentation`, along with other date properties:
 
 ```xml
 <xs:complexType name="DateType">
@@ -744,7 +745,7 @@ Here we see [`nc:PersonBirthDate`](http://niem5.org/schemas/nc.html#PersonBirthD
 	</xs:complexContent>
 </xs:complexType>
 ```
-[`nc:DateRepresentation`](http://niem5.org/schemas/nc.html#DateRepresentation) is _abstract_, meaning it has no type and must be substituted with another object:
+[`nc:DateRepresentation`](https://niemopen.github.io/niem-open-training/nc.html#DateRepresentation) is _abstract_, meaning it has no type and must be substituted with another object:
 
 ```xml
 <xs:element name="DateRepresentation" abstract="true">
@@ -753,7 +754,7 @@ Here we see [`nc:PersonBirthDate`](http://niem5.org/schemas/nc.html#PersonBirthD
 	</xs:annotation>
 </xs:element>
 ```
-Those other objects are identified by having a `substitutionGroup` attribute set to the name of the substitution group head. The most common one you'll see for `nc:DateRepresentation` is [`nc:Date`](http://niem5.org/schemas/nc.html#Date):
+Those other objects are identified by having a `substitutionGroup` attribute set to the name of the substitution group head. The most common one you'll see for `nc:DateRepresentation` is [`nc:Date`](https://niemopen.github.io/niem-open-training/nc.html#Date):
 
 ```xml
 <xs:element name="Date" type="niem-xs:date" substitutionGroup="nc:DateRepresentation" nillable="true">
@@ -821,7 +822,7 @@ ___
 
 ### Schemas
 
-Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:CrashType`:
+Here's [`j:Crash`](https://niemopen.github.io/niem-open-training/j.html#Crash) and its type, `j:CrashType`:
 
 ```xml
 <xs:element name="Crash" type="j:CrashType" nillable="true">
@@ -830,7 +831,7 @@ Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:Crash
 	</xs:annotation>
 </xs:element>
 ```
-[`j:CrashType`](http://niem5.org/schemas/j.html#CrashType) contains several things, but the important thing here is what it's based on, `j:DrivingIncidentType`:
+[`j:CrashType`](https://niemopen.github.io/niem-open-training/j.html#CrashType) contains several things, but the important thing here is what it's based on, `j:DrivingIncidentType`:
 
 ```xml
 <xs:complexType name="CrashType">
@@ -850,7 +851,7 @@ Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:Crash
 </xs:complexType>
 ```
 
-[`j:DrivingIncidentType`](http://niem5.org/schemas/j.html#DrivingIncidentType) is, in turn, based on an even more generic type, `nc:IncidentType`:
+[`j:DrivingIncidentType`](https://niemopen.github.io/niem-open-training/j.html#DrivingIncidentType) is, in turn, based on an even more generic type, `nc:IncidentType`:
 
 ```xml
 <xs:complexType name="DrivingIncidentType">
@@ -870,7 +871,7 @@ Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:Crash
 </xs:complexType>
 ```
 
-[`nc:IncidentType`](http://niem5.org/schemas/nc.html#IncidentType) is, also in turn, based on a very generic type, `nc:ActivityType`:
+[`nc:IncidentType`](https://niemopen.github.io/niem-open-training/nc.html#IncidentType) is, also in turn, based on a very generic type, `nc:ActivityType`:
 
 ```xml
 <xs:complexType name="IncidentType">
@@ -890,7 +891,7 @@ Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:Crash
 </xs:complexType>
 ```
 
-And we finally get to [`nc:ActivityType`](http://niem5.org/schemas/nc.html#ActivityType), which contains [`nc:ActivityDate`](http://niem5.org/schemas/nc.html#ActivityDate):
+And we finally get to [`nc:ActivityType`](https://niemopen.github.io/niem-open-training/nc.html#ActivityType), which contains [`nc:ActivityDate`](https://niemopen.github.io/niem-open-training/nc.html#ActivityDate):
 
 ```xml
 <xs:complexType name="ActivityType">
@@ -1036,7 +1037,7 @@ ___
 
 ### Schemas
 
-[`j:PersonChargeAssociation`](http://niem5.org/schemas/j.html#PersonChargeAssociation) is used, as the name suggests, to link together a Person and a Charge. It's of `j:PersonChargeAssociationType`:
+[`j:PersonChargeAssociation`](https://niemopen.github.io/niem-open-training/j.html#PersonChargeAssociation) is used, as the name suggests, to link together a Person and a Charge. It's of `j:PersonChargeAssociationType`:
 
 ```xml
 <xs:element name="PersonChargeAssociation" type="j:PersonChargeAssociationType" nillable="true">
@@ -1046,7 +1047,7 @@ ___
 </xs:element>
 ```
 
-[`j:PersonChargeAssociationType`](http://niem5.org/schemas/j.html#PersonChargeAssociationType) includes a [`nc:Person`](http://niem5.org/schemas/nc.html#Person) and a [`j:Charge`](http://niem5.org/schemas/j.html#Charge), but also includes information _about_ the association itself, in this case [`j:JuvenileAsAdultIndicator`](http://niem5.org/schemas/j.html#JuvenileAsAdultIndicator). (Which isn't used in _this_ exchange.) `PersonChargeAssociationType` extends `nc:AssociationType`:
+[`j:PersonChargeAssociationType`](https://niemopen.github.io/niem-open-training/j.html#PersonChargeAssociationType) includes a [`nc:Person`](https://niemopen.github.io/niem-open-training/nc.html#Person) and a [`j:Charge`](https://niemopen.github.io/niem-open-training/j.html#Charge), but also includes information _about_ the association itself, in this case [`j:JuvenileAsAdultIndicator`](https://niemopen.github.io/niem-open-training/j.html#JuvenileAsAdultIndicator). (Which isn't used in _this_ exchange.) `PersonChargeAssociationType` extends `nc:AssociationType`:
 
 ```xml
 <xs:complexType name="PersonChargeAssociationType">
@@ -1065,7 +1066,7 @@ ___
 	</xs:complexContent>
 </xs:complexType>
 ```
-[`nc:AssociationType`](http://niem5.org/schemas/nc.html#AssociationType) adds in generic association information like a start and end date and a description. Remember that these are inherited by any type based on `nc:AssociationType`, so things of `j:PersonChargeAssociationType` automatically get these common objects.
+[`nc:AssociationType`](https://niemopen.github.io/niem-open-training/nc.html#AssociationType) adds in generic association information like a start and end date and a description. Remember that these are inherited by any type based on `nc:AssociationType`, so things of `j:PersonChargeAssociationType` automatically get these common objects.
 
 ```xml
 <xs:complexType name="AssociationType">
@@ -1195,7 +1196,7 @@ Roles contain information about the Role:
 
 ### Schemas
 
-[`j:CrashPerson`](http://niem5.org/schemas/j.html#CrashPerson) is of `j:CrashPersonType`:
+[`j:CrashPerson`](https://niemopen.github.io/niem-open-training/j.html#CrashPerson) is of `j:CrashPersonType`:
 
 ```xml
 <xs:element name="CrashPerson" type="j:CrashPersonType" nillable="true">
@@ -1205,7 +1206,7 @@ Roles contain information about the Role:
 </xs:element>
 ```
 
-[`j:CrashPersonType`](http://niem5.org/schemas/j.html#CrashPersonType) contains information specific to this role. In the sample Message Spec / IEPD, we're also using `j:CrashPersonInjury`:
+[`j:CrashPersonType`](https://niemopen.github.io/niem-open-training/j.html#CrashPersonType) contains information specific to this role. In the sample Message Spec / IEPD, we're also using `j:CrashPersonInjury`:
 
 ```xml
 <xs:complexType name="CrashPersonType">
@@ -1273,7 +1274,7 @@ ___
 
 ### Schemas
 
-[`j:InjurySeverityCode`](http://niem5.org/schemas/j.html#InjurySeverityCode) is a code table, with its codes defined in another namespace, the one for [AAMVA](https://www.aamva.org/). Here's the schema for the element:
+[`j:InjurySeverityCode`](https://niemopen.github.io/niem-open-training/j.html#InjurySeverityCode) is a code table, with its codes defined in another namespace, the one for [AAMVA](https://www.aamva.org/). Here's the schema for the element:
 
 ```xml
 <xs:element name="InjurySeverityCode" type="aamva_d20:AccidentSeverityCodeType" substitutionGroup="nc:InjurySeverityAbstract" nillable="true">
@@ -1283,7 +1284,7 @@ ___
 </xs:element>
 ```
 
-The actual codes are defined in a pair of types. The first, [`aamva_d20:AccidentSeverityCodeSimpleType`](http://niem5.org/schemas/aamva_d20.html#AccidentSeverityCodeSimpleType), defines the actual codes and their definitions, one per `enumeration` below:
+The actual codes are defined in a pair of types. The first, [`aamva_d20:AccidentSeverityCodeSimpleType`](https://niemopen.github.io/niem-open-training/aamva_d20.html#AccidentSeverityCodeSimpleType), defines the actual codes and their definitions, one per `enumeration` below:
 
 ```xml
 <xs:simpleType name="AccidentSeverityCodeSimpleType">
@@ -1325,7 +1326,7 @@ The actual codes are defined in a pair of types. The first, [`aamva_d20:Accident
 </xs:simpleType>
 ```
 
-This simple type is then wrapped in a complex type, [`aamva_d20:AccidentSeverityCodeType`](http://niem5.org/schemas/aamva_d20.html#AccidentSeverityCodeType), to add infrastructure attributes that we've seen used in associations and roles. The two types are grouped together in the [`aamva_d20`](http://niem5.org/schemas/aamva_d20.html) namespace so they can be governed by AAMVA without needing to change the `j` domain:
+This simple type is then wrapped in a complex type, [`aamva_d20:AccidentSeverityCodeType`](https://niemopen.github.io/niem-open-training/aamva_d20.html#AccidentSeverityCodeType), to add infrastructure attributes that we've seen used in associations and roles. The two types are grouped together in the [`aamva_d20`](https://niemopen.github.io/niem-open-training/aamva_d20.html) namespace so they can be governed by AAMVA without needing to change the `j` domain:
 
 ```xml
 <xs:complexType name="AccidentSeverityCodeType">
@@ -1476,7 +1477,7 @@ We can now "hang" it on the `j:DriverLicenseAugmentationPoint` hook with nothing
 </xs:element>
 ```
 
-Our new `ext:LicenseAugmentationType` is based on the built-in [`structures:AugmentationType`](http://niem5.org/schemas/structures.html#AugmentationType). That base type merely adds in infrastructure support for linking objects together:
+Our new `ext:LicenseAugmentationType` is based on the built-in [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType). That base type merely adds in infrastructure support for linking objects together:
 
 ```xml
 <xs:complexType name="AugmentationType" abstract="true">
@@ -1551,7 +1552,7 @@ Metadata is Data about Data. What does that mean? Here's an example:
 
 ### Schemas
 
-The [`j:MetadataAugmentation`](http://niem5.org/schemas/j.html#MetadataAugmentation) object is of `j:MetadataAugmentationType`. 
+The [`j:MetadataAugmentation`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentation) object is of `j:MetadataAugmentationType`. 
 
 ```xml
 <xs:element name="MetadataAugmentation" type="j:MetadataAugmentationType" substitutionGroup="nc:MetadataAugmentationPoint" nillable="true">
@@ -1561,7 +1562,7 @@ The [`j:MetadataAugmentation`](http://niem5.org/schemas/j.html#MetadataAugmentat
 </xs:element>
 ```
 
-There's nothing special about [`j:MetadataAugmentationType`](http://niem5.org/schemas/j.html#MetadataAugmentationType). It's just an object holding some other objects, in this case a couple booleans indicators, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`. It's based on [`structures:AugmentationType`](http://niem5.org/schemas/structures.html#AugmentationType), which is just an empty container. Substituting it for `nc:MetadataAugmentationPoint` provides the linking infrastructure we've seen with associations and roles as part of the `nc:Metadata` parent object:
+There's nothing special about [`j:MetadataAugmentationType`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentationType). It's just an object holding some other objects, in this case a couple booleans indicators, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`. It's based on [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType), which is just an empty container. Substituting it for `nc:MetadataAugmentationPoint` provides the linking infrastructure we've seen with associations and roles as part of the `nc:Metadata` parent object:
 
 ```xml
 <xs:complexType name="MetadataAugmentationType">
@@ -1879,7 +1880,7 @@ ___
 ![Simple Elements](/Req_Analysis_Graphics/10_Simple_Elements_CrashDriverClassDiagram.png)
 
 - Base them on whichever XML Schema data type is appropriate
-	- They're all in the [niem-xs](http://niem5.org/schemas/niem-xs.html) schema
+	- They're all in the [niem-xs](https://niemopen.github.io/niem-open-training/niem-xs.html) schema
 - Follow the flowchart for help
 - Base on the `niem-xs` adapters if you need referencing
 	- Folks generally do this anyway, for consistency
@@ -2322,4 +2323,4 @@ ___
 
 ___
 Generated on: 
-Thu Apr 10 20:23:31 UTC 2025
+Thu Apr 10 20:30:06 UTC 2025

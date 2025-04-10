@@ -532,7 +532,8 @@ ___
 - Search for Containers
 - Search for Properties
 
-___# Mapping and NIEM Technical Details
+___
+# Mapping and NIEM Technical Details
 
 ## Understanding NIEM Objects
 - XML Schema uses elements and types
@@ -814,7 +815,7 @@ ___
 
 ### Schemas
 
-Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:CrashType`:
+Here's [`j:Crash`](https://niemopen.github.io/niem-open-training/j.html#Crash) and its type, `j:CrashType`:
 
 ```json
 "j:Crash": {
@@ -823,7 +824,7 @@ Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:Crash
 }
 ```
 
-[`j:CrashType`](http://niem5.org/schemas/j.html#CrashType) contains several things, but the important thing here is what it's based on, `j:DrivingIncidentType`:
+[`j:CrashType`](https://niemopen.github.io/niem-open-training/j.html#CrashType) contains several things, but the important thing here is what it's based on, `j:DrivingIncidentType`:
 
 ```json
 "j:CrashType": {
@@ -846,7 +847,7 @@ Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:Crash
 }
 ```
 
-[`j:DrivingIncidentType`](http://niem5.org/schemas/j.html#DrivingIncidentType) is, in turn, based on an even more generic type, `nc:IncidentType`:
+[`j:DrivingIncidentType`](https://niemopen.github.io/niem-open-training/j.html#DrivingIncidentType) is, in turn, based on an even more generic type, `nc:IncidentType`:
 
 ```json
 "j:DrivingIncidentType": {
@@ -855,7 +856,7 @@ Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:Crash
 }
 ```
 
-[`nc:IncidentType`](http://niem5.org/schemas/nc.html#IncidentType) is, also in turn, based on a very generic type, `nc:ActivityType`:
+[`nc:IncidentType`](https://niemopen.github.io/niem-open-training/nc.html#IncidentType) is, also in turn, based on a very generic type, `nc:ActivityType`:
 
 ```json
 "nc:IncidentType": {
@@ -864,7 +865,7 @@ Here's [`j:Crash`](http://niem5.org/schemas/j.html#Crash) and its type, `j:Crash
 }
 ```
 
-And we finally get to [`nc:ActivityType`](http://niem5.org/schemas/nc.html#ActivityType), which contains [`nc:ActivityDate`](http://niem5.org/schemas/nc.html#ActivityDate):
+And we finally get to [`nc:ActivityType`](https://niemopen.github.io/niem-open-training/nc.html#ActivityType), which contains [`nc:ActivityDate`](https://niemopen.github.io/niem-open-training/nc.html#ActivityDate):
 
 ```json
 "nc:ActivityType": {
@@ -968,7 +969,7 @@ ___
 
 ### Schemas
 
-[`j:PersonChargeAssociation`](http://niem5.org/schemas/j.html#PersonChargeAssociation) is used, as the name suggests, to link together a Person and a Charge. It's of `j:PersonChargeAssociationType`:
+[`j:PersonChargeAssociation`](https://niemopen.github.io/niem-open-training/j.html#PersonChargeAssociation) is used, as the name suggests, to link together a Person and a Charge. It's of `j:PersonChargeAssociationType`:
 
 ```json
 "j:PersonChargeAssociation": {
@@ -978,7 +979,7 @@ ___
 }
 ```
 
-[`j:PersonChargeAssociationType`](http://niem5.org/schemas/j.html#PersonChargeAssociationType) includes a [`nc:Person`](http://niem5.org/schemas/nc.html#Person) and a [`j:Charge`](http://niem5.org/schemas/j.html#Charge), but also includes information _about_ the association itself, in this case [`j:JuvenileAsAdultIndicator`](http://niem5.org/schemas/j.html#JuvenileAsAdultIndicator). (Which isn't used in _this_ exchange.) `PersonChargeAssociationType` extends `nc:AssociationType`:
+[`j:PersonChargeAssociationType`](https://niemopen.github.io/niem-open-training/j.html#PersonChargeAssociationType) includes a [`nc:Person`](https://niemopen.github.io/niem-open-training/nc.html#Person) and a [`j:Charge`](https://niemopen.github.io/niem-open-training/j.html#Charge), but also includes information _about_ the association itself, in this case [`j:JuvenileAsAdultIndicator`](https://niemopen.github.io/niem-open-training/j.html#JuvenileAsAdultIndicator). (Which isn't used in _this_ exchange.) `PersonChargeAssociationType` extends `nc:AssociationType`:
 
 ```json
 "j:PersonChargeAssociationType": {
@@ -1000,7 +1001,7 @@ ___
 	]
 }
 ```
-[`nc:AssociationType`](http://niem5.org/schemas/nc.html#AssociationType) adds in generic association information like a start and end date and a description. Remember that these are inherited by any type based on `nc:AssociationType`, so things of `j:PersonChargeAssociationType` automatically get these common objects.
+[`nc:AssociationType`](https://niemopen.github.io/niem-open-training/nc.html#AssociationType) adds in generic association information like a start and end date and a description. Remember that these are inherited by any type based on `nc:AssociationType`, so things of `j:PersonChargeAssociationType` automatically get these common objects.
 
 ```json
 "nc:AssociationType": {
@@ -1137,7 +1138,7 @@ Roles contain information about the Role:
 
 ### Schemas
 
-[`j:CrashPerson`](http://niem5.org/schemas/j.html#CrashPerson) is of `j:CrashPersonType`:
+[`j:CrashPerson`](https://niemopen.github.io/niem-open-training/j.html#CrashPerson) is of `j:CrashPersonType`:
 
 ```json
 "j:CrashPerson": {
@@ -1147,7 +1148,7 @@ Roles contain information about the Role:
 }
 ```
 
-[`j:CrashPersonType`](http://niem5.org/schemas/j.html#CrashPersonType) contains information specific to this role. In the sample Message Spec / IEPD, we're also using `j:CrashPersonInjury`:
+[`j:CrashPersonType`](https://niemopen.github.io/niem-open-training/j.html#CrashPersonType) contains information specific to this role. In the sample Message Spec / IEPD, we're also using `j:CrashPersonInjury`:
 
 ```json
 "j:CrashPersonType": {
@@ -1209,7 +1210,7 @@ ___
 
 ### Schemas
 
-[`j:InjurySeverityCode`](http://niem5.org/schemas/j.html#InjurySeverityCode) is a code table, with its codes defined in another namespace, the one for [AAMVA](https://www.aamva.org/). Here's the schema for the element:
+[`j:InjurySeverityCode`](https://niemopen.github.io/niem-open-training/j.html#InjurySeverityCode) is a code table, with its codes defined in another namespace, the one for [AAMVA](https://www.aamva.org/). Here's the schema for the element:
 
 ```json
 "j:InjurySeverityCode": {
@@ -1218,7 +1219,7 @@ ___
 }
 ```
 
-The actual codes are defined in  [`aamva_d20:AccidentSeverityCodeType`](http://niem5.org/schemas/aamva_d20.html#AccidentSeverityCodeType), as a `oneOf` construct listing one code per `const` below:
+The actual codes are defined in  [`aamva_d20:AccidentSeverityCodeType`](https://niemopen.github.io/niem-open-training/aamva_d20.html#AccidentSeverityCodeType), as a `oneOf` construct listing one code per `const` below:
 
 ```json
 "aamva_d20:AccidentSeverityCodeType": {
@@ -1380,7 +1381,7 @@ We can now "hang" it on the `j:DriverLicenseAugmentationPoint` hook with nothing
 </xs:element>
 ```
 
-Our new `ext:LicenseAugmentationType` is based on the built-in [`structures:AugmentationType`](http://niem5.org/schemas/structures.html#AugmentationType). That base type merely adds in infrastructure support for linking objects together:
+Our new `ext:LicenseAugmentationType` is based on the built-in [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType). That base type merely adds in infrastructure support for linking objects together:
 
 ```xml
 <xs:complexType name="AugmentationType" abstract="true">
@@ -1470,7 +1471,7 @@ Metadata is Data about Data. What does that mean? Here's an example:
 
 ### Schemas
 
-The [`j:MetadataAugmentation`](http://niem5.org/schemas/j.html#MetadataAugmentation) object is of `j:MetadataAugmentationType`. 
+The [`j:MetadataAugmentation`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentation) object is of `j:MetadataAugmentationType`. 
 
 ```xml
 <xs:element name="MetadataAugmentation" type="j:MetadataAugmentationType" substitutionGroup="nc:MetadataAugmentationPoint" nillable="true">
@@ -1480,7 +1481,7 @@ The [`j:MetadataAugmentation`](http://niem5.org/schemas/j.html#MetadataAugmentat
 </xs:element>
 ```
 
-There's nothing special about [`j:MetadataAugmentationType`](http://niem5.org/schemas/j.html#MetadataAugmentationType). It's just an object holding some other objects, in this case a couple booleans indicators, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`. It's based on [`structures:AugmentationType`](http://niem5.org/schemas/structures.html#AugmentationType), which is just an empty container. Substituting it for `nc:MetadataAugmentationPoint` provides the linking infrastructure we've seen with associations and roles as part of the `nc:Metadata` parent object:
+There's nothing special about [`j:MetadataAugmentationType`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentationType). It's just an object holding some other objects, in this case a couple booleans indicators, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`. It's based on [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType), which is just an empty container. Substituting it for `nc:MetadataAugmentationPoint` provides the linking infrastructure we've seen with associations and roles as part of the `nc:Metadata` parent object:
 
 ```xml
 <xs:complexType name="MetadataAugmentationType">
@@ -1714,7 +1715,7 @@ ___
 ![Simple Elements](/Req_Analysis_Graphics/10_Simple_Elements_CrashDriverClassDiagram.png)
 
 - Base them on whichever XML Schema data type is appropriate
-	- They're all in the [niem-xs](http://niem5.org/schemas/niem-xs.html) schema
+	- They're all in the [niem-xs](https://niemopen.github.io/niem-open-training/niem-xs.html) schema
 - Follow the flowchart for help
 - Base on the `niem-xs` adapters if you need referencing
 	- Folks generally do this anyway, for consistency
@@ -2157,4 +2158,4 @@ ___
 
 ___
 Generated on: 
-Thu Apr 10 20:23:31 UTC 2025
+Thu Apr 10 20:30:07 UTC 2025
