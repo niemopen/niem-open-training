@@ -942,7 +942,8 @@ You need to understand this concept in order to know to look for these cases, wh
 	- [Mapping Spreadsheet (Excel)](Mapping_Spreadsheets/03_Inherited_Properties.xlsx)
 	- [Mapping Spreadsheet (PDF)](Mapping_Spreadsheets/03_Inherited_Properties.pdf)
 
-___## Linking Things Together
+___
+## Linking Things Together
 
 - NIEM is relational in many senses
 - Objects can refer to each other across an XML hierarchy
@@ -2323,4 +2324,4 @@ ___
 
 ___
 Generated on: 
-Thu Apr 10 20:30:06 UTC 2025
+Tue Apr 15 14:54:31 UTC 2025
