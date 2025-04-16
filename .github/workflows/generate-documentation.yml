@@ -18,7 +18,6 @@ jobs:
           cat 'Modules/02 - Introduction to NIEM.md' >> 'NIEM 101.md'
           cat 'Modules/03 - Message Spec (IEPD) Overview.md' >> 'NIEM 101.md'
           cat 'Modules/28 - Resources.md' >> 'NIEM 101.md'
-          echo '___' >> 'NIEM 101.md'
           echo 'Generated on: ' >> 'NIEM 101.md'
           date >> 'NIEM 101.md'
           cat 'Modules/01 - NIEM Training.md' > 'Main NIEM XML Training Document.md'
