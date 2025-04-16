@@ -2122,6 +2122,13 @@ That's a lot of extra work and muddies the semantics of the elements.
 	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/11_Creating_New_Objects_Complex_Objects.pdf)
 
 ___
+### Creating Attributes
+
+### Attribute Augmentations
+
+
+### Attribute Wildcards
+
 ## Mapping Completed!
 
 - [Crash Driver Report Complete](/Text_Document/12_Crash_Driver_Report_Complete.md)
@@ -2324,4 +2331,4 @@ ___
 
 ___
 Generated on: 
-Tue Apr 15 14:54:31 UTC 2025
+Wed Apr 16 13:39:52 UTC 2025
