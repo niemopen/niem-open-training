@@ -1,10 +1,6 @@
 ![NIEMOPEN Logo](/Intro_Graphics/NIEMOPEN_logo.png)
 
 # Main NIEM Training Document
-NIEM Training
-
-Tom Carlson, GTRI
-Thomas.Carlson@gtri.gatech.edu
 
 # Introduction
 
@@ -16,9 +12,10 @@ A technical webinar focused on developers and implementers who are interested in
 
 All materials are available on the NIEM Training Github repo at [https://github.com/niemopen/niem-open-training](https://github.com/niemopen/niem-open-training). Specific materials used are listed on the README page and include:
 
-- **Master NIEM Training Document**
-	- [Master NIEM Training Document (XML)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20XML%20Training%20Document.md)
-	- [Master NIEM Training Document (JSON)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20JSON%20Training%20Document.md)
+- **Main NIEM Training Document**
+	- [Main NIEM Training Document (XML)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20XML%20Training%20Document.md)
+	- [Main NIEM Training Document (JSON)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20JSON%20Training%20Document.md)
+- Individual module documents
 - [Mapping Spreadsheets](https://github.com/niemopen/niem-open-training/tree/main/Mapping_Spreadsheets)
 - [Ersatz Textual Instances](https://github.com/niemopen/niem-open-training/tree/main/Text_Document)
 
@@ -42,16 +39,13 @@ All materials are available on the NIEM Training Github repo at [https://github.
 	- Assembly
 	- Publishing
 	- Implementation
-- Exercises
 - Resources
 ___
 ## Logistics and Background
 
 - Major revamp of prior training programs
-- Three days, 1-5pm each day
-- Short breaks on the hour
-- Ask questions via chat _when you have them_
-	- Someone is monitoring chat and will interrupt me as needed
+- Updated for NIEM 6
+- Questions to info@niemopen.org
 - This document and supporting materials are at:
 	- https://github.com/niemopen/niem-open-training/
 ___
@@ -229,11 +223,13 @@ ___
 
 **NIEM Administration and Organization**
 
+Overall structure is always changing, but this is a snapshot at the time of recording.
+
 ![Org Chart](/Intro_Graphics/Org_Chart.png)
 
 **Move to OASIS**
 
-The NIEM program is transitioning from being a solely government-funded project to an open source project under [OASIS Open](https://www.oasis-open.org). So here's a quick plug for OASIS Open...
+The NIEM program has transitioned from being a solely government-funded project to an open source project under [OASIS Open](https://www.oasis-open.org). So here's a quick plug for OASIS Open...
 
 **About OASIS Open**
 
@@ -250,11 +246,11 @@ One of the most respected, nonprofit open source and open standards bodies in th
 
 **Get Involved!**
 
-For more information about supporting the NIEM OASIS Open Project, contact TBD, TBD@oasis-open.org
+For more information about supporting the NIEM OASIS Open Project, contact info@niemopen.org.
 ___# Message Spec / IEPD Overview
 
-- "Information Exchange Package Documentation"
-- Slowly changing to "Message Specification"
+- Old Name: "Information Exchange Package Documentation (IEPD)"
+- New Name: "Message Specification"
 - Defines an exchange
 - Made up of a bunch of documents, "artifacts"
 	- Some meant for humans
@@ -2159,4 +2155,4 @@ ___
 
 ___
 Generated on: 
-Wed Apr 16 13:42:34 UTC 2025
+Tue Apr 22 13:37:45 UTC 2025
