@@ -1,10 +1,6 @@
 ![NIEMOPEN Logo](/Intro_Graphics/NIEMOPEN_logo.png)
 
 # Main NIEM Training Document
-NIEM Training
-
-Tom Carlson, GTRI
-Thomas.Carlson@gtri.gatech.edu
 
 # Introduction
 
@@ -16,9 +12,10 @@ A technical webinar focused on developers and implementers who are interested in
 
 All materials are available on the NIEM Training Github repo at [https://github.com/niemopen/niem-open-training](https://github.com/niemopen/niem-open-training). Specific materials used are listed on the README page and include:
 
-- **Master NIEM Training Document**
-	- [Master NIEM Training Document (XML)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20XML%20Training%20Document.md)
-	- [Master NIEM Training Document (JSON)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20JSON%20Training%20Document.md)
+- **Main NIEM Training Document**
+	- [Main NIEM Training Document (XML)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20XML%20Training%20Document.md)
+	- [Main NIEM Training Document (JSON)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20JSON%20Training%20Document.md)
+- Individual module documents
 - [Mapping Spreadsheets](https://github.com/niemopen/niem-open-training/tree/main/Mapping_Spreadsheets)
 - [Ersatz Textual Instances](https://github.com/niemopen/niem-open-training/tree/main/Text_Document)
 
@@ -42,16 +39,13 @@ All materials are available on the NIEM Training Github repo at [https://github.
 	- Assembly
 	- Publishing
 	- Implementation
-- Exercises
 - Resources
 ___
 ## Logistics and Background
 
 - Major revamp of prior training programs
-- Three days, 1-5pm each day
-- Short breaks on the hour
-- Ask questions via chat _when you have them_
-	- Someone is monitoring chat and will interrupt me as needed
+- Updated for NIEM 6
+- Questions to info@niemopen.org
 - This document and supporting materials are at:
 	- https://github.com/niemopen/niem-open-training/
 ___

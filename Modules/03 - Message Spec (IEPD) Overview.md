@@ -1,7 +1,7 @@
 # Message Spec / IEPD Overview
 
-- "Information Exchange Package Documentation"
-- Slowly changing to "Message Specification"
+- Old Name: "Information Exchange Package Documentation (IEPD)"
+- New Name: "Message Specification"
 - Defines an exchange
 - Made up of a bunch of documents, "artifacts"
 	- Some meant for humans

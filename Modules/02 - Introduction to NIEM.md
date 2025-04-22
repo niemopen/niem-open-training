@@ -172,11 +172,13 @@ ___
 
 **NIEM Administration and Organization**
 
+Overall structure is always changing, but this is a snapshot at the time of recording.
+
 ![Org Chart](/Intro_Graphics/Org_Chart.png)
 
 **Move to OASIS**
 
-The NIEM program is transitioning from being a solely government-funded project to an open source project under [OASIS Open](https://www.oasis-open.org). So here's a quick plug for OASIS Open...
+The NIEM program has transitioned from being a solely government-funded project to an open source project under [OASIS Open](https://www.oasis-open.org). So here's a quick plug for OASIS Open...
 
 **About OASIS Open**
 
@@ -193,5 +195,5 @@ One of the most respected, nonprofit open source and open standards bodies in th
 
 **Get Involved!**
 
-For more information about supporting the NIEM OASIS Open Project, contact TBD, TBD@oasis-open.org
+For more information about supporting the NIEM OASIS Open Project, contact info@niemopen.org.
 ___
