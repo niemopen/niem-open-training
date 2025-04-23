@@ -3,6 +3,7 @@
 - What is NIEM?
 - The Scope of NIEM
 - NIEM Harmonization and Organization
+- NIEMOpen and OASIS Open Projects
 ___
 ### What is NIEM? - Framework
 - NIEM is a community-driven, government and jurisdiction-wide, standards-based approach to exchanging information
@@ -18,7 +19,7 @@ ___
 
 ![Interop Problem](/Intro_Graphics/Interop_Problem_scaled.png)
 ___
-### What is NIEM? And what not?
+### What is NIEM? And what it's not?
 **NIEM is:**
 - a common vocabulary
 - a means of enabling efficient information exchange across diverse public and private organizations
@@ -172,9 +173,35 @@ ___
 
 **NIEM Administration and Organization**
 
-Overall structure is always changing, but this is a snapshot at the time of recording.
+Overall structure is always changing, but this is a simplifed snapshot at the time of recording.
 
-![Org Chart](/Intro_Graphics/Org_Chart.png)
+- Project Governing Board (PGB)
+- NIEM Business Architecture Committee (NBAC)
+- NIEM Technical Architecture Committee (NTAC)
+
+```mermaid
+graph TD
+PGB---nbac_chair[NBAC Chairs]
+PGB---ntac_chair[NTAC Chairs]
+PGB---dom1_chair[Domain A Chairs]
+PGB---dom2_chair[Domain B Chairs]
+
+subgraph NBAC
+	nbac_chair---nbac_members[NBAC Members]
+end
+
+subgraph NTAC
+	ntac_chair---ntac_members[NTAC Members]
+end
+
+subgraph Domains
+	dom1_chair---dom1_members[Domain A Members]
+	dom2_chair---dom2_members[Domain B Members]
+end
+
+```
+
+### NIEMOpen and OASIS Open Projects
 
 **Move to OASIS**
 
@@ -194,6 +221,10 @@ One of the most respected, nonprofit open source and open standards bodies in th
 - Determine if/when approved work should be submitted to ITU, ICC, UN, ISO, etc.
 
 **Get Involved!**
+
+- Involvement is free!
+- Decision-making powers require paid sponsorship
+	- Sliding scale for different types of organizations
 
 For more information about supporting the NIEM OASIS Open Project, contact info@niemopen.org.
 ___

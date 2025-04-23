@@ -1,6 +1,6 @@
 ![NIEMOPEN Logo](/Intro_Graphics/NIEMOPEN_logo.png)
 
-# Main NIEM Training Document
+# Main NIEM 6 Training Document
 
 # Introduction
 
@@ -15,7 +15,7 @@ All materials are available on the NIEM Training Github repo at [https://github.
 - **Main NIEM Training Document**
 	- [Main NIEM Training Document (XML)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20XML%20Training%20Document.md)
 	- [Main NIEM Training Document (JSON)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20JSON%20Training%20Document.md)
-- Individual module documents
+- [Individual module documents](https://github.com/niemopen/niem-open-training/tree/main/Modules)
 - [Mapping Spreadsheets](https://github.com/niemopen/niem-open-training/tree/main/Mapping_Spreadsheets)
 - [Ersatz Textual Instances](https://github.com/niemopen/niem-open-training/tree/main/Text_Document)
 
@@ -45,7 +45,7 @@ ___
 
 - Major revamp of prior training programs
 - Updated for NIEM 6
-- Questions to info@niemopen.org
+- Send questions to info@niemopen.org
 - This document and supporting materials are at:
 	- https://github.com/niemopen/niem-open-training/
 ___

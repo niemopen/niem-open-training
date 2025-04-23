@@ -15,7 +15,8 @@ sequenceDiagram
 
 - Existing exchanges or other documentation can help
 	- Within your organization
-	- From NIEM repositories (_huge caveat_)
+	- From NIEM repositories
+		- https://www.niem.gov/about-niem/message-exchange-package-mep-registry-repository
 	- There's a community to draw from
 
 ![Participants](/Scenario_Planning_Graphics/Participants.png)

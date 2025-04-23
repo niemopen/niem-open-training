@@ -28,6 +28,8 @@
 	- [https://niem.github.io/reference/tools/oxygen/snippets/](https://niem.github.io/reference/tools/oxygen/snippets/)
 
 ## Repositories
+- Message Exchange Package (MEP) Registry & Repository
+	- https://www.niem.gov/about-niem/message-exchange-package-mep-registry-repository
 - IEPD Clearinghouse
 	- [https://bja.ojp.gov/program/it/policy-implementation/clearinghouse](https://bja.ojp.gov/program/it/policy-implementation/clearinghouse)
 - IEPD Repository (Work with IEPDs) - _currently inoperative_
