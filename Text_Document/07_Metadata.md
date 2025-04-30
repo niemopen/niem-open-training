@@ -10,7 +10,6 @@
 		nc:ActivityDate
 			nc:Date
 		j:CrashPerson
-			nc:RoleOfPerson
 			j:CrashPersonInjury
 				nc:InjuryDescriptionText
 				j:InjurySeverityCode
@@ -20,6 +19,7 @@
 	j:Charge
 		j:ChargeDescriptionText
 		j:ChargeFelonyIndicator
-+	j:Metadata
-+		j:CriminalInformationIndicator
++	nc:Metadata
++		j:MetadataAugmentation
++			j:CriminalInformationIndicator
 ```

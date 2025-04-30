@@ -10,7 +10,6 @@
 		nc:ActivityDate
 			nc:Date
 		j:CrashPerson
-			nc:RoleOfPerson
 			j:CrashPersonInjury
 				nc:InjuryDescriptionText
 +				j:InjurySeverityCode

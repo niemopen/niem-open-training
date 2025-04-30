@@ -126,6 +126,7 @@ The resulting XML instance looks like this:
 	</geo:LocationGeospatialPoint>
 </nc:Location>
 ```
+NIEM has its own way of tagging coordinates. It's more verbose and starts with [`nc:Location2DGeospatialCoordinate`](https://niemopen.github.io/niem-open-training/nc.html#Location2DGeospatialCoordinate). We'll include both methods in our example.
 
 ### Artifacts
 

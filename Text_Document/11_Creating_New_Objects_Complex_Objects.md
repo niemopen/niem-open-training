@@ -12,7 +12,6 @@
 			nc:Date
 		j:CrashVehicle
 			j:CrashDriver
-				nc:RoleOfPerson
 				j:DriverLicense
 					j:DriverLicenseCardIdentification
 						nc:IdentificationID
@@ -20,7 +19,6 @@
 						nc:ContactInformation
 							nc:ContactEmailID
 		j:CrashPerson
-			nc:RoleOfPerson
 			j:CrashPersonInjury
 				nc:InjuryDescriptionText
 				j:InjurySeverityCode
@@ -42,8 +40,9 @@
 	j:Charge
 		j:ChargeDescriptionText
 		j:ChargeFelonyIndicator
-	j:Metadata
-		j:CriminalInformationIndicator
-	priv:PrivacyMetadata
-		priv:PrivacyCode
+	nc:Metadata
+		j:Metadata
+			j:CriminalInformationIndicator
+	ext:PrivacyMetadata
+		ext:PrivacyCode
 ```

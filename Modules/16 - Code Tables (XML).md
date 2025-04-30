@@ -8,7 +8,6 @@
 - Elements defined in the domains
 - Types are often defined in their own namespaces
 - NIEM wraps them in a complex type in order to apply some attributes needed for infrastructure
-	- Which we will need in the next section…
 - Examples:
 	- `j:InjurySeverityCode` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-45s)/[Wayfarer](http://niem5.org/wayfarer/j/InjurySeverityCode.html))
 		- In the SSGT, the actual codes are viewable on the page for the base simple type, e.g. [`aamva_d20:AccidentSeverityCodeSimpleType`](https://tools.niem.gov/niemtools/ssgt/SSGT-GetType.iepd?typeKey=o4-c)
@@ -93,15 +92,6 @@ The code is what shows up in the instance document. The longer definition does n
 	<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
 	<j:InjurySeverityCode>3</j:InjurySeverityCode>
 </j:CrashPersonInjury>
-```
-
-And here's the JSON. Note that NIEM does not yet support JSON Schema, so there's no means for validating the value of the code short of writing your own JSON Schema:
-
-```json
-"j:CrashPersonInjury": {
-	"nc:InjuryDescriptionText": "Broken Arm",
-	"j:InjurySeverityCode": "3"
-}
 ```
 
 ### Artifacts

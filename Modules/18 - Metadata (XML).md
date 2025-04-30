@@ -38,14 +38,15 @@ Metadata is Data about Data. What does that mean? Here's an example:
 The [`j:MetadataAugmentation`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentation) object is of `j:MetadataAugmentationType`. 
 
 ```xml
-<xs:element name="MetadataAugmentation" type="j:MetadataAugmentationType" substitutionGroup="nc:MetadataAugmentationPoint" nillable="true">
+<xs:element name="MetadataAugmentation" type="j:MetadataAugmentationType"
+	substitutionGroup="nc:MetadataAugmentationPoint" nillable="true">
 	<xs:annotation>
 		<xs:documentation>Additional information about metadata.</xs:documentation>
 	</xs:annotation>
 </xs:element>
 ```
 
-There's nothing special about [`j:MetadataAugmentationType`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentationType). It's just an object holding some other objects, in this case a couple booleans indicators, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`. It's based on [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType), which is just an empty container. Substituting it for `nc:MetadataAugmentationPoint` provides the linking infrastructure we've seen with associations and roles as part of the `nc:Metadata` parent object:
+There's nothing special about [`j:MetadataAugmentationType`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentationType). It's just an object holding some other objects, in this case a couple booleans, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`. It's based on [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType), which is just an empty container. Substituting it for `nc:MetadataAugmentationPoint` provides the linking infrastructure we've seen with associations and roles as part of the [`nc:Metadata`](https://niemopen.github.io/niem-open-training/nc.html#Metadata) parent object:
 
 ```xml
 <xs:complexType name="MetadataAugmentationType">
@@ -65,7 +66,9 @@ There's nothing special about [`j:MetadataAugmentationType`](https://niemopen.gi
 
 There are multiple methods for creating metadata objects:
 
-1. NIEM-supplied metadata objects can added to a subset and included in your exchange
+#### NIEM-supplied metadata objects can added to a subset and included in your exchange
+
+Here's NIEM's [`nc:Metadata`](https://niemopen.github.io/niem-open-training/nc.html#Metadata) and [`nc:MetadataType`](https://niemopen.github.io/niem-open-training/nc.html#MetadataType):
 
 ```xml
 <xs:complexType name="MetadataType">
@@ -92,7 +95,35 @@ There are multiple methods for creating metadata objects:
 </xs:element>
 
 ```
-2. New metadata objects can be created in an extension as an augmentation or as a standalone object
+Using a `nc:metadataRef` attribute allows objects to point to standalone metadata objects. This attribute is built into [nc:TextType](https://niemopen.github.io/niem-open-training/nc.html#TextType):
+
+```xml
+<j:CrashPersonInjury>
+	<nc:InjuryDescriptionText nc:metadataRef="PMD01">Broken Arm</nc:InjuryDescriptionText>
+</j:CrashPersonInjury>
+
+<nc:Metadata structures:id="PMD01">
+	<ext:PrivacyMetadataAugmentation>
+		<ext:PrivacyCode>PII</ext:PrivacyCode>
+	</ext:PrivacyMetadataAugmentation>
+</nc:Metadata>
+```
+
+You could also extend other objects, both simple and complex, to include `nc:metadataRef`:
+```xml
+<ext:Charge nc:metadataRef="JMD01">
+	<j:ChargeDescriptionText>Furious Driving</j:ChargeDescriptionText>
+	<j:ChargeFelonyIndicator>false</j:ChargeFelonyIndicator>
+</ext:Charge>
+
+<nc:Metadata structures:id="JMD01">
+	<j:MetadataAugmentation>
+		<j:CriminalInformationIndicator>true</j:CriminalInformationIndicator>
+	</j:MetadataAugmentation>
+</nc:Metadata>
+```
+
+#### New metadata objects can be created in an extension as an augmentation
 
 ```xml
 <xs:element name="PrivacyMetadataAugmentation"
@@ -134,8 +165,24 @@ There are multiple methods for creating metadata objects:
 		</xs:extension>
 	</xs:complexContent>
 </xs:complexType>
-
 ```
+The Augmentation then gets swapped in, replacing `nc:InjuryAugmentationPoint`:
+
+```xml
+<j:CrashPerson>
+	<j:CrashPersonInjury>
+		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
+		<j:InjurySeverityCode>3</j:InjurySeverityCode>
+		<!-- replacing nc:InjuryAugmentationPoint -->
+		<ext:InjuryPrivacyMetadataAugmentation>
+			<ext:PrivacyCode>PII</ext:PrivacyCode>
+		</ext:InjuryPrivacyMetadataAugmentation>
+	</j:CrashPersonInjury>
+	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
+</j:CrashPerson>
+```
+
+#### New metadata objects can be created in an extension added as a standalone object
 
 ```xml
 <xs:element name="Injury" type="ext:InjuryType">
@@ -156,54 +203,16 @@ There are multiple methods for creating metadata objects:
 	</xs:complexContent>
 </xs:complexType>
 ```
-### Instance Documents
-
-There are also multiple methods to relate that metadata to objects in instance documents: 
-
-1. Using a `nc:metadataRef` attribute, which allows simple data objects to point to a standalone metadata object
+This new object can then be used like any other object:
 
 ```xml
-<nc:Person>
-	<nc:PersonBirthDate>
-		<nc:Date nc:metadataRef="PMD01">1890-05-04</nc:Date>
-	</nc:PersonBirthDate>
-</nc:Person>
-
-<nc:Metadata structures:id="PMD01">
-	<ext:PrivacyMetadataAugmentation>
-		<ext:PrivacyCode>PII</ext:PrivacyCode>
-	</ext:PrivacyMetadataAugmentation>
-</nc:Metadata>
+<ext:Injury>
+	<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
+	<j:InjurySeverityCode>3</j:InjurySeverityCode>
+	<ext:PrivacyCode>PII</ext:PrivacyCode>
+</ext:Injury>
 ```
-
-```xml
-<j:Charge nc:metadataRef="JMD01">
-	<j:ChargeDescriptionText>Furious Driving</j:ChargeDescriptionText>
-	<j:ChargeFelonyIndicator>false</j:ChargeFelonyIndicator>
-</j:Charge>
-
-<nc:Metadata structures:id="JMD01">
-	<j:MetadataAugmentation>
-		<j:CriminalInformationIndicator>true</j:CriminalInformationIndicator>
-	</j:MetadataAugmentation>
-</nc:Metadata>
-```
-1. Extend an object to include a metadata object
-2. Add a metadata augmentation to an object (metadata or otherwise) via the object's AugmentationPoint
-
-```xml
-<j:CrashPerson>
-	<j:CrashPersonInjury>
-		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
-		<j:InjurySeverityCode>3</j:InjurySeverityCode>
-		<!-- replacing nc:InjuryAugmentationPoint -->
-		<ext:InjuryPrivacyMetadataAugmentation>
-			<ext:PrivacyCode>PII</ext:PrivacyCode>
-		</ext:InjuryPrivacyMetadataAugmentation>
-	</j:CrashPersonInjury>
-	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
-</j:CrashPerson>
-```
+So in our example, we're mapping `IsCriminalInformation`. Searching for "criminal information" brings up [`j:CriminalInformationIndicator`](https://niemopen.github.io/niem-open-training/j.html#CriminalInformationIndicator), which is inside of  [`j:MetadataAugmentation`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentation), which can be substituted for [`nc:MetadataAugmentationPoint`](https://niemopen.github.io/niem-open-training/nc.html#MetadataAugmentationPoint), which is inside of [`nc:Metadata`](https://niemopen.github.io/niem-open-training/nc.html#Metadata)
 
 ### Artifacts
 
@@ -214,3 +223,8 @@ There are also multiple methods to relate that metadata to objects in instance d
 	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/07_Metadata.pdf)
 
 ___
+
+- `metadataRef` references IDs of metadata objects that apply to things that hold data rather than other elements
+	- Conceptually, an object is saying that this is the metadata that applies to itself
+	- Can contain multiple IDs, separated with spaces
+	- The matching `id`s must exist in the instance document'

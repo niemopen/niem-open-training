@@ -9,6 +9,7 @@
 	- An object can play multiple roles, because multiple role objects can have the same `uri` value
 - Roles contain other information about the role
 - Roles are _not_ explicitly defined as such
+	- This is a change from NIEM 5, which included explicit `RoleOf` objects
 - Examples:
 	- `j:CrashPerson` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-45q)/[Wayfarer](http://niem5.org/wayfarer/j/CrashPerson.html))
 	- `j:CrashDriver`
@@ -59,7 +60,7 @@ Roles contain information about the Role:
 </xs:element>
 ```
 
-[`j:CrashPersonType`](https://niemopen.github.io/niem-open-training/j.html#CrashPersonType) contains information specific to this role. In the sample Message Spec / IEPD, we're also using `j:CrashPersonInjury`:
+[`j:CrashPersonType`](https://niemopen.github.io/niem-open-training/j.html#CrashPersonType) contains information specific to this role. In the sample Message Spec / IEPD, we're using `j:CrashPersonInjury`:
 
 ```xml
 <xs:complexType name="CrashPersonType">
