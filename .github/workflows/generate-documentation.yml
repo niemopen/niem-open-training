@@ -14,7 +14,7 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: Generate the docs
         run: |
-          cat 'Modules/01 - NIEM Training.md' > 'NIEM 101.md'
+          cat 'Modules/01 - NIEM Training Introduction.md' > 'NIEM 101.md'
           cat 'Modules/02 - Introduction to NIEM.md' >> 'NIEM 101.md'
           cat 'Modules/03 - Message Spec (IEPD) Overview.md' >> 'NIEM 101.md'
           cat 'Modules/28 - Resources.md' >> 'NIEM 101.md'
