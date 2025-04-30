@@ -1,6 +1,6 @@
 ![NIEMOPEN Logo](/Intro_Graphics/NIEMOPEN_logo.png)
 
-# Main NIEM Training Document
+# Main NIEM 6 Training Document
 
 # Introduction
 
@@ -15,7 +15,7 @@ All materials are available on the NIEM Training Github repo at [https://github.
 - **Main NIEM Training Document**
 	- [Main NIEM Training Document (XML)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20XML%20Training%20Document.md)
 	- [Main NIEM Training Document (JSON)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20JSON%20Training%20Document.md)
-- Individual module documents
+- [Individual module documents](https://github.com/niemopen/niem-open-training/tree/main/Modules)
 - [Mapping Spreadsheets](https://github.com/niemopen/niem-open-training/tree/main/Mapping_Spreadsheets)
 - [Ersatz Textual Instances](https://github.com/niemopen/niem-open-training/tree/main/Text_Document)
 
@@ -45,7 +45,7 @@ ___
 
 - Major revamp of prior training programs
 - Updated for NIEM 6
-- Questions to info@niemopen.org
+- Send questions to info@niemopen.org
 - This document and supporting materials are at:
 	- https://github.com/niemopen/niem-open-training/
 ___
@@ -54,6 +54,7 @@ ___
 - What is NIEM?
 - The Scope of NIEM
 - NIEM Harmonization and Organization
+- NIEMOpen and OASIS Open Projects
 ___
 ### What is NIEM? - Framework
 - NIEM is a community-driven, government and jurisdiction-wide, standards-based approach to exchanging information
@@ -69,7 +70,7 @@ ___
 
 ![Interop Problem](/Intro_Graphics/Interop_Problem_scaled.png)
 ___
-### What is NIEM? And what not?
+### What is NIEM? And what it's not?
 **NIEM is:**
 - a common vocabulary
 - a means of enabling efficient information exchange across diverse public and private organizations
@@ -223,9 +224,35 @@ ___
 
 **NIEM Administration and Organization**
 
-Overall structure is always changing, but this is a snapshot at the time of recording.
+Overall structure is always changing, but this is a simplifed snapshot at the time of recording.
 
-![Org Chart](/Intro_Graphics/Org_Chart.png)
+- Project Governing Board (PGB)
+- NIEM Business Architecture Committee (NBAC)
+- NIEM Technical Architecture Committee (NTAC)
+
+```mermaid
+graph TD
+PGB---nbac_chair[NBAC Chairs]
+PGB---ntac_chair[NTAC Chairs]
+PGB---dom1_chair[Domain A Chairs]
+PGB---dom2_chair[Domain B Chairs]
+
+subgraph NBAC
+	nbac_chair---nbac_members[NBAC Members]
+end
+
+subgraph NTAC
+	ntac_chair---ntac_members[NTAC Members]
+end
+
+subgraph Domains
+	dom1_chair---dom1_members[Domain A Members]
+	dom2_chair---dom2_members[Domain B Members]
+end
+
+```
+
+### NIEMOpen and OASIS Open Projects
 
 **Move to OASIS**
 
@@ -245,6 +272,10 @@ One of the most respected, nonprofit open source and open standards bodies in th
 - Determine if/when approved work should be submitted to ITU, ICC, UN, ISO, etc.
 
 **Get Involved!**
+
+- Involvement is free!
+- Decision-making powers require paid sponsorship
+	- Sliding scale for different types of organizations
 
 For more information about supporting the NIEM OASIS Open Project, contact info@niemopen.org.
 ___# Message Spec / IEPD Overview
@@ -326,7 +357,8 @@ sequenceDiagram
 
 - Existing exchanges or other documentation can help
 	- Within your organization
-	- From NIEM repositories (_huge caveat_)
+	- From NIEM repositories
+		- https://www.niem.gov/about-niem/message-exchange-package-mep-registry-repository
 	- There's a community to draw from
 
 ![Participants](/Scenario_Planning_Graphics/Participants.png)
@@ -453,18 +485,21 @@ We will see much more of this. This is just an initial glance at it.
 ![Map and Model](/IEPD_Process_Graphics/Process_Artifacts_2_scaled.png)
 
 ## Map and Model
-For this entire section, we'll look at various things in the mapping spreadsheet and show how to map them to NIEM or to new elements that we'll create later. As we move through, we'll cover all the major aspects of how NIEM works.
+
+For this entire mapping process, we'll look at various things in the mapping spreadsheet and show how to map them to NIEM or to new elements that we'll create later. As we move through, we'll cover all the major aspects of how NIEM works.
 ___
 ### Introduction to Mapping
+
 - Mapping Spreadsheets Options
 	- NIEM Mapping Template
-	- Simple Training Spreadsheet
-	- Something In-between
-- Document Business Objects
-- Map them to NIEM objects, existing or new
-- Maintaining an Ongoing Sample Instance Skeleton
+	- Custom Spreadsheet
+- Mapping Process
+	- Document Business Objects
+	- Map them to NIEM objects, existing or new
+	- While maintaining an Ongoing Sample Instance Skeleton
 ___
 ### NIEM Mapping Template
+
 - Primarily for submitting content for inclusion in NIEM
 	- Eight different tabs
 - Can also be used for mapping in a Message Spec / IEPD
@@ -473,43 +508,28 @@ ___
 - Slight difference between the versions on the NIEM site and for use with MEP Builder
 - [Mapping Spreadsheet Template](/Mapping_Spreadsheets/niem-mapping-template.xlsx)
 ___
-### Simple Training Spreadsheet
-- Minimal
-- Designed to be simple enough to fit on slides
-	- No, really, that’s the constraint
-- Usually expanded in practice
-
-![Training Spreadsheet](/Mapping_Graphics/Training_Spreadsheet.png)
-___
 ### Custom Mapping Spreadsheet
+
 - Has evolved over time
 - Contains all the info needed to make schemas
 - Not as overwhelming as the NIEM Mapping Template
 - You can make your own custom one
-	- The IEPD Spec doesn’t specify a required format, by design
+	- The Message Spec / IEPD Spec doesn’t specify a required format, by design
 - Fresh copy for our example Message Spec / IEPD
 	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/00_Crash_Driver_Report_Fresh.numbers)
 	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/00_Crash_Driver_Report_Fresh.xlsx)
 	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/00_Crash_Driver_Report_Fresh.pdf)
-- Check on the cardinality
-	- Why is Person 1..1?
-	- Because this is a report on a Crash Driver, not the Crash itself
-		- So the driver is the only person
-		- Could simplify this Message Spec with some assumptions
-		- But that would leave us with too little to do in class
-	- A different context would have different cardinality
-		- Likely multiple Person objects
 
 ___
 ### Basics of Searching NIEM
 
 **Tools**
 
-- [SSGT](https://tools.niem.gov/niemtools/ssgt/index.iepd) **replace with NIEM Toolbox**
-- [Wayfarer](http://niem5.org/wayfarer/) **replace with API-driven Wayfarer
+- [SSGT](https://tools.niem.gov/niemtools/ssgt/index.iepd) (will be replaced with NIEM Toolbox)
+- [Wayfarer](http://niem5.org/wayfarer/) (will be replace with API-driven Wayfarer)
 - NIEM Schemas
 	- [Official Releases](https://niem.github.io/niem-releases/)
-	- [HyperNIEM](https://niemopen.github.io/niem-open-training/) **replace with NIEM 6 HTML schemas at github.io**
+	- [Schemas as HTML](https://niemopen.github.io/niem-open-training/)
 - Spreadsheet (included in the official releases)
 
 **Techniques**
@@ -535,7 +555,7 @@ ___
 
 The XML Schema defining [`nc:Person`](https://niemopen.github.io/niem-open-training/nc.html#Person) includes a definition and a type.
 
-Its type, [`nc:PersonType`](https://niemopen.github.io/niem-open-training/nc.html#PersonType), has a little more information. It also includes a definition, one similar to `nc:Person`. It also includes a `base` that tells us what sort of thing it is. In this case, the base is `structures:ObjectType`, which is just an empty object (that has a few infrastructure pieces we'll learn about later). To that `base` it adds several objects. These are objects that go _inside_ an `nc:Person` object. Each one is a reference to a declaration of each of those objects. Each also has cardinality defined, which tells us how many of each can go inside of an `nc:Person`. `minOccurs` is the minimum number of times. Any non-negative integer can go here, but 0 and 1 are what you'll usually find. Zero essentially means "optional." `maxOccurs` is the maximum number of times. This can also be any non-negative number, but can also be "unbounded", which means "as many as you want." Typical values are 1 and unbounded. Here's the schema for `nc:PersonType` with some of the contained objects removed for clarity:
+Its type, [`nc:PersonType`](https://niemopen.github.io/niem-open-training/nc.html#PersonType), has a little more information. It also includes a definition, one similar to `nc:Person`. It also includes a `base` that tells us what sort of thing it is. In this case, the base is [`structures:ObjectType`](https://niemopen.github.io/niem-open-training/structures.html#ObjectType), which is just an empty object (that has a few infrastructure pieces we'll learn about later). To that `base` it adds several objects. These are objects that go _inside_ an `nc:Person` object. Each one is a reference to a declaration of each of those objects. Each also has cardinality defined, which tells us how many of each can go inside of an `nc:Person`. `minOccurs` is the minimum number of times. Any non-negative integer can go here, but 0 and 1 are what you'll usually find. Zero essentially means "optional." `maxOccurs` is the maximum number of times. This can also be any non-negative number, but can also be "unbounded", which means "as many as you want." Typical values are 1 and unbounded. Here's the schema for `nc:PersonType` with some of the contained objects removed for clarity:
 
 ```xml
 <xs:complexType name="PersonType">
@@ -648,7 +668,7 @@ The XML Schema defining [`nc:PersonGivenName`](https://niemopen.github.io/niem-o
 </xs:element>
 
 ```
-Finally, the definition for `nc:PersonLivingIndicator` is very simple. It's a boolean value, `true` or `false`.
+Finally, the definition for [`nc:PersonLivingIndicator`](https://niemopen.github.io/niem-open-training/nc.html#PersonLivingIndicator) is very simple. It's a boolean value, `true` or `false`.
 
 ```xml
 <xs:element name="PersonLivingIndicator" type="niem-xs:boolean" nillable="true">
@@ -797,16 +817,20 @@ Below you can see object with different prefixes, `j:Crash` and `nc:ActivityDate
 ![Namespaces and Case](/Mapping_Graphics/Namespace_Case.png)
 
 ```xml
-<xs:schema targetNamespace="http://training.niem.gov/CrashDriver/1.0/extension" version="1" xml:lang="en-US"  
-    xmlns:ext="http://training.niem.gov/CrashDriver/1.0/extension"  
-    xmlns:j="http://release.niem.gov/niem/domains/jxdm/7.0/"  
-    xmlns:nc="http://release.niem.gov/niem/niem-core/5.0/">
+<xs:schema   
+	targetNamespace="http://training.niem.gov/CrashDriver/1.0/" version="1" xml:lang="en-US"  
 
-    <xs:import schemaLocation="../niem/domains/jxdm.xsd"  
-        namespace="http://release.niem.gov/niem/domains/jxdm/7.0/"/>
-	<xs:import schemaLocation="../niem/niem-core.xsd"  
-        namespace="http://release.niem.gov/niem/niem-core/5.0/"/>
+	xmlns:ext="http://training.niem.gov/CrashDriver/1.0/"  
+	xmlns:j="https://docs.oasis-open.org/niemopen/ns/model/domains/justice/6.0/"  
+	xmlns:nc="https://docs.oasis-open.org/niemopen/ns/model/niem-core/6.0/">
+
+	<xs:import schemaLocation="../domains/justice.xsd"
+		namespace="https://docs.oasis-open.org/niemopen/ns/model/domains/justice/6.0/"/>
+	<xs:import schemaLocation="../niem-core.xsd"
+		namespace="https://docs.oasis-open.org/niemopen/ns/model/niem-core/6.0/"/>
+
 ```
+
 ___
 ![Inherited Properties](/Req_Analysis_Graphics/03_Inherited_Properties_CrashDriverClassDiagram.png)
 
@@ -950,9 +974,9 @@ ___
 
 NIEM has several conceptual layers which build on top of each other:
 
-- `structures` provides infrastructure
+- [`structures`](https://niemopen.github.io/niem-open-training/structures.html) provides infrastructure
 	- All namespaces draw from it
-- `niem-core` provides common objects to be used or built upon
+- [`niem-core`](https://niemopen.github.io/niem-open-training/nc.html) provides common objects to be used or built upon
 	- Domains draw from it
 - Domains provide domain-specific content, often built from `niem-core`
 	- Domains can draw from each other, although this is limited in practice
@@ -967,11 +991,10 @@ NIEM has several conceptual layers which build on top of each other:
 - NIEM lets you assign unique IDs to objects
 - Other objects can then link to those objects by referencing the ID
 - Everything in NIEM can have attributes for this:
-	- `id`
-	- `ref`
-	- `metadataRef`
-	- `uri`
-- These leverage built-in XML Schema attributes `ID`, `IDREF`, and `IDREFS`
+	- [`id`](https://niemopen.github.io/niem-open-training/structures.html#id)
+	- [`ref`](https://niemopen.github.io/niem-open-training/structures.html#ref)
+	- [`uri`](https://niemopen.github.io/niem-open-training/structures.html#uri)
+- These leverage built-in XML Schema attributes `ID`, `IDREF`, and `anyURI`
 - `id` assigns an ID to an object
 	- Just a string
 	- _Must_ be unique within an instance document
@@ -980,17 +1003,15 @@ NIEM has several conceptual layers which build on top of each other:
 	- Contains a single `id` to match
 	- The matching `id` _must_ exist in the instance document
 	- Validators do _not_ check that the linking makes sense
-- `metadataRef` references IDs of metadata objects that apply to things that hold data rather than other elements
-	- Conceptually, an object is saying that this is the metadata that applies to itself
-	- Can contain multiple IDs, separated with spaces
-	- The matching `id`s must exist in the instance document'
 - `uri` links objects together that are the same thing
 	- Used to avoid duplication
-	- Also used to assign role(s) to objects
+	- Also used to assign roles to objects
+- Additionally, objects and simple types can have `metadataRef` attributes, based on `IDREFS`
+	- More on this in the Metadata module
 
 Examples of how NIEM uses these are the next few sections. Here's a very simple non-NIEM example:
 
-Plain Old XML:
+**Plain Old XML:**
 
 ```xml
 <Cat>
@@ -1002,7 +1023,7 @@ Plain Old XML:
 </Human>
 ```
 
-NIEM's renaming:
+**NIEM's renaming:**
 
 ```xml
 <Cat>
@@ -1013,6 +1034,9 @@ NIEM's renaming:
 	<HumanName>Tom</HumanName>
 </Human>
 ```
+
+We will see these attributes used extensively in the following modules dealing with Associations and Roles.
+
 ___
 ## Associations
 
@@ -1153,6 +1177,7 @@ ___
 	- An object can play multiple roles, because multiple role objects can have the same `uri` value
 - Roles contain other information about the role
 - Roles are _not_ explicitly defined as such
+	- This is a change from NIEM 5, which included explicit `RoleOf` objects
 - Examples:
 	- `j:CrashPerson` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-45q)/[Wayfarer](http://niem5.org/wayfarer/j/CrashPerson.html))
 	- `j:CrashDriver`
@@ -1203,7 +1228,7 @@ Roles contain information about the Role:
 </xs:element>
 ```
 
-[`j:CrashPersonType`](https://niemopen.github.io/niem-open-training/j.html#CrashPersonType) contains information specific to this role. In the sample Message Spec / IEPD, we're also using `j:CrashPersonInjury`:
+[`j:CrashPersonType`](https://niemopen.github.io/niem-open-training/j.html#CrashPersonType) contains information specific to this role. In the sample Message Spec / IEPD, we're using `j:CrashPersonInjury`:
 
 ```xml
 <xs:complexType name="CrashPersonType">
@@ -1261,7 +1286,6 @@ ___
 - Elements defined in the domains
 - Types are often defined in their own namespaces
 - NIEM wraps them in a complex type in order to apply some attributes needed for infrastructure
-	- Which we will need in the next section…
 - Examples:
 	- `j:InjurySeverityCode` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-45s)/[Wayfarer](http://niem5.org/wayfarer/j/InjurySeverityCode.html))
 		- In the SSGT, the actual codes are viewable on the page for the base simple type, e.g. [`aamva_d20:AccidentSeverityCodeSimpleType`](https://tools.niem.gov/niemtools/ssgt/SSGT-GetType.iepd?typeKey=o4-c)
@@ -1348,15 +1372,6 @@ The code is what shows up in the instance document. The longer definition does n
 </j:CrashPersonInjury>
 ```
 
-And here's the JSON. Note that NIEM does not yet support JSON Schema, so there's no means for validating the value of the code short of writing your own JSON Schema:
-
-```json
-"j:CrashPersonInjury": {
-	"nc:InjuryDescriptionText": "Broken Arm",
-	"j:InjurySeverityCode": "3"
-}
-```
-
 ### Artifacts
 
 - [Code Tables](/Text_Document/06_Code_Tables.md)
@@ -1400,7 +1415,7 @@ Follow a similar process for [`nc:ContactEmailID`](http://niem5.org/wayfarer/nc/
 
 The SSGT is best for learning overall structure, so check out [`j:Crash`](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-44f) and [`nc:ContactInformation`](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-eh) there, too!
 
-(Why not [`j:CrashDriverLicense`](http://niem5.org/wayfarer/j/CrashDriverLicense.html)? It doesn't go inside a `j:CrashDriver`. Why? The domain submitted it like this. They'll review this for the next release.)
+(Why not [`j:CrashDriverLicense`](http://niem5.org/wayfarer/j/CrashDriverLicense.html)? It doesn't go inside a `j:CrashDriver`. Why? The domain submitted it like this.)
 
 ### Schemas
 
@@ -1422,26 +1437,23 @@ The SSGT is best for learning overall structure, so check out [`j:Crash`](https:
 		<xs:documentation>A data type for a license issued to a person granting driving privileges.</xs:documentation>
 	</xs:annotation>
 	<xs:complexContent>
-		<xs:extension base="j:DriverLicenseBaseType">
+		<xs:extension base="nc:LicenseType">
 			<xs:sequence>
 				<xs:element ref="j:DriverLicenseEnhancedIndicator" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="j:DriverLicenseCommercialClassAbstract" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="j:DriverLicenseCommercialStatusAbstract" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="j:DriverLicenseNonCommercialClassText" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="j:DriverLicenseNonCommercialStatusAbstract" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicensePermit" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicensePermitQuantity" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="j:DriverLicenseWithdrawal" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="j:DriverLicenseWithdrawalPendingIndicator" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="j:DriverLicenseCardIdentification" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseRestriction" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseEndorsement" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="j:DriverLicenseAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:extension>
 	</xs:complexContent>
 </xs:complexType>
 ```
+(`j:DriverLicenseType` also inherits from `nc:LicenseType`, but nothing we use in our example.)
 
 While NIEM does have some augmentations pre-defined, they're particularly useful for adding new objects, or just putting existing NIEM objects somewhere else. Here we do the latter, creating a bag called `LicenseAugmentation` with `nc:ContactInformation` inside. 
 
@@ -1552,14 +1564,15 @@ Metadata is Data about Data. What does that mean? Here's an example:
 The [`j:MetadataAugmentation`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentation) object is of `j:MetadataAugmentationType`. 
 
 ```xml
-<xs:element name="MetadataAugmentation" type="j:MetadataAugmentationType" substitutionGroup="nc:MetadataAugmentationPoint" nillable="true">
+<xs:element name="MetadataAugmentation" type="j:MetadataAugmentationType"
+	substitutionGroup="nc:MetadataAugmentationPoint" nillable="true">
 	<xs:annotation>
 		<xs:documentation>Additional information about metadata.</xs:documentation>
 	</xs:annotation>
 </xs:element>
 ```
 
-There's nothing special about [`j:MetadataAugmentationType`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentationType). It's just an object holding some other objects, in this case a couple booleans indicators, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`. It's based on [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType), which is just an empty container. Substituting it for `nc:MetadataAugmentationPoint` provides the linking infrastructure we've seen with associations and roles as part of the `nc:Metadata` parent object:
+There's nothing special about [`j:MetadataAugmentationType`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentationType). It's just an object holding some other objects, in this case a couple booleans, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`. It's based on [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType), which is just an empty container. Substituting it for `nc:MetadataAugmentationPoint` provides the linking infrastructure we've seen with associations and roles as part of the [`nc:Metadata`](https://niemopen.github.io/niem-open-training/nc.html#Metadata) parent object:
 
 ```xml
 <xs:complexType name="MetadataAugmentationType">
@@ -1579,7 +1592,9 @@ There's nothing special about [`j:MetadataAugmentationType`](https://niemopen.gi
 
 There are multiple methods for creating metadata objects:
 
-1. NIEM-supplied metadata objects can added to a subset and included in your exchange
+#### NIEM-supplied metadata objects can added to a subset and included in your exchange
+
+Here's NIEM's [`nc:Metadata`](https://niemopen.github.io/niem-open-training/nc.html#Metadata) and [`nc:MetadataType`](https://niemopen.github.io/niem-open-training/nc.html#MetadataType):
 
 ```xml
 <xs:complexType name="MetadataType">
@@ -1606,7 +1621,35 @@ There are multiple methods for creating metadata objects:
 </xs:element>
 
 ```
-2. New metadata objects can be created in an extension as an augmentation or as a standalone object
+Using a `nc:metadataRef` attribute allows objects to point to standalone metadata objects. This attribute is built into [nc:TextType](https://niemopen.github.io/niem-open-training/nc.html#TextType):
+
+```xml
+<j:CrashPersonInjury>
+	<nc:InjuryDescriptionText nc:metadataRef="PMD01">Broken Arm</nc:InjuryDescriptionText>
+</j:CrashPersonInjury>
+
+<nc:Metadata structures:id="PMD01">
+	<ext:PrivacyMetadataAugmentation>
+		<ext:PrivacyCode>PII</ext:PrivacyCode>
+	</ext:PrivacyMetadataAugmentation>
+</nc:Metadata>
+```
+
+You could also extend other objects, both simple and complex, to include `nc:metadataRef`:
+```xml
+<ext:Charge nc:metadataRef="JMD01">
+	<j:ChargeDescriptionText>Furious Driving</j:ChargeDescriptionText>
+	<j:ChargeFelonyIndicator>false</j:ChargeFelonyIndicator>
+</ext:Charge>
+
+<nc:Metadata structures:id="JMD01">
+	<j:MetadataAugmentation>
+		<j:CriminalInformationIndicator>true</j:CriminalInformationIndicator>
+	</j:MetadataAugmentation>
+</nc:Metadata>
+```
+
+#### New metadata objects can be created in an extension as an augmentation
 
 ```xml
 <xs:element name="PrivacyMetadataAugmentation"
@@ -1648,8 +1691,24 @@ There are multiple methods for creating metadata objects:
 		</xs:extension>
 	</xs:complexContent>
 </xs:complexType>
-
 ```
+The Augmentation then gets swapped in, replacing `nc:InjuryAugmentationPoint`:
+
+```xml
+<j:CrashPerson>
+	<j:CrashPersonInjury>
+		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
+		<j:InjurySeverityCode>3</j:InjurySeverityCode>
+		<!-- replacing nc:InjuryAugmentationPoint -->
+		<ext:InjuryPrivacyMetadataAugmentation>
+			<ext:PrivacyCode>PII</ext:PrivacyCode>
+		</ext:InjuryPrivacyMetadataAugmentation>
+	</j:CrashPersonInjury>
+	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
+</j:CrashPerson>
+```
+
+#### New metadata objects can be created in an extension added as a standalone object
 
 ```xml
 <xs:element name="Injury" type="ext:InjuryType">
@@ -1670,54 +1729,16 @@ There are multiple methods for creating metadata objects:
 	</xs:complexContent>
 </xs:complexType>
 ```
-### Instance Documents
-
-There are also multiple methods to relate that metadata to objects in instance documents: 
-
-1. Using a `nc:metadataRef` attribute, which allows simple data objects to point to a standalone metadata object
+This new object can then be used like any other object:
 
 ```xml
-<nc:Person>
-	<nc:PersonBirthDate>
-		<nc:Date nc:metadataRef="PMD01">1890-05-04</nc:Date>
-	</nc:PersonBirthDate>
-</nc:Person>
-
-<nc:Metadata structures:id="PMD01">
-	<ext:PrivacyMetadataAugmentation>
-		<ext:PrivacyCode>PII</ext:PrivacyCode>
-	</ext:PrivacyMetadataAugmentation>
-</nc:Metadata>
+<ext:Injury>
+	<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
+	<j:InjurySeverityCode>3</j:InjurySeverityCode>
+	<ext:PrivacyCode>PII</ext:PrivacyCode>
+</ext:Injury>
 ```
-
-```xml
-<j:Charge nc:metadataRef="JMD01">
-	<j:ChargeDescriptionText>Furious Driving</j:ChargeDescriptionText>
-	<j:ChargeFelonyIndicator>false</j:ChargeFelonyIndicator>
-</j:Charge>
-
-<nc:Metadata structures:id="JMD01">
-	<j:MetadataAugmentation>
-		<j:CriminalInformationIndicator>true</j:CriminalInformationIndicator>
-	</j:MetadataAugmentation>
-</nc:Metadata>
-```
-1. Extend an object to include a metadata object
-2. Add a metadata augmentation to an object (metadata or otherwise) via the object's AugmentationPoint
-
-```xml
-<j:CrashPerson>
-	<j:CrashPersonInjury>
-		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
-		<j:InjurySeverityCode>3</j:InjurySeverityCode>
-		<!-- replacing nc:InjuryAugmentationPoint -->
-		<ext:InjuryPrivacyMetadataAugmentation>
-			<ext:PrivacyCode>PII</ext:PrivacyCode>
-		</ext:InjuryPrivacyMetadataAugmentation>
-	</j:CrashPersonInjury>
-	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
-</j:CrashPerson>
-```
+So in our example, we're mapping `IsCriminalInformation`. Searching for "criminal information" brings up [`j:CriminalInformationIndicator`](https://niemopen.github.io/niem-open-training/j.html#CriminalInformationIndicator), which is inside of  [`j:MetadataAugmentation`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentation), which can be substituted for [`nc:MetadataAugmentationPoint`](https://niemopen.github.io/niem-open-training/nc.html#MetadataAugmentationPoint), which is inside of [`nc:Metadata`](https://niemopen.github.io/niem-open-training/nc.html#Metadata)
 
 ### Artifacts
 
@@ -1728,6 +1749,11 @@ There are also multiple methods to relate that metadata to objects in instance d
 	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/07_Metadata.pdf)
 
 ___
+
+- `metadataRef` references IDs of metadata objects that apply to things that hold data rather than other elements
+	- Conceptually, an object is saying that this is the metadata that applies to itself
+	- Can contain multiple IDs, separated with spaces
+	- The matching `id`s must exist in the instance document'
 ## External Standards
 
 ![External Standards](/Req_Analysis_Graphics/08_External_Standards_CrashDriverClassDiagram.png)
@@ -1856,6 +1882,7 @@ The resulting XML instance looks like this:
 	</geo:LocationGeospatialPoint>
 </nc:Location>
 ```
+NIEM has its own way of tagging coordinates. It's more verbose and starts with [`nc:Location2DGeospatialCoordinate`](https://niemopen.github.io/niem-open-training/nc.html#Location2DGeospatialCoordinate). We'll include both methods in our example.
 
 ### Artifacts
 
@@ -2118,13 +2145,6 @@ That's a lot of extra work and muddies the semantics of the elements.
 	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/11_Creating_New_Objects_Complex_Objects.pdf)
 
 ___
-### Creating Attributes
-
-### Attribute Augmentations
-
-
-### Attribute Wildcards
-
 ## Mapping Completed!
 
 - [Crash Driver Report Complete](/Text_Document/12_Crash_Driver_Report_Complete.md)
@@ -2320,6 +2340,8 @@ ___
 	- [https://niem.github.io/reference/tools/oxygen/snippets/](https://niem.github.io/reference/tools/oxygen/snippets/)
 
 ## Repositories
+- Message Exchange Package (MEP) Registry & Repository
+	- https://www.niem.gov/about-niem/message-exchange-package-mep-registry-repository
 - IEPD Clearinghouse
 	- [https://bja.ojp.gov/program/it/policy-implementation/clearinghouse](https://bja.ojp.gov/program/it/policy-implementation/clearinghouse)
 - IEPD Repository (Work with IEPDs) - _currently inoperative_
@@ -2327,4 +2349,4 @@ ___
 
 ___
 Generated on: 
-Wed Apr 23 18:03:13 UTC 2025
+Wed Apr 30 02:17:18 UTC 2025

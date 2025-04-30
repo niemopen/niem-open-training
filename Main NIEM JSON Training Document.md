@@ -1,6 +1,6 @@
 ![NIEMOPEN Logo](/Intro_Graphics/NIEMOPEN_logo.png)
 
-# Main NIEM Training Document
+# Main NIEM 6 Training Document
 
 # Introduction
 
@@ -15,7 +15,7 @@ All materials are available on the NIEM Training Github repo at [https://github.
 - **Main NIEM Training Document**
 	- [Main NIEM Training Document (XML)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20XML%20Training%20Document.md)
 	- [Main NIEM Training Document (JSON)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20JSON%20Training%20Document.md)
-- Individual module documents
+- [Individual module documents](https://github.com/niemopen/niem-open-training/tree/main/Modules)
 - [Mapping Spreadsheets](https://github.com/niemopen/niem-open-training/tree/main/Mapping_Spreadsheets)
 - [Ersatz Textual Instances](https://github.com/niemopen/niem-open-training/tree/main/Text_Document)
 
@@ -45,7 +45,7 @@ ___
 
 - Major revamp of prior training programs
 - Updated for NIEM 6
-- Questions to info@niemopen.org
+- Send questions to info@niemopen.org
 - This document and supporting materials are at:
 	- https://github.com/niemopen/niem-open-training/
 ___
@@ -54,6 +54,7 @@ ___
 - What is NIEM?
 - The Scope of NIEM
 - NIEM Harmonization and Organization
+- NIEMOpen and OASIS Open Projects
 ___
 ### What is NIEM? - Framework
 - NIEM is a community-driven, government and jurisdiction-wide, standards-based approach to exchanging information
@@ -69,7 +70,7 @@ ___
 
 ![Interop Problem](/Intro_Graphics/Interop_Problem_scaled.png)
 ___
-### What is NIEM? And what not?
+### What is NIEM? And what it's not?
 **NIEM is:**
 - a common vocabulary
 - a means of enabling efficient information exchange across diverse public and private organizations
@@ -223,9 +224,35 @@ ___
 
 **NIEM Administration and Organization**
 
-Overall structure is always changing, but this is a snapshot at the time of recording.
+Overall structure is always changing, but this is a simplifed snapshot at the time of recording.
 
-![Org Chart](/Intro_Graphics/Org_Chart.png)
+- Project Governing Board (PGB)
+- NIEM Business Architecture Committee (NBAC)
+- NIEM Technical Architecture Committee (NTAC)
+
+```mermaid
+graph TD
+PGB---nbac_chair[NBAC Chairs]
+PGB---ntac_chair[NTAC Chairs]
+PGB---dom1_chair[Domain A Chairs]
+PGB---dom2_chair[Domain B Chairs]
+
+subgraph NBAC
+	nbac_chair---nbac_members[NBAC Members]
+end
+
+subgraph NTAC
+	ntac_chair---ntac_members[NTAC Members]
+end
+
+subgraph Domains
+	dom1_chair---dom1_members[Domain A Members]
+	dom2_chair---dom2_members[Domain B Members]
+end
+
+```
+
+### NIEMOpen and OASIS Open Projects
 
 **Move to OASIS**
 
@@ -245,6 +272,10 @@ One of the most respected, nonprofit open source and open standards bodies in th
 - Determine if/when approved work should be submitted to ITU, ICC, UN, ISO, etc.
 
 **Get Involved!**
+
+- Involvement is free!
+- Decision-making powers require paid sponsorship
+	- Sliding scale for different types of organizations
 
 For more information about supporting the NIEM OASIS Open Project, contact info@niemopen.org.
 ___# Message Spec / IEPD Overview
@@ -326,7 +357,8 @@ sequenceDiagram
 
 - Existing exchanges or other documentation can help
 	- Within your organization
-	- From NIEM repositories (_huge caveat_)
+	- From NIEM repositories
+		- https://www.niem.gov/about-niem/message-exchange-package-mep-registry-repository
 	- There's a community to draw from
 
 ![Participants](/Scenario_Planning_Graphics/Participants.png)
@@ -460,18 +492,21 @@ And here's what the matching JSON _instance_ document might look like.
 ![Map and Model](/IEPD_Process_Graphics/Process_Artifacts_2_scaled.png)
 
 ## Map and Model
-For this entire section, we'll look at various things in the mapping spreadsheet and show how to map them to NIEM or to new elements that we'll create later. As we move through, we'll cover all the major aspects of how NIEM works.
+
+For this entire mapping process, we'll look at various things in the mapping spreadsheet and show how to map them to NIEM or to new elements that we'll create later. As we move through, we'll cover all the major aspects of how NIEM works.
 ___
 ### Introduction to Mapping
+
 - Mapping Spreadsheets Options
 	- NIEM Mapping Template
-	- Simple Training Spreadsheet
-	- Something In-between
-- Document Business Objects
-- Map them to NIEM objects, existing or new
-- Maintaining an Ongoing Sample Instance Skeleton
+	- Custom Spreadsheet
+- Mapping Process
+	- Document Business Objects
+	- Map them to NIEM objects, existing or new
+	- While maintaining an Ongoing Sample Instance Skeleton
 ___
 ### NIEM Mapping Template
+
 - Primarily for submitting content for inclusion in NIEM
 	- Eight different tabs
 - Can also be used for mapping in a Message Spec / IEPD
@@ -480,43 +515,28 @@ ___
 - Slight difference between the versions on the NIEM site and for use with MEP Builder
 - [Mapping Spreadsheet Template](/Mapping_Spreadsheets/niem-mapping-template.xlsx)
 ___
-### Simple Training Spreadsheet
-- Minimal
-- Designed to be simple enough to fit on slides
-	- No, really, that’s the constraint
-- Usually expanded in practice
-
-![Training Spreadsheet](/Mapping_Graphics/Training_Spreadsheet.png)
-___
 ### Custom Mapping Spreadsheet
+
 - Has evolved over time
 - Contains all the info needed to make schemas
 - Not as overwhelming as the NIEM Mapping Template
 - You can make your own custom one
-	- The IEPD Spec doesn’t specify a required format, by design
+	- The Message Spec / IEPD Spec doesn’t specify a required format, by design
 - Fresh copy for our example Message Spec / IEPD
 	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/00_Crash_Driver_Report_Fresh.numbers)
 	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/00_Crash_Driver_Report_Fresh.xlsx)
 	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/00_Crash_Driver_Report_Fresh.pdf)
-- Check on the cardinality
-	- Why is Person 1..1?
-	- Because this is a report on a Crash Driver, not the Crash itself
-		- So the driver is the only person
-		- Could simplify this Message Spec with some assumptions
-		- But that would leave us with too little to do in class
-	- A different context would have different cardinality
-		- Likely multiple Person objects
 
 ___
 ### Basics of Searching NIEM
 
 **Tools**
 
-- [SSGT](https://tools.niem.gov/niemtools/ssgt/index.iepd) **replace with NIEM Toolbox**
-- [Wayfarer](http://niem5.org/wayfarer/) **replace with API-driven Wayfarer
+- [SSGT](https://tools.niem.gov/niemtools/ssgt/index.iepd) (will be replaced with NIEM Toolbox)
+- [Wayfarer](http://niem5.org/wayfarer/) (will be replace with API-driven Wayfarer)
 - NIEM Schemas
 	- [Official Releases](https://niem.github.io/niem-releases/)
-	- [HyperNIEM](https://niemopen.github.io/niem-open-training/) **replace with NIEM 6 HTML schemas at github.io**
+	- [Schemas as HTML](https://niemopen.github.io/niem-open-training/)
 - Spreadsheet (included in the official releases)
 
 **Techniques**
@@ -2148,6 +2168,8 @@ ___
 	- [https://niem.github.io/reference/tools/oxygen/snippets/](https://niem.github.io/reference/tools/oxygen/snippets/)
 
 ## Repositories
+- Message Exchange Package (MEP) Registry & Repository
+	- https://www.niem.gov/about-niem/message-exchange-package-mep-registry-repository
 - IEPD Clearinghouse
 	- [https://bja.ojp.gov/program/it/policy-implementation/clearinghouse](https://bja.ojp.gov/program/it/policy-implementation/clearinghouse)
 - IEPD Repository (Work with IEPDs) - _currently inoperative_
@@ -2155,4 +2177,4 @@ ___
 
 ___
 Generated on: 
-Wed Apr 23 18:03:14 UTC 2025
+Wed Apr 30 02:17:19 UTC 2025

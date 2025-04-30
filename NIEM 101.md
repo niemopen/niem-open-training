@@ -1,6 +1,6 @@
 ![NIEMOPEN Logo](/Intro_Graphics/NIEMOPEN_logo.png)
 
-# Main NIEM Training Document
+# Main NIEM 6 Training Document
 
 # Introduction
 
@@ -15,7 +15,7 @@ All materials are available on the NIEM Training Github repo at [https://github.
 - **Main NIEM Training Document**
 	- [Main NIEM Training Document (XML)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20XML%20Training%20Document.md)
 	- [Main NIEM Training Document (JSON)](https://github.com/niemopen/niem-open-training/blob/main/Main%20NIEM%20JSON%20Training%20Document.md)
-- Individual module documents
+- [Individual module documents](https://github.com/niemopen/niem-open-training/tree/main/Modules)
 - [Mapping Spreadsheets](https://github.com/niemopen/niem-open-training/tree/main/Mapping_Spreadsheets)
 - [Ersatz Textual Instances](https://github.com/niemopen/niem-open-training/tree/main/Text_Document)
 
@@ -45,7 +45,7 @@ ___
 
 - Major revamp of prior training programs
 - Updated for NIEM 6
-- Questions to info@niemopen.org
+- Send questions to info@niemopen.org
 - This document and supporting materials are at:
 	- https://github.com/niemopen/niem-open-training/
 ___
@@ -54,6 +54,7 @@ ___
 - What is NIEM?
 - The Scope of NIEM
 - NIEM Harmonization and Organization
+- NIEMOpen and OASIS Open Projects
 ___
 ### What is NIEM? - Framework
 - NIEM is a community-driven, government and jurisdiction-wide, standards-based approach to exchanging information
@@ -69,7 +70,7 @@ ___
 
 ![Interop Problem](/Intro_Graphics/Interop_Problem_scaled.png)
 ___
-### What is NIEM? And what not?
+### What is NIEM? And what it's not?
 **NIEM is:**
 - a common vocabulary
 - a means of enabling efficient information exchange across diverse public and private organizations
@@ -223,9 +224,35 @@ ___
 
 **NIEM Administration and Organization**
 
-Overall structure is always changing, but this is a snapshot at the time of recording.
+Overall structure is always changing, but this is a simplifed snapshot at the time of recording.
 
-![Org Chart](/Intro_Graphics/Org_Chart.png)
+- Project Governing Board (PGB)
+- NIEM Business Architecture Committee (NBAC)
+- NIEM Technical Architecture Committee (NTAC)
+
+```mermaid
+graph TD
+PGB---nbac_chair[NBAC Chairs]
+PGB---ntac_chair[NTAC Chairs]
+PGB---dom1_chair[Domain A Chairs]
+PGB---dom2_chair[Domain B Chairs]
+
+subgraph NBAC
+	nbac_chair---nbac_members[NBAC Members]
+end
+
+subgraph NTAC
+	ntac_chair---ntac_members[NTAC Members]
+end
+
+subgraph Domains
+	dom1_chair---dom1_members[Domain A Members]
+	dom2_chair---dom2_members[Domain B Members]
+end
+
+```
+
+### NIEMOpen and OASIS Open Projects
 
 **Move to OASIS**
 
@@ -245,6 +272,10 @@ One of the most respected, nonprofit open source and open standards bodies in th
 - Determine if/when approved work should be submitted to ITU, ICC, UN, ISO, etc.
 
 **Get Involved!**
+
+- Involvement is free!
+- Decision-making powers require paid sponsorship
+	- Sliding scale for different types of organizations
 
 For more information about supporting the NIEM OASIS Open Project, contact info@niemopen.org.
 ___# Message Spec / IEPD Overview
@@ -339,6 +370,8 @@ ___
 	- [https://niem.github.io/reference/tools/oxygen/snippets/](https://niem.github.io/reference/tools/oxygen/snippets/)
 
 ## Repositories
+- Message Exchange Package (MEP) Registry & Repository
+	- https://www.niem.gov/about-niem/message-exchange-package-mep-registry-repository
 - IEPD Clearinghouse
 	- [https://bja.ojp.gov/program/it/policy-implementation/clearinghouse](https://bja.ojp.gov/program/it/policy-implementation/clearinghouse)
 - IEPD Repository (Work with IEPDs) - _currently inoperative_
@@ -346,4 +379,4 @@ ___
 
 ___
 Generated on: 
-Wed Apr 23 18:03:13 UTC 2025
+Wed Apr 30 02:17:18 UTC 2025
