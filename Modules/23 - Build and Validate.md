@@ -3,15 +3,19 @@
 # Build and Validate
 - Conformance
 - Subsets
-- Extension and Exchange Schemas
+- Extension Schemas
 - How things fit together
 
 ## NIEM Conformance
-- Follow the rules in the [Naming and Design Rules (NDR)](http://niem.github.io/reference/specifications/ndr/)
-- Follow the rules in the [IEPD Spec](http://niem.github.io/reference/specifications/iepd/)
+- Follow the rules in the [Naming and Design Rules (NDR)](http://niem.github.io/reference/specifications/ndr/) (NIEM 5)
+	- Available in draft form for NIEM 6 on [Github](https://github.com/niemopen/niem-naming-design-rules/blob/dev/ndr6src.md)
+- Follow the rules in the [IEPD Spec](http://niem.github.io/reference/specifications/iepd/) (NIEM 5)
+	- Coming eventually for NIEM 6
 - Many NDR rules exist as Schematron
-	- Can check these via the Conformance Testing Assistant (ConTesA)
+	- Can check these via the Conformance Testing Assistant (ConTesA) for NIEM 5
 	- Can run the Schematron directly oXygen, with a plug-in in XMLSpy
+		- See below
+	- NIEM Toolbox will provide this functionality for NIEM 6 soon
 
 ## Schema Subsets
 - NIEM has ~13,000 elements
@@ -19,30 +23,45 @@
 - NIEM supports mini versions of NIEM
 	- With the elements / types you want
 	- Plus things needed to make the elements / types you want work
-- Use the [SSGT](https://tools.niem.gov/niemtools/ssgt/index.iepd) for this! **Demo Time!**
-- [MEP Builder](http://localhost:3000/) can also help!  **More Demo Time!**
+- Use the [SSGT](https://tools.niem.gov/niemtools/ssgt/index.iepd) for this for NIEM 5
+	- NIEM Toolbox will provide this functionality for NIEM 6 soon
 
 ## Extension Schema(s)
 - Create new elements for your exchange
+- Defines the root element of the exchange
 - Emulate how NIEM does it
 - Utilize Augmentations to add your new objects to existing NIEM objects
 	- Concrete extension is an alternative
 - Can have multiple extension schemas
 - Some folks put code tables into a separate extension schema
 
-## Exchange Schema
-- Entry point to the exchange
-- Defines the root element of the exchange
-- Some put the definition for the root element here
-- Some put that in the extension schema
-- Some lump exchange and extension together
-- An exchange with multiple messages can have multiple exchange schemas, one per
-	- Can share a common extension
-	- Or not
-
 ## How Schemas Fit Together
 
-![Schema Import 7](/Schema_Graphics/Schema_Import_7_scaled.png)
+```mermaid
+flowchart LR
+	extension.xsd --> geospatial.xsd
+	extension.xsd --> justice.xsd
+	extension.xsd --> niem-xs.xsd
+	extension.xsd --> structures.xsd
+	extension.xsd --> niem-core.xsd
+	
+	niem-core.xsd --> structures.xsd
+	niem-core.xsd --> niem-xs.xsd
+	
+	niem-xs.xsd --> structures.xsd
+	
+	justice.xsd --> niem-xs.xsd
+	justice.xsd --> structures.xsd
+	justice.xsd --> aamva_d20.xsd
+	justice.xsd --> niem-core.xsd
+	
+	aamva_d20.xsd --> structures.xsd
+	
+	geospatial.xsd --> gml.xsd
+	geospatial.xsd --> niem-core.xsd
+	geospatial.xsd --> structures.xsd
+	gml.xsd --> xlinks.xsd
+```
 
 
 ## Help with Schemas
@@ -63,8 +82,6 @@
 - Validating against your schemas ensures your intent
 - Some XML editors can create them from schemas
 	- But you’ll always need to tweak those
-- JSON instances are more of a manual process because NIEM doesn't support JSON Schema
-	- It's in the works
 - Other tools are out there…
 
 ## Tips and Tricks
@@ -76,7 +93,5 @@
 - [MEP Builder](https://sourceforge.net/projects/niem-mep-builder/)
 	- Work on mapping spreadsheets
 	- Generate subsets
-
-![Other Artifacts](/IEPD_Process_Graphics/Process_Artifacts_4_scaled.png)
 
 ___

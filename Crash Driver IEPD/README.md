@@ -14,7 +14,6 @@ This example IEPD is designed for the training program. It exercises most of the
 	- Single metadata pointer
 	- Multiple metadata pointers
 - References
-- Repeated elements
 
 Not exercised yet and perhaps too esoteric for the training class:
 

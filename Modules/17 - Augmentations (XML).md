@@ -136,8 +136,8 @@ The resulting XML Instance Document looks like:
 
 - [Augmentations](/Text_Document/08_Combining_Domains_Augmentations.md)
 - Mapping Spreadsheets
-	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/08_Combining_Domains_Augmentations.numbers)
-	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/08_Combining_Domains_Augmentations.xlsx)
-	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/08_Combining_Domains_Augmentations.pdf)
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/07_Combining_Domains_Augmentations.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/07_Combining_Domains_Augmentations.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/07_Combining_Domains_Augmentations.pdf)
 
 ___

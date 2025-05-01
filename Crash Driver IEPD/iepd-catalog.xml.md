@@ -1,3 +1,4 @@
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <c:IEPDCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://reference.niem.gov/niem/resource/iepd/catalog/5.0/ ../IEPDCatalog/iepd-catalog.xsd"
@@ -29,7 +30,7 @@
         <nc:DescriptionText>
             A sample IEP representing all major technical aspects of NIEM.
         </nc:DescriptionText>
-        <c:HasDocumentElement c:qualifiedNameList="exch:CrashDriverInfo"/>
+        <c:HasDocumentElement c:qualifiedNameList="ext:CrashDriverInfo"/>
         <c:XMLSchemaValid>
             <c:XMLCatalog c:pathURI="xml-catalog.xml"/>
         </c:XMLSchemaValid>
@@ -39,7 +40,6 @@
     <c:IEPDChangeLog c:pathURI="changelog.md"/>
     <c:ConformanceAssertion c:pathURI="conformance.md"/>
     <c:Wantlist c:pathURI="xsd/wantlist.xml"/>
-    <c:ExtensionSchemaDocument c:pathURI="xsd/extension/CrashDriver.xsd"/>
     <c:ExtensionSchemaDocument c:pathURI="xsd/extension/extension.xsd"/>
     <c:ReferenceSchemaDocument c:pathURI="xsd/niem/niem-core.xsd"/>
     <c:ReferenceSchemaDocument c:pathURI="xsd/niem/geospatial.xsd"/>
@@ -55,3 +55,4 @@
     <c:ExternalSchemaDocument c:pathURI="xsd/niem/external/ogc/ols/1.1.0/dhs-gmo/2.1.0/ols.xsd"/>
     <c:ExternalSchemaDocument c:pathURI="xsd/niem/external/ogc/xlink/1.0.0/xlinks.xsd"/>
 </c:IEPDCatalog>
+```

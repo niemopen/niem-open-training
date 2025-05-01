@@ -15,13 +15,13 @@
 - Developers with the skills to design and implement a data exchange can learn the NIEM approach in a matter of hours
 - Developer training is available
 - Plenty of example IEPDs to follow
-	- Hard to find right now
-	- _Will_ get better
+	- New repository!
 - Don’t start from scratch, leverage shared IEPDs
 - The NIEM technical specifications are complex, however
 	- Most developers do not need to read them
 	- Free tools can perform most of the conformance checking
 		- Schematron directly
 		- [Conformance Testing Assistant (ConTesA)](https://tools.niem.gov/contesa/)
+		- NIEM Toolbox is coming for NIEM 6!
 
 ___

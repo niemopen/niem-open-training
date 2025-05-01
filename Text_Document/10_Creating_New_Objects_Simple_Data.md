@@ -21,6 +21,8 @@
 			j:CrashPersonInjury
 				nc:InjuryDescriptionText
 				j:InjurySeverityCode
++				ext:InjuryPrivacyMetadataAugmentaion
++					ext:PrivacyCode
 +			ext:PersonDefenestrationIndicator
 		nc:Location
 			geo:LocationGeospatialPoint
@@ -36,12 +38,10 @@
 	j:PersonChargeAssociation
 		nc:Person
 		j:Charge
-	j:Charge
+	ext:Charge
 		j:ChargeDescriptionText
 		j:ChargeFelonyIndicator
 	nc:Metadata
-		j:Metadata
+		j:MetadataAugmentation
 			j:CriminalInformationIndicator
-+	ext:PrivacyMetadata
-+		ext:PrivacyCode
 ```

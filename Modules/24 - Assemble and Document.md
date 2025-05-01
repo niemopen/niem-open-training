@@ -1,14 +1,17 @@
+![Other Artifacts](/IEPD_Process_Graphics/Process_Artifacts_4_scaled.png)
+
 # Assemble and Document
-- IEPD Catalog
+- IEPD Catalog ([[iepd-catalog.xml]])
 	- Metadata about the Message Spec / IEPD
 	- What file is what
-- Readme
-- Changelog
-- Conformance Assertion
+	- What the root element is
+- Readme ([[Crash Driver IEPD/README|README]])
+- Changelog ([[changelog]])
+- Conformance Assertion ([[conformance]])
 - Mapping Spreadsheet
-- Master Documentation
+- Main Documentation
 
-## Master Documentation
+## Main Documentation
 - Just a Word document
 	- Or another document format, e.g. Markdown, PDF, etc.
 - A NIEM Message Spec / IEPD master document should (at a minimum) describe:
@@ -26,6 +29,5 @@
 - Can organize how you like
 	- The IEPD Catalog is the guide to your organization
 	- Generally, keep it simple
-- MEP Builder will help with this (phase one available now)
-
+- MEP Builder can help with this
 ___

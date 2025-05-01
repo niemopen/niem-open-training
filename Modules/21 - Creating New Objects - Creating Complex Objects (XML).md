@@ -3,14 +3,15 @@
 ![Complex Objects](/Req_Analysis_Graphics/11_Complex_Objects_CrashDriverClassDiagram.png)
 
 - If you’re making a special kind of existing NIEM type:
-	- Use that type as a base to extend from and add things to it, or
-	- Create an Augmentation to hold your new things
+	- Use that type as a base to extend from and add things to it
+- If you're just adding things to an existing NIEM type:
+	- Create an Augmentation to hold your new things and hook it on the existing type's AugmentationPoint
 - If you’re starting from scratch:
 	- Use `structures:ObjectType` as a base to extend from and add things to it
 
 Here we're making the root element that will hold everything else. We create `CrashDriverInfoType`, basing it on `structures:ObjectType` so that it's just an empty object.
 
-To that empty object, we add all the major objects in our exchange, `nc:Person`, `j:Crash`, and `j:Charge`. We also add a `j:PersonChargeAssociation` which lets us link together people and charges. Finally, we add a couple metadata object, the built-in `j:Metadata`, and `ext:PrivacyMetadata`, which we create in the extension schema and is in the prior example.
+To that empty object, we add all the major objects in our exchange, `nc:Person`, `j:Crash`, and `ext:Charge`. We also add a `j:PersonChargeAssociation` which lets us link together people and charges. Finally, we add a metadata object, the built-in  `nc:Metadata`.
 
 ```xml
 <xs:element name="CrashDriverInfo" type="exch:CrashDriverInfoType">
@@ -26,12 +27,11 @@ To that empty object, we add all the major objects in our exchange, `nc:Person`,
 	<xs:complexContent>
 		<xs:extension base="structures:ObjectType">
 			<xs:sequence>
-				<xs:element ref="nc:Person"/>
-				<xs:element ref="j:Crash"/>
+				<xs:element ref="nc:Person" minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="j:Crash" minOccurs="1" maxOccurs="1"/>
 				<xs:element ref="j:PersonChargeAssociation" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:Charge" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:Metadata" minOccurs="0"/>
-				<xs:element ref="ext:PrivacyMetadata" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ext:Charge" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="nc:Metadata" minOccurs="0"maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:extension>
 	</xs:complexContent>
@@ -42,11 +42,11 @@ Another example is when we created `ext:LicenseAugmentation` and `ext:LicenseAug
 
 ### Adding New Content to the Exchange
 
-To summarize, there are two major ways to add new content to an exchange. We've seen them both above.
+To summarize, there are two major ways to add new content to an exchange.
 
-If you're _already_ creating a new complex object and type, like `CrashDriverInfo` and `CrashDriverInfoType` above, you can simply add new elements to the new type, as we did with `ext:PrivacyMetadata`. This is called "concrete extension."
+If you're _already_ extending to make a new complex object and type, like `CrashDriverInfo` and `CrashDriverInfoType` above, you can simply add new elements to the new type. This is called "concrete extension."
 
-But if you're not already creating the new type for other reasons, you should use augmentations. We used added `j:CrashPersonAugmentationPoint` to our exchange and used it as a hook on which we hung `ext:PersonDefenestrationIndicator`.
+But if you're not already creating the new type for other reasons, you should use augmentations. We used `j:CrashPersonAugmentationPoint` in our exchange and used it as a hook on which we hung `ext:PersonDefenestrationIndicator`.
 
 ### Problems with Concrete Extensions
 

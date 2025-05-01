@@ -19,19 +19,11 @@ Metadata is Data about Data. What does that mean? Here's an example:
 
 ### Object Reference Metadata
 
-- Objects reference the metadata objects that apply to them
+- Objects can reference the metadata objects that apply to them
+	- Can include them via Augmentations as well
 - An object can reference more than one metadata object
 - More than one object can reference the same metadata object
-- Example: `j:Metadata` (containing `j:CriminalInformationIndicator`) ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-4qr)/[Wayfarer](http://niem5.org/wayfarer/j/Metadata.html))
-
-### Connecting Metadata to Objects
-
-| Connections | Diagram |
-| --- | --- |
-| Easy to apply multiple metadata objects to one object | ![One to Many](/Mapping_Graphics/Metadata_One_to_Many.png) |
-| Easy to apply same metadata to many objects | ![Many to One](/Mapping_Graphics/Metadata_Many_to_One.png) |
-| Many-to-many relationships can get messy | ![Many to Many](/Mapping_Graphics/Metadata_Many_to_Many.png) |
-
+- Examples of NIEM Metadata: [`nc:Metadata`](https://niemopen.github.io/niem-open-training/nc.html#Metadata) and [`j:MetadataAugmentation`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentation)
 
 ### Schemas
 
@@ -95,7 +87,13 @@ Here's NIEM's [`nc:Metadata`](https://niemopen.github.io/niem-open-training/nc.h
 </xs:element>
 
 ```
-Using a `nc:metadataRef` attribute allows objects to point to standalone metadata objects. This attribute is built into [nc:TextType](https://niemopen.github.io/niem-open-training/nc.html#TextType):
+Using a `nc:metadataRef` attribute allows objects to point to standalone metadata objects:
+
+- Conceptually, an object is saying that this is the metadata that applies to itself, this is _my_ metadata
+- Can contain multiple IDs, separated with spaces, based on `IDREFS`
+- The matching `id`s must exist in the instance document'
+
+This attribute is built into [nc:TextType](https://niemopen.github.io/niem-open-training/nc.html#TextType):
 
 ```xml
 <j:CrashPersonInjury>
@@ -126,26 +124,6 @@ You could also extend other objects, both simple and complex, to include `nc:met
 #### New metadata objects can be created in an extension as an augmentation
 
 ```xml
-<xs:element name="PrivacyMetadataAugmentation"
-			type="ext:PrivacyMetadataAugmentationType"
-			substitutionGroup="nc:MetadataAugmentationPoint">
-	<xs:annotation>
-		<xs:documentation>Additional information about Privacy.</xs:documentation>
-	</xs:annotation>
-</xs:element>
-<xs:complexType name="PrivacyMetadataAugmentationType">
-	<xs:annotation>
-		<xs:documentation>A data type for Additional information about Privacy.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:AugmentationType">
-			<xs:sequence>
-				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
-
 <xs:element name="InjuryPrivacyMetadataAugmentation"
 			type="ext:InjuryPrivacyMetadataAugmentationType"
 			substitutionGroup="nc:InjuryAugmentationPoint">
@@ -218,13 +196,9 @@ So in our example, we're mapping `IsCriminalInformation`. Searching for "crimina
 
 - [Metadata](/Text_Document/07_Metadata.md)
 - Mapping Spreadsheets
-	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/07_Metadata.numbers)
-	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/07_Metadata.xlsx)
-	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/07_Metadata.pdf)
+	- [Mapping Spreadsheet (Numbers)](/Mapping_Spreadsheets/08_Metadata.numbers)
+	- [Mapping Spreadsheet (Excel)](/Mapping_Spreadsheets/08_Metadata.xlsx)
+	- [Mapping Spreadsheet (PDF)](/Mapping_Spreadsheets/08_Metadata.pdf)
 
 ___
 
-- `metadataRef` references IDs of metadata objects that apply to things that hold data rather than other elements
-	- Conceptually, an object is saying that this is the metadata that applies to itself
-	- Can contain multiple IDs, separated with spaces
-	- The matching `id`s must exist in the instance document'

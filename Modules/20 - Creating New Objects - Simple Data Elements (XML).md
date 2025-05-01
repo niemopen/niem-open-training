@@ -29,31 +29,14 @@ The resulting XML instance is then:
 
 ```xml
 <j:CrashPerson>
-	<nc:RoleOfPerson structures:ref="P01" xsi:nil="true"/>
-	<j:CrashPersonInjury structures:metadata="PMD01 PMD02">
+	<j:CrashPersonInjury>
 		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
 		<j:InjurySeverityCode>3</j:InjurySeverityCode>
 	</j:CrashPersonInjury>
 	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
 </j:CrashPerson>
 ```
-And the equivalent JSON-LD is:
-
-```json
-"j:CrashPerson": {
-	"nc:RoleOfPerson": {
-	  "@id": "#P01"
-	},
-	"j:CrashPersonInjury": {
-	  "nc:InjuryDescriptionText": "Broken Arm",
-	  "j:InjurySeverityCode": "3",
-	},
-	"ext:PersonDefenestrationIndicator": "false"
-}
-```
-Note the `@id` that links to an identical `@id` in the nc:Person object.
-
-For a more complicated example, we can create the `ext:PrivacyCode` element along with a `ext:PrivacyMetadata` to hold it.
+For a more complicated example, we can create the `ext:PrivacyCode` element along with a `ext:PrivacyMetadataAugmentation` to hold it.
 
 The actual codes are defined in the simple type, `ext:PrivacyCodeSimpleType`. Each `enumeration` defines a code. The `documentation` tags provide a longer text description of the code:
 
@@ -61,7 +44,7 @@ The actual codes are defined in the simple type, `ext:PrivacyCodeSimpleType`. Ea
 <xs:simpleType name="PrivacyCodeSimpleType">
 	<xs:annotation>
 		<xs:documentation>A data type for a code representing a kind of
-			property.</xs:documentation>
+			privacy.</xs:documentation>
 	</xs:annotation>
 	<xs:restriction base="xs:token">
 		<xs:enumeration value="PII">
@@ -85,7 +68,7 @@ The complex type `ext:PrivacyCodeType` is then extended from `ext:PrivacyCodeSim
 <xs:complexType name="PrivacyCodeType">
 	<xs:annotation>
 		<xs:documentation>A data type for a code representing a kind of
-			property.</xs:documentation>
+			privacy.</xs:documentation>
 	</xs:annotation>
 	<xs:simpleContent>
 		<xs:extension base="ext:PrivacyCodeSimpleType">
@@ -99,76 +82,83 @@ Then `ext:PrivacyCode` is created to be of `ext:PrivacyCodeType`:
 ```xml
 <xs:element name="PrivacyCode" type="ext:PrivacyCodeType">
 	<xs:annotation>
-		<xs:documentation>A code representing a kind of property.</xs:documentation>
+		<xs:documentation>A code representing a kind of privacy.</xs:documentation>
 	</xs:annotation>
 </xs:element>
 ```
 
-In this exchange, this code is metadata to be applied to other objects, so we can create `ext:PrivacyMetadata` to hold it:
+In this exchange, this code is metadata to be applied to other objects, so we can create `ext:PrivacyMetadataAugmentation` to hold it:
 
 ```xml
-<xs:element name="PrivacyMetadata" type="ext:PrivacyMetadataType">
-	<xs:annotation>
-		<xs:documentation>Metadata about Privacy.</xs:documentation>
-	</xs:annotation>
-</xs:element>
-<xs:complexType name="PrivacyMetadataType">
+<xs:complexType name="PrivacyMetadataAugmentationType">
 	<xs:annotation>
 		<xs:documentation>A data type for metadata about Privacy.</xs:documentation>
 	</xs:annotation>
 	<xs:complexContent>
-		<xs:extension base="structures:MetadataType">
+		<xs:extension base="structures:AugmentationType">
 			<xs:sequence>
 				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:extension>
 	</xs:complexContent>
 </xs:complexType>
+
+<xs:element name="PrivacyMetadataAugmentation" type="ext:PrivacyMetadataAugmentationType"
+	substitutionGroup="nc:MetadataAugmentationPoint">
+	<xs:annotation>
+		<xs:documentation>Metadata about Privacy.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+```
+And then we need to make an extended `ext:CrashPersonInjury` to point to it:
+
+```xml
+<xs:complexType name="InjuryType">
+	<xs:annotation>
+		<xs:documentation>A data type for a form of harm or damage sustained by a person.</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="nc:InjuryType">
+			<xs:attribute ref="nc:metadataRef" use="optional"/>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+
+<xs:element name="CrashPersonInjury" type="ext:InjuryType">
+	<xs:annotation>
+		<xs:documentation>An injury received by a person involved in a traffic accident.</xs:documentation>
+	</xs:annotation>
+</xs:element>
 ```
 
 ### Instance Documents
 
-The resulting XML instance document is:
+The resulting XML instance document includes:
 
 ```xml
-<ext:PrivacyMetadata structures:id="PMD01">  
-	<ext:PrivacyCode>PII</ext:PrivacyCode>  
-</ext:PrivacyMetadata>  
+<ext:CrashPersonInjury nc:metadataRef="PMD01">
+	<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
+	<j:InjurySeverityCode>3</j:InjurySeverityCode>
+</ext:CrashPersonInjury>
 
-<ext:PrivacyMetadata structures:id="PMD02">  
-	<ext:PrivacyCode>MEDICAL</ext:PrivacyCode>  
-</ext:PrivacyMetadata>
-
-<j:CrashPerson>
-	<nc:RoleOfPerson structures:ref="P01" xsi:nil="true"/>
-	<j:CrashPersonInjury structures:metadata="PMD01 PMD02">
-		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
-		<j:InjurySeverityCode>3</j:InjurySeverityCode>
-	</j:CrashPersonInjury>
-	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
-</j:CrashPerson>
-
+<nc:Metadata structures:id="PMD01">
+	<ext:PrivacyMetadataAugmentation>
+		<ext:PrivacyCode>PII</ext:PrivacyCode>
+	</ext:PrivacyMetadataAugmentation>
+</nc:Metadata>
 ```
+Of course, we could have alternatively defined it to hook onto `nc:InjuryAugmentationPoint` by changing the `substitutionGroup` attribute instead of extending `CrashPersonInjury`. This allows us to put it inside `j:CrashPersonInjury` but it can't be referred to by other objects:
 
-An equivalent JSON document would be:
-
-```json
-"j:CrashPerson": {
-	"nc:RoleOfPerson": {
-	  "@id": "#P01"
-	},
-	"j:CrashPersonInjury": {
-	  "nc:InjuryDescriptionText": "Broken Arm",
-	  "j:InjurySeverityCode": "3",
-	  "ext:PrivacyCode": [
-		"PII", "MEDICAL"
-	  ]
-	},
-	"ext:PersonDefenestrationIndicator": "false"
-}
+```xml
+<j:CrashPersonInjury>
+	<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
+	<j:InjurySeverityCode>3</j:InjurySeverityCode>
+	<ext:PrivacyMetadataAugmentation>
+		<ext:PrivacyCode>MEDICAL</ext:PrivacyCode>
+	</ext:PrivacyMetadataAugmentation>
+</j:CrashPersonInjury>
 ```
-
-Instead of linking to two separate metadata objects, we've embedded those into the `j:CrashPeson`.
+We'll use this latter method in our example.
 
 ### Artifacts
 

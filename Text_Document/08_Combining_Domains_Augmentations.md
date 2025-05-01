@@ -24,10 +24,10 @@
 	j:PersonChargeAssociation
 		nc:Person
 		j:Charge
-	j:Charge
+	ext:Charge
 		j:ChargeDescriptionText
 		j:ChargeFelonyIndicator
 	nc:Metadata
-		j:Metadata
+		j:MetadataAugmentation
 			j:CriminalInformationIndicator
 ```
