@@ -6,7 +6,7 @@
 
 ## Purpose
 
-Deliver a course focused on developers and implementers who are interested in a deep-dive of NIEM and also deliver a NIEM 101 for executives and project mangagers.
+Deliver a course focused on developers and implementers who are interested in a deep-dive of NIEM and also deliver a NIEM 101 for executives and project managers.
 
 ## Supporting Documents
 
