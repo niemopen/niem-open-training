@@ -1991,15 +1991,19 @@ ___
 # Build and Validate
 - Conformance
 - Subsets
-- Extension and Exchange Schemas
+- Extension Schemas
 - How things fit together
 
 ## NIEM Conformance
-- Follow the rules in the [Naming and Design Rules (NDR)](http://niem.github.io/reference/specifications/ndr/)
-- Follow the rules in the [IEPD Spec](http://niem.github.io/reference/specifications/iepd/)
+- Follow the rules in the [Naming and Design Rules (NDR)](http://niem.github.io/reference/specifications/ndr/) (NIEM 5)
+	- Available in draft form for NIEM 6 on [Github](https://github.com/niemopen/niem-naming-design-rules/blob/dev/ndr6src.md)
+- Follow the rules in the [IEPD Spec](http://niem.github.io/reference/specifications/iepd/) (NIEM 5)
+	- Coming eventually for NIEM 6
 - Many NDR rules exist as Schematron
-	- Can check these via the Conformance Testing Assistant (ConTesA)
+	- Can check these via the Conformance Testing Assistant (ConTesA) for NIEM 5
 	- Can run the Schematron directly oXygen, with a plug-in in XMLSpy
+		- See below
+	- NIEM Toolbox will provide this functionality for NIEM 6 soon
 
 ## Schema Subsets
 - NIEM has ~13,000 elements
@@ -2007,30 +2011,45 @@ ___
 - NIEM supports mini versions of NIEM
 	- With the elements / types you want
 	- Plus things needed to make the elements / types you want work
-- Use the [SSGT](https://tools.niem.gov/niemtools/ssgt/index.iepd) for this! **Demo Time!**
-- [MEP Builder](http://localhost:3000/) can also help!  **More Demo Time!**
+- Use the [SSGT](https://tools.niem.gov/niemtools/ssgt/index.iepd) for this for NIEM 5
+	- NIEM Toolbox will provide this functionality for NIEM 6 soon
 
 ## Extension Schema(s)
 - Create new elements for your exchange
+- Defines the root element of the exchange
 - Emulate how NIEM does it
 - Utilize Augmentations to add your new objects to existing NIEM objects
 	- Concrete extension is an alternative
 - Can have multiple extension schemas
 - Some folks put code tables into a separate extension schema
 
-## Exchange Schema
-- Entry point to the exchange
-- Defines the root element of the exchange
-- Some put the definition for the root element here
-- Some put that in the extension schema
-- Some lump exchange and extension together
-- An exchange with multiple messages can have multiple exchange schemas, one per
-	- Can share a common extension
-	- Or not
-
 ## How Schemas Fit Together
 
-![Schema Import 7](/Schema_Graphics/Schema_Import_7_scaled.png)
+```mermaid
+flowchart LR
+	extension.xsd --> geospatial.xsd
+	extension.xsd --> justice.xsd
+	extension.xsd --> niem-xs.xsd
+	extension.xsd --> structures.xsd
+	extension.xsd --> niem-core.xsd
+	
+	niem-core.xsd --> structures.xsd
+	niem-core.xsd --> niem-xs.xsd
+	
+	niem-xs.xsd --> structures.xsd
+	
+	justice.xsd --> niem-xs.xsd
+	justice.xsd --> structures.xsd
+	justice.xsd --> aamva_d20.xsd
+	justice.xsd --> niem-core.xsd
+	
+	aamva_d20.xsd --> structures.xsd
+	
+	geospatial.xsd --> gml.xsd
+	geospatial.xsd --> niem-core.xsd
+	geospatial.xsd --> structures.xsd
+	gml.xsd --> xlinks.xsd
+```
 
 
 ## Help with Schemas
@@ -2051,8 +2070,6 @@ ___
 - Validating against your schemas ensures your intent
 - Some XML editors can create them from schemas
 	- But you’ll always need to tweak those
-- JSON instances are more of a manual process because NIEM doesn't support JSON Schema
-	- It's in the works
 - Other tools are out there…
 
 ## Tips and Tricks
@@ -2065,20 +2082,21 @@ ___
 	- Work on mapping spreadsheets
 	- Generate subsets
 
+___
 ![Other Artifacts](/IEPD_Process_Graphics/Process_Artifacts_4_scaled.png)
 
-___
 # Assemble and Document
-- IEPD Catalog
+- IEPD Catalog ([[iepd-catalog.xml]])
 	- Metadata about the Message Spec / IEPD
 	- What file is what
-- Readme
-- Changelog
-- Conformance Assertion
+	- What the root element is
+- Readme ([[Crash Driver IEPD/README|README]])
+- Changelog ([[changelog]])
+- Conformance Assertion ([[conformance]])
 - Mapping Spreadsheet
-- Master Documentation
+- Main Documentation
 
-## Master Documentation
+## Main Documentation
 - Just a Word document
 	- Or another document format, e.g. Markdown, PDF, etc.
 - A NIEM Message Spec / IEPD master document should (at a minimum) describe:
@@ -2096,18 +2114,25 @@ ___
 - Can organize how you like
 	- The IEPD Catalog is the guide to your organization
 	- Generally, keep it simple
-- MEP Builder will help with this (phase one available now)
-
+- MEP Builder can help with this
 ___
 # Publishing
-- Existing repositories are out of date
-	- IEPD Clearinghouse
+
+## NIEM Repos
+
+- NIEM used to have a problem with existing repositories being out of date
+	- IEPD Clearinghouse (old material)
 	- Work With IEPDs (currently not working)
-- New repositories are coming
-	- Restricted (brand new)
-		- Warfighting Mission Area-Architecture Federation and Integration Portal (WMA-AFIP)
-		- If you don't know what this is, you probably don't have access
-	- Unrestricted (coming later)
+- New repository is here!
+	- [Message Exchange Package (MEP) Registry & Repository](https://www.niem.gov/about-niem/message-exchange-package-mep-registry-repository)
+	- Has all the archival material from the old Clearinghouse
+	- Has all the material from "Work With IEPDs"
+	- Has new material as well
+
+## Other Websites
+
+- Other entities can list their own
+	- Example: [ACF](https://acf.gov/completed-information-exchange-packet-documentation-iepd)
 
 ___
 
@@ -2128,14 +2153,14 @@ ___
 - Developers with the skills to design and implement a data exchange can learn the NIEM approach in a matter of hours
 - Developer training is available
 - Plenty of example IEPDs to follow
-	- Hard to find right now
-	- _Will_ get better
+	- New repository!
 - Don’t start from scratch, leverage shared IEPDs
 - The NIEM technical specifications are complex, however
 	- Most developers do not need to read them
 	- Free tools can perform most of the conformance checking
 		- Schematron directly
 		- [Conformance Testing Assistant (ConTesA)](https://tools.niem.gov/contesa/)
+		- NIEM Toolbox is coming for NIEM 6!
 
 ___
 # Resources
@@ -2146,14 +2171,14 @@ ___
 	- [http://niem.github.io/niem-releases/](http://niem.github.io/niem-releases/)
 - NIEM Specifications
 	- [http://niem.github.io/reference/specifications/](http://niem.github.io/reference/specifications/)
-- NIEM JSON Spec
-	- [https://niem.github.io/NIEM-JSON-Spec/v5.0/](https://niem.github.io/NIEM-JSON-Spec/v5.0/)
 - Materials from this course:
 	- [https://github.com/niemopen/niem-open-training)
 - NIEM.gov Contact Page
 	- [https://www.niem.gov/contact](https://www.niem.gov/contact)
 
 ## Tools
+- NIEM Toolbox
+	- [https://niemopen.github.io/niem-toolbox/](https://niemopen.github.io/niem-toolbox/)
 - SSGT:
 	- [https://tools.niem.gov/niemtools/ssgt/index.iepd](https://tools.niem.gov/niemtools/ssgt/index.iepd)
 - Conformance Testing Assistant (ConTesA)
@@ -2170,11 +2195,7 @@ ___
 ## Repositories
 - Message Exchange Package (MEP) Registry & Repository
 	- https://www.niem.gov/about-niem/message-exchange-package-mep-registry-repository
-- IEPD Clearinghouse
-	- [https://bja.ojp.gov/program/it/policy-implementation/clearinghouse](https://bja.ojp.gov/program/it/policy-implementation/clearinghouse)
-- IEPD Repository (Work with IEPDs) - _currently inoperative_
-	- [https://tools.niem.gov/niemtools/iepdt/index.iepd](https://tools.niem.gov/niemtools/iepdt/index.iepd)
 
 ___
 Generated on: 
-Wed Apr 30 02:17:19 UTC 2025
+Thu May  1 13:59:20 UTC 2025
