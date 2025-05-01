@@ -6,7 +6,7 @@
 
 ## Purpose
 
-A technical webinar focused on developers and implementers who are interested in a deep-dive of NIEM.
+Deliver a course focused on developers and implementers who are interested in a deep-dive of NIEM and also deliver a NIEM 101 for executives and project mangagers.
 
 ## Supporting Documents
 
