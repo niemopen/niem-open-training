@@ -351,9 +351,9 @@ ___
 - Prior NIEM Specifications
 	- [http://niem.github.io/reference/specifications/](http://niem.github.io/reference/specifications/)
 - Materials from this course:
-	- [https://github.com/niemopen/niem-open-training)
+	- [https://github.com/niemopen/niem-open-training/](https://github.com/niemopen/niem-open-training/)
 - NIEMOpen.org Contact Page
-	- [https://www.niemopen.org/contact]((https://niemopen.org/contact/))
+	- [https://www.niemopen.org/contact](https://niemopen.org/contact/)
 
 ## Tools
 - NIEM Toolbox
@@ -377,4 +377,4 @@ ___
 
 ___
 Generated on: 
-Mon May  5 14:38:30 UTC 2025
+Mon May  5 14:42:01 UTC 2025
