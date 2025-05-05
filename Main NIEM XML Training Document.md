@@ -2303,14 +2303,16 @@ ___
 
 ## Documentation
 
-- NIEM Releases
+- Prior NIEM Releases
 	- [http://niem.github.io/niem-releases/](http://niem.github.io/niem-releases/)
-- NIEM Specifications
+- Current NIEM Specifications
+        -[https://github.com/niemopen#specifications/](https://github.com/niemopen#specifications/)
+- Prior NIEM Specifications
 	- [http://niem.github.io/reference/specifications/](http://niem.github.io/reference/specifications/)
 - Materials from this course:
 	- [https://github.com/niemopen/niem-open-training)
-- NIEM.gov Contact Page
-	- [https://www.niem.gov/contact](https://www.niem.gov/contact)
+- NIEMOpen.org Contact Page
+	- [https://www.niemopen.org/contact]((https://niemopen.org/contact/))
 
 ## Tools
 - NIEM Toolbox
@@ -2322,7 +2324,7 @@ ___
 - NDR Schematron
 	- [https://niem.github.io/reference/tools/oxygen/ndr/](https://niem.github.io/reference/tools/oxygen/ndr/)
 - MEP Builder
-	- [https://sourceforge.net/projects/niem-mep-builder/](https://sourceforge.net/projects/niem-mep-builder/)
+	- [https://mep.niemopen.org/]((https://mep.niemopen.org/)/)
 - Wayfarer:
 	- [http://niem5.org/wayfarer/](http://niem5.org/wayfarer/)
 - oXygen Snippets
@@ -2334,4 +2336,4 @@ ___
 
 ___
 Generated on: 
-Thu May  1 19:11:49 UTC 2025
+Mon May  5 14:38:30 UTC 2025
