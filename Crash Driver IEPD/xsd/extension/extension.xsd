@@ -3,30 +3,29 @@
     ct:conformanceTargets="http://reference.niem.gov/niem/specification/naming-and-design-rules/5.0/#ExtensionSchemaDocument"
     targetNamespace="http://training.niem.gov/CrashDriver/1.0/" version="1" xml:lang="en-US"
     xmlns:ext="http://training.niem.gov/CrashDriver/1.0/"
-    xmlns:j="http://release.niem.gov/niem/domains/jxdm/7.0/"
-    xmlns:nc="http://release.niem.gov/niem/niem-core/5.0/"
-    xmlns:geo="http://release.niem.gov/niem/adapters/geospatial/5.0/"
+    xmlns:j="https://docs.oasis-open.org/niemopen/ns/model/domains/justice/6.0/"
+    xmlns:nc="https://docs.oasis-open.org/niemopen/ns/model/niem-core/6.0/"
+    xmlns:niem-gml="https://docs.oasis-open.org/niemopen/ns/model/adapters/niem-gml/6.0/"
     xmlns:gml="http://www.opengis.net/gml/3.2"
-    xmlns:niem-xs="http://release.niem.gov/niem/proxy/niem-xs/5.0/"
-    xmlns:structures="http://release.niem.gov/niem/structures/5.0/"
+    xmlns:niem-xs="https://docs.oasis-open.org/niemopen/ns/model/adapters/niem-xs/6.0/"
+    xmlns:structures="https://docs.oasis-open.org/niemopen/ns/model/structures/6.0/"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:appinfo="http://release.niem.gov/niem/appinfo/5.0/"
     xmlns:ct="http://release.niem.gov/niem/conformanceTargets/3.0/" elementFormDefault="qualified">
 
     <xs:annotation>
         <xs:documentation>Extension schema for an example IEPD used to illustrate NIEM's technical features.</xs:documentation>
     </xs:annotation>
 
-    <xs:import schemaLocation="../niem/domains/jxdm.xsd"
-        namespace="http://release.niem.gov/niem/domains/jxdm/7.0/"/>
-    <xs:import schemaLocation="../niem/niem-core.xsd"
-        namespace="http://release.niem.gov/niem/niem-core/5.0/"/>
-    <xs:import schemaLocation="../niem/adapters/geospatial.xsd"
-        namespace="http://release.niem.gov/niem/adapters/geospatial/5.0/"/>
-    <xs:import schemaLocation="../niem/adapters/niem-xs.xsd"
-        namespace="http://release.niem.gov/niem/proxy/niem-xs/5.0/"/>
-    <xs:import schemaLocation="../niem/utility/structures.xsd"
-        namespace="http://release.niem.gov/niem/structures/5.0/"/>
+    <xs:import schemaLocation="../domains/justice.xsd"
+        namespace="https://docs.oasis-open.org/niemopen/ns/model/domains/justice/6.0/"/>
+    <xs:import schemaLocation="../niem-core.xsd"
+        namespace="https://docs.oasis-open.org/niemopen/ns/model/niem-core/6.0/"/>
+    <xs:import schemaLocation="../adapters/niem-gml.xsd"
+        namespace="https://docs.oasis-open.org/niemopen/ns/model/adapters/niem-gml/6.0/"/>
+    <xs:import schemaLocation="../adapters/niem-xs.xsd"
+        namespace="https://docs.oasis-open.org/niemopen/ns/model/adapters/niem-xs/6.0/"/>
+    <xs:import schemaLocation="../utility/structures.xsd"
+        namespace="https://docs.oasis-open.org/niemopen/ns/model/structures/6.0/"/>
 
     <xs:element name="CrashDriverInfo" type="ext:CrashDriverInfoType">
         <xs:annotation>
@@ -43,25 +42,40 @@
                     <xs:element ref="nc:Person" maxOccurs="unbounded"/>
                     <xs:element ref="j:Crash"/>
                     <xs:element ref="j:PersonChargeAssociation" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element ref="j:Charge" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element ref="j:Metadata" minOccurs="0"/>
-                    <xs:element ref="ext:PrivacyMetadata" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element ref="ext:Charge" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element ref="nc:Metadata" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="ChargeType">
+        <xs:annotation>
+            <xs:documentation>A data type for a formal allegation that a specific person has committed a specific offense.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="j:ChargeType">
+                <xs:attribute ref="nc:metadataRef" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="Charge" type="ext:ChargeType">
+        <xs:annotation>
+            <xs:documentation>A formal allegation that a specific person has committed a specific offense.</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
     <xs:element name="LicenseAugmentation" type="ext:LicenseAugmentationType"
         substitutionGroup="j:DriverLicenseAugmentationPoint">
         <xs:annotation>
-            <xs:documentation> Additional information about a license. </xs:documentation>
+            <xs:documentation>Additional information about a license.</xs:documentation>
         </xs:annotation>
     </xs:element>
 
     <xs:complexType name="LicenseAugmentationType">
         <xs:annotation>
-            <xs:documentation> A data type for additional information about a license.
-            </xs:documentation>
+            <xs:documentation>A data type for additional information about a license.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="structures:AugmentationType">
@@ -75,11 +89,46 @@
     <xs:element name="PersonDefenestrationIndicator" type="niem-xs:boolean"
         substitutionGroup="j:CrashPersonAugmentationPoint">
         <xs:annotation>
-            <xs:documentation>True if this person was thrown through a window; false otherwise.
-            </xs:documentation>
+            <xs:documentation>True if this person was thrown through a window; false otherwise.</xs:documentation>
         </xs:annotation>
     </xs:element>
 
+    <xs:element name="PrivacyMetadataAugmentation" type="ext:PrivacyMetadataAugmentationType" substitutionGroup="nc:MetadataAugmentationPoint">
+        <xs:annotation>
+            <xs:documentation>Additional information about Privacy.</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:complexType name="PrivacyMetadataAugmentationType">
+        <xs:annotation>
+            <xs:documentation>A data type for Additional information about Privacy.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="structures:AugmentationType">
+                <xs:sequence>
+                    <xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="InjuryPrivacyMetadataAugmentation" type="ext:InjuryPrivacyMetadataAugmentationType" substitutionGroup="nc:InjuryAugmentationPoint">
+        <xs:annotation>
+            <xs:documentation>Additional information about Privacy.</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:complexType name="InjuryPrivacyMetadataAugmentationType">
+        <xs:annotation>
+            <xs:documentation>A data type for Additional information about Privacy.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="structures:AugmentationType">
+                <xs:sequence>
+                    <xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
     <xs:element name="PrivacyMetadata" type="ext:PrivacyMetadataType">
         <xs:annotation>
             <xs:documentation>Metadata about Privacy.</xs:documentation>
@@ -90,24 +139,24 @@
             <xs:documentation>A data type for metadata about Privacy.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="structures:MetadataType">
+            <xs:extension base="nc:MetadataType">
                 <xs:sequence>
                     <xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-
+    
     <xs:element name="PrivacyCode" type="ext:PrivacyCodeType">
         <xs:annotation>
-            <xs:documentation>A code representing a kind of property.</xs:documentation>
+            <xs:documentation>A code representing a kind of privacy.</xs:documentation>
         </xs:annotation>
     </xs:element>
 
     <xs:complexType name="PrivacyCodeType">
         <xs:annotation>
             <xs:documentation>A data type for a code representing a kind of
-                property.</xs:documentation>
+                privacy.</xs:documentation>
         </xs:annotation>
         <xs:simpleContent>
             <xs:extension base="ext:PrivacyCodeSimpleType">
@@ -119,7 +168,7 @@
     <xs:simpleType name="PrivacyCodeSimpleType">
         <xs:annotation>
             <xs:documentation>A data type for a code representing a kind of
-                property.</xs:documentation>
+                privacy.</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:token">
             <xs:enumeration value="PII">
@@ -134,6 +183,5 @@
             </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
-
 
 </xs:schema>

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ext:CrashDriverInfo
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<ext:CrashDriverInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://training.niem.gov/CrashDriver/1.0/ ../xsd/extension/extension.xsd"
-	xmlns:nc="http://release.niem.gov/niem/niem-core/5.0/"
+	xmlns:nc="https://docs.oasis-open.org/niemopen/ns/model/niem-core/6.0/"
 	xmlns:ext="http://training.niem.gov/CrashDriver/1.0/"
-	xmlns:structures="http://release.niem.gov/niem/structures/5.0/"
-	xmlns:j="http://release.niem.gov/niem/domains/jxdm/7.0/"
-	xmlns:geo="http://release.niem.gov/niem/adapters/geospatial/5.0/"
+	xmlns:structures="https://docs.oasis-open.org/niemopen/ns/model/structures/6.0/"
+	xmlns:j="https://docs.oasis-open.org/niemopen/ns/model/domains/justice/6.0/"
+	xmlns:niem-gml="https://docs.oasis-open.org/niemopen/ns/model/adapters/niem-gml/6.0/"
 	xmlns:gml="http://www.opengis.net/gml/3.2">
-	<nc:Person structures:id="P01">
-		<nc:PersonBirthDate structures:metadata="PMD01">
-			<nc:Date>1890-05-04</nc:Date>
+	<nc:Person structures:uri="http://some.uri/">
+		<nc:PersonBirthDate>
+			<nc:Date nc:metadataRef="PMD01">1890-05-04</nc:Date>
 		</nc:PersonBirthDate>
 		<nc:PersonName>
 			<nc:PersonGivenName>Peter</nc:PersonGivenName>
@@ -24,8 +23,7 @@
 			<nc:Date>1900-05-04</nc:Date>
 		</nc:ActivityDate>
 		<j:CrashVehicle>
-			<j:CrashDriver>
-				<nc:RoleOfPerson structures:ref="P01" xsi:nil="true"/>
+			<j:CrashDriver structures:uri="http://some.uri/">
 				<j:DriverLicense>
 					<j:DriverLicenseCardIdentification>
 						<nc:IdentificationID>A1234567</nc:IdentificationID>
@@ -38,20 +36,23 @@
 				</j:DriverLicense>
 			</j:CrashDriver>
 		</j:CrashVehicle>
-		<j:CrashPerson>
-			<nc:RoleOfPerson structures:ref="P01" xsi:nil="true"/>
-			<j:CrashPersonInjury structures:metadata="PMD01 PMD02">
+		<j:CrashPerson structures:uri="http://some.uri/">
+			<j:CrashPersonInjury>
 				<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
 				<j:InjurySeverityCode>3</j:InjurySeverityCode>
+				<ext:InjuryPrivacyMetadataAugmentation>
+					<ext:PrivacyCode>PII</ext:PrivacyCode>
+				</ext:InjuryPrivacyMetadataAugmentation>
 			</j:CrashPersonInjury>
 			<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
 		</j:CrashPerson>
 		<nc:Location>
-			<geo:LocationGeospatialPoint>
+			<niem-gml:LocationGeospatialPointAdapter>
 				<gml:Point gml:id="point1">
-					<gml:pos srsName="urn:ogc:def:crs:EPSG::4326" srsDimension="2">40.689167 -74.044444</gml:pos>
+					<gml:pos srsName="urn:ogc:def:crs:EPSG::4326" srsDimension="2"
+						>40.689167 -74.044444</gml:pos>
 				</gml:Point>
-			</geo:LocationGeospatialPoint>
+			</niem-gml:LocationGeospatialPointAdapter>
 			<nc:Location2DGeospatialCoordinate>
 				<nc:GeographicCoordinateLatitude>
 					<nc:LatitudeDegreeValue>51</nc:LatitudeDegreeValue>
@@ -64,21 +65,22 @@
 			</nc:Location2DGeospatialCoordinate>
 		</nc:Location>
 	</j:Crash>
-	<j:PersonChargeAssociation structures:metadata="JMD01">
-		<nc:Person structures:ref="P01" xsi:nil="true"/>
-		<j:Charge structures:ref="CH01" xsi:nil="true"/>
+	<j:PersonChargeAssociation>
+		<nc:Person structures:uri="http://some.uri/" xsi:nil="true"/>
+		<j:Charge structures:uri="http://some.other.uri/" xsi:nil="true"/>
 	</j:PersonChargeAssociation>
-	<j:Charge structures:id="CH01" structures:metadata="JMD01">
+	<ext:Charge structures:uri="http://some.other.uri/"  nc:metadataRef="JMD01">
 		<j:ChargeDescriptionText>Furious Driving</j:ChargeDescriptionText>
 		<j:ChargeFelonyIndicator>false</j:ChargeFelonyIndicator>
-	</j:Charge>
-	<j:Metadata structures:id="JMD01">
-		<j:CriminalInformationIndicator>true</j:CriminalInformationIndicator>
-	</j:Metadata>
-	<ext:PrivacyMetadata structures:id="PMD01">
-		<ext:PrivacyCode>PII</ext:PrivacyCode>
-	</ext:PrivacyMetadata>
-	<ext:PrivacyMetadata structures:id="PMD02">
-		<ext:PrivacyCode>MEDICAL</ext:PrivacyCode>
-	</ext:PrivacyMetadata>
+	</ext:Charge>
+	<nc:Metadata structures:id="JMD01">
+		<j:MetadataAugmentation>
+			<j:CriminalInformationIndicator>true</j:CriminalInformationIndicator>
+		</j:MetadataAugmentation>
+	</nc:Metadata>
+	<nc:Metadata structures:id="PMD01">
+		<ext:PrivacyMetadataAugmentation>
+			<ext:PrivacyCode>PII</ext:PrivacyCode>
+		</ext:PrivacyMetadataAugmentation>
+	</nc:Metadata>
 </ext:CrashDriverInfo>

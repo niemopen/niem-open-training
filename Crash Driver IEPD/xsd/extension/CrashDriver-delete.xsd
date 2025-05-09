@@ -4,11 +4,10 @@
     targetNamespace="http://training.niem.gov/CrashDriver/1.0/" version="1" xml:lang="en-US"
     xmlns:exch="http://training.niem.gov/CrashDriver/1.0/"
     xmlns:ext="http://training.niem.gov/CrashDriver/1.0/extension"
-    xmlns:j="http://release.niem.gov/niem/domains/jxdm/7.0/"
-    xmlns:nc="http://release.niem.gov/niem/niem-core/5.0/"
-    xmlns:structures="http://release.niem.gov/niem/structures/5.0/"
+    xmlns:j="https://docs.oasis-open.org/niemopen/ns/model/domains/justice/6.0/"
+    xmlns:nc="https://docs.oasis-open.org/niemopen/ns/model/niem-core/6.0/"
+    xmlns:structures="https://docs.oasis-open.org/niemopen/ns/model/structures/6.0/"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:appinfo="http://release.niem.gov/niem/appinfo/5.0/"
     xmlns:ct="http://release.niem.gov/niem/conformanceTargets/3.0/" elementFormDefault="qualified">
 
     <xs:annotation>
@@ -17,12 +16,12 @@
 
     <xs:import schemaLocation="./extension.xsd"
         namespace="http://training.niem.gov/CrashDriver/1.0/extension"/>
-    <xs:import schemaLocation="../niem/domains/jxdm.xsd"
-        namespace="http://release.niem.gov/niem/domains/jxdm/7.0/"/>
-    <xs:import schemaLocation="../niem/niem-core.xsd"
-        namespace="http://release.niem.gov/niem/niem-core/5.0/"/>
-    <xs:import schemaLocation="../niem/utility/structures.xsd"
-        namespace="http://release.niem.gov/niem/structures/5.0/"/>
+    <xs:import schemaLocation="../domains/justice.xsd"
+        namespace="https://docs.oasis-open.org/niemopen/ns/model/domains/justice/6.0/"/>
+    <xs:import schemaLocation="../niem-core.xsd"
+        namespace="https://docs.oasis-open.org/niemopen/ns/model/niem-core/6.0/"/>
+    <xs:import schemaLocation="../utility/structures.xsd"
+        namespace="https://docs.oasis-open.org/niemopen/ns/model/structures/6.0/"/>
 
     <xs:element name="CrashDriverInfo" type="exch:CrashDriverInfoType">
         <xs:annotation>
@@ -40,7 +39,7 @@
                     <xs:element ref="j:Crash"/>
                     <xs:element ref="j:PersonChargeAssociation" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element ref="j:Charge" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element ref="j:Metadata" minOccurs="0"/>
+                    <xs:element ref="nc:Metadata" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element ref="ext:PrivacyMetadata" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:extension>
