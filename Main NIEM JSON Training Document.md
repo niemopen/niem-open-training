@@ -769,6 +769,34 @@ ___
 	- `nc:PersonBirthDate` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-11r)/[Wayfarer](http://niem5.org/wayfarer/nc/PersonBirthDate.html)) contains a `nc:DateRepresentation` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-92a)/[Wayfarer](http://niem5.org/wayfarer/nc/DateRepresentation.html))
 	- Substitution group heads follow the form of: `SomethingRepresentation` or `WhateverAbstract`
 
+_However_, JSON Schema and JSON in general lack this concept of substitution groups. (So do most other serializations.) So in JSON Schema, `nc:Date` is directly inside of things of `nc:DateType`, with no substitution happening. This is one reason why NIEM transformations from XML to JSON are possible, but transformations the other direction are not. Transformations to JSON are _lossy_.
+
+### Schemas
+
+Here we see [`nc:PersonBirthDate`](https://niemopen.github.io/niem-open-training/nc.html#PersonBirthDate) and its type, `nc:DateType`:
+
+```json
+"nc:PersonBirthDate": {
+	"description": "A date a person was born.",
+	"$ref": "#/definitions/nc:DateType"
+}
+```
+Unlike in XML, [`nc:DateType`](https://niemopen.github.io/niem-open-training/nc.html#DateType) contains `nc:Date`directly:
+
+```json
+"nc:DateType": {
+	"description": "A data type for a calendar date.",
+	"type": "object",
+	"properties": {
+		"nc:Date": {"$ref": "#/properties/nc:Date"}
+	},
+	"required": ["nc:Date"]
+}
+```
+
+
+### Instance Documents
+
 The matching JSON similarly just shows `nc:Date`:
 
 ```json
@@ -798,7 +826,7 @@ The matching JSON similarly just shows `nc:Date`:
 ___
 ## An Aside about Namespaces
 
-Below you can see object with different prefixes, `j:Crash` and `nc:ActivityDate`. The `j` and `nc` refer to different namespaces in XML Schema.
+In our examples, you've seen objects with different prefixes, like `j:Crash` and `nc:ActivityDate`. The `j` and `nc` refer to different namespaces in JSON-LD.
 
 - Namespaces organize elements by context
 - Identified by prefix, a nickname for the namespace
@@ -806,17 +834,19 @@ Below you can see object with different prefixes, `j:Crash` and `nc:ActivityDate
 
 ![Namespaces and Case](Mapping_Graphics/Namespace_Case.png)
 
-JSON-LD maps JSON objects to NIEM namespaces in the `@context`. Each of these entries maps a prefix to a NIEM namespace, providing a link back to the NIEM object. 
+JSON-LD maps JSON objects to NIEM namespaces in the `@context` object. Each of these entries maps a prefix to a NIEM namespace, providing a link back to the NIEM object. 
 
 ```json
 "@context": {
 	"ext": "http://training.niem.gov/CrashDriver/1.0/extension#",
-	"j": "http://release.niem.gov/niem/domains/jxdm/7.0/#",
-	"nc": "http://release.niem.gov/niem/niem-core/5.0/#"
+	"j": "https://docs.oasis-open.org/niemopen/ns/model/domains/justice/6.0/#",
+	"nc": "https://docs.oasis-open.org/niemopen/ns/model/niem-core/6.0/#"
 }
 ```
 
-As mentioned earlier, NIEM doesn't support JSON Schema well yet. Using NIEM with JSON is currently focused on creating matching instance documents. Upcoming NIEM developments will greatly enhance the ability to work in JSON as a similar level as with XML and XML Schema.
+The `@context` object does _not_ have to be included in every exchange. It's enough that it exists _somewhere_.
+
+In an XML context, NIEM namespaces are mapped to individual files. Each XML Schema file defines a single namespace. In JSON, these can all be kept in a single JSON Schema file.
 ___
 ![Inherited Properties](/Req_Analysis_Graphics/03_Inherited_Properties_CrashDriverClassDiagram.png)
 
@@ -893,6 +923,7 @@ And we finally get to [`nc:ActivityType`](https://niemopen.github.io/niem-open-t
 	"required": ["nc:ActivityDate"]
 }
 ```
+If you're coming from an XML perspective to JSON Schema, it's important to realize that this isn't true inheritance from an object oriented perspective, although it functions identically in most situations.
 
 What this all means is that a `j:Crash` object can contain a `nc:ActivityDate`, which is, contextually, a Crash Date.
 
@@ -1028,7 +1059,7 @@ ___
 
 ### Instance Documents
 
-In the instance document, the association object can specify the objects being associated together by pointing to then with `ref` attributes, or by including the object inside the association object.
+In the instance document, the association object can specify the objects being associated together by pointing to then with `@id` attributes, or by including the object inside the association object.
 
 First, here's the association using referencing. The applicable `nc:Person` and `j:Charge` objects are external to `j:PersonChargeAssociation`. While shown next to the `j:PersonChargeAssociation` object, they could be _anywhere_ in the instance document.
 
@@ -1062,7 +1093,7 @@ This beings with it two advantages:
 ```
 
 
-The disadvantage with using referencing is that it can be more difficult to implement. Implementations need to look for `ref` attributes and find matching `id` attributes.
+The disadvantage with using referencing is that it can be more difficult to implement. Implementations need to look for matching `@id` attributes.
 
 The alternative to referencing is to just include the `nc:Person` and `j:Charge` information inside the association:
 
@@ -1216,8 +1247,6 @@ ___
 - A few in NIEM are integers
 - Elements defined in the domains
 - Types are often defined in their own namespaces
-- NIEM wraps them in a complex type in order to apply some attributes needed for infrastructure
-	- Which we will need in the next section…
 - Examples:
 	- `j:InjurySeverityCode` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-45s)/[Wayfarer](http://niem5.org/wayfarer/j/InjurySeverityCode.html))
 		- In the SSGT, the actual codes are viewable on the page for the base simple type, e.g. [`aamva_d20:AccidentSeverityCodeSimpleType`](https://tools.niem.gov/niemtools/ssgt/SSGT-GetType.iepd?typeKey=o4-c)
@@ -1305,7 +1334,9 @@ ___
 	- `j:DriverLicense` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-lb))
 	- `j:DriverLicenseAugmentationPoint` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-11rg))
 
-Does driver's license have what we need? Does it have an email address?
+In XML, we would use substitution groups to add the augmentation to the exchange. _However_, JSON and JSON Schema lack this concept of substitution groups. (As do most other serializations.) So in JSON Schema, we will need to extend an existing type to hold the new information. This is one reason why NIEM transformations from XML to JSON are possible, but transformations the other direction are not. Transformations to JSON are _lossy_.
+
+Our first step is to determine whether driver's license has what we need. Does it have an email address?
 
 - Try searching for "drivers license":
 	- [SSGT](http://niem5.org/ssgt_redirect.php?query=drivers+license)
@@ -1330,104 +1361,70 @@ The SSGT is best for learning overall structure, so check out [`j:Crash`](https:
 
 `j:DriverLicense` is defined to be of `j:DriverLicenseType`:
 
-```xml
-<xs:element name="DriverLicense" type="j:DriverLicenseType" nillable="true">
-	<xs:annotation>
-		<xs:documentation>A license issued to a person granting driving privileges.</xs:documentation>
-	</xs:annotation>
-</xs:element>
+```json
+"j:DriverLicense": {
+	"description": "A license issued to a person granting driving privileges.",
+	"$ref": "#/definitions/j:DriverLicenseType"
+}
 ```
 
-`j:DriverLicenseType` contains `j:DriverLicenseAugmentationPoint` as a hook for a augmentation bags:
+`j:DriverLicenseType` contains `j:DriverLicenseAugmentationPoint` as a hook for a augmentation bags, but this isn't usable in JSON due to the aforementioned XML-specific substitution groups:
 
-```xml
-<xs:complexType name="DriverLicenseType">
-	<xs:annotation>
-		<xs:documentation>A data type for a license issued to a person granting driving privileges.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="j:DriverLicenseBaseType">
-			<xs:sequence>
-				<xs:element ref="j:DriverLicenseEnhancedIndicator" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseCommercialClassAbstract" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseCommercialStatusAbstract" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseNonCommercialClassText" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseNonCommercialStatusAbstract" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicensePermit" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicensePermitQuantity" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseWithdrawal" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseWithdrawalPendingIndicator" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseCardIdentification" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseRestriction" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseEndorsement" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
+```json
+"j:DriverLicenseType": {
+	"description": "A data type for a license issued to a person granting driving privileges.",
+	"allOf": [
+		{"$ref": "#/definitions/j:DriverLicenseBaseType"},
+		{
+			"type": "object",
+			"properties": {
+				"j:DriverLicenseCardIdentification": {"$ref": "#/properties/j:DriverLicenseCardIdentification"},
+			},
+			"required": ["j:DriverLicenseCardIdentification"]
+		}
+	]
+}
 ```
 
 While NIEM does have some augmentations pre-defined, they're particularly useful for adding new objects, or just putting existing NIEM objects somewhere else. Here we do the latter, creating a bag called `LicenseAugmentation` with `nc:ContactInformation` inside. 
 
-`ext:` is the nickname we're going to use for our own extension namespace, where we'll create our own objects. This is a separate file _we_ create. In it we build new objects, based on existing NIEM objects. We'll learn more about how these files fit together when we get to creating schemas.
+`ext:` is the nickname we're going to use for our own extension namespace. This identifies our own objects apart from NIEM-supplied ones.
 
-We can now "hang" it on the `j:DriverLicenseAugmentationPoint` hook with nothing more than a `substitutionGroup` attribute:
+```json
+"ext:LicenseAugmentationType": {
+	"description": "A data type for additional information about a license.",
+	"type": "object",
+	"properties": {
+		"nc:ContactInformation": {"$ref": "#/properties/nc:ContactInformation"}
+	}
+},
 
-```xml
-<xs:complexType name="LicenseAugmentationType">
-	<xs:annotation>
-		<xs:documentation>
-			A data type for additional information about a license.
-		</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:AugmentationType">
-			<xs:sequence>
-				<xs:element ref="nc:ContactInformation"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
-
-<xs:element name="LicenseAugmentation" type="ext:LicenseAugmentationType" substitutionGroup="j:DriverLicenseAugmentationPoint">
-	<xs:annotation>
-		<xs:documentation>
-			Additional information about a license.
-		</xs:documentation>
-	</xs:annotation>
-</xs:element>
+"ext:LicenseAugmentation": {
+	"description": "Additional information about a license.",
+	"$ref": "#/definitions/ext:LicenseAugmentationType"
+}
 ```
 
-Our new `ext:LicenseAugmentationType` is based on the built-in [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType). That base type merely adds in infrastructure support for linking objects together:
+Finally, we add it directly to `j:DriverLicenseType`. In XML, this would be done with a substitution, but those aren't available to JSON. XML would also put extensions like this into a separate file and namespace. In JSON, we just use one single schema document.
 
-```xml
-<xs:complexType name="AugmentationType" abstract="true">
-	<xs:annotation>
-		<xs:documentation>A data type for a set of properties to be applied to a base type.</xs:documentation>
-	</xs:annotation>
-	<xs:attribute ref="structures:id"/>
-	<xs:attribute ref="structures:ref"/>
-	<xs:attribute ref="structures:uri"/>
-	<xs:anyAttribute namespace="urn:us:gov:ic:ism urn:us:gov:ic:ntk" processContents="lax"/>
-</xs:complexType>
+```json
+"j:DriverLicenseType": {
+	"description": "A data type for a license issued to a person granting driving privileges.",
+	"allOf": [
+		{"$ref": "#/definitions/j:DriverLicenseBaseType"},
+		{
+			"type": "object",
+			"properties": {
+				"j:DriverLicenseCardIdentification": {"$ref": "#/properties/j:DriverLicenseCardIdentification"},
+				"ext:LicenseAugmentation": {"$ref": "#/properties/ext:LicenseAugmentation"}
+			},
+			"required": ["j:DriverLicenseCardIdentification"]
+		}
+	]
+}
 ```
 
-The resulting XML Instance Document looks like:
-
-```xml
-<j:DriverLicense>
-	<j:DriverLicenseCardIdentification>
-		<nc:IdentificationID>A1234567</nc:IdentificationID>
-	</j:DriverLicenseCardIdentification>
-	<ext:LicenseAugmentation>
-		<nc:ContactInformation>
-			<nc:ContactEmailID>peter@wimsey.org</nc:ContactEmailID>
-		</nc:ContactInformation>
-	</ext:LicenseAugmentation>
-</j:DriverLicense>
-```
-
-The equivalent JSON-LD would be:
+The resulting JSON instance looks like this:
 
 ```json
 "j:DriverLicense": {
@@ -1490,187 +1487,123 @@ Metadata is Data about Data. What does that mean? Here's an example:
 
 The [`j:MetadataAugmentation`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentation) object is of `j:MetadataAugmentationType`. 
 
-```xml
-<xs:element name="MetadataAugmentation" type="j:MetadataAugmentationType" substitutionGroup="nc:MetadataAugmentationPoint" nillable="true">
-	<xs:annotation>
-		<xs:documentation>Additional information about metadata.</xs:documentation>
-	</xs:annotation>
-</xs:element>
+```json
+"j:MetadataAugmentation": {
+	"description": "Information that further qualifies the kind of data represented.",
+	"$ref": "#/definitions/j:Metadata## AugmentationType"
+}
 ```
 
-There's nothing special about [`j:MetadataAugmentationType`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentationType). It's just an object holding some other objects, in this case a couple booleans indicators, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`. It's based on [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType), which is just an empty container. Substituting it for `nc:MetadataAugmentationPoint` provides the linking infrastructure we've seen with associations and roles as part of the `nc:Metadata` parent object:
+There's nothing special about [`j:MetadataAugmentationType`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentationType). It's just defines an object holding some other objects, in this case a couple booleans indicators, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`:
 
-```xml
-<xs:complexType name="MetadataAugmentationType">
-	<xs:annotation>
-		<xs:documentation>A data type for additional information about metadata.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:AugmentationType">
-			<xs:sequence>
-				<xs:element ref="j:CriminalInformationIndicator" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:IntelligenceInformationIndicator" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
+```json
+"j:MetadataAugmentationType": {
+	"description": "A data type for information that further qualifies the kind of data represented.",
+	"type": "object",
+	"properties": {
+		"j:CriminalInformationIndicator": {"$ref": "#/properties/j:CriminalInformationIndicator"},
+		"j:IntelligenceInformationIndicator": {"$ref": "#/properties/j:IntelligenceInformationIndicator"}
+	}
+}
 ```
 
 There are multiple methods for creating metadata objects:
 
 1. NIEM-supplied metadata objects can added to a subset and included in your exchange
 
-```xml
-<xs:complexType name="MetadataType">
-	<xs:annotation>
-		<xs:documentation>A data type for information that further qualifies primary data; data about data.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:ObjectType">
-			<xs:sequence>
-				<xs:element ref="nc:AdministrativeID" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="nc:CaveatText" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="nc:Comment" minOccurs="0" maxOccurs="unbounded"/>
-				<!-- additional elements remvoed for clarity -->
-				<xs:element ref="nc:MetadataAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
-
-<xs:element name="Metadata" type="nc:MetadataType" nillable="true">
-	<xs:annotation>
-		<xs:documentation>Information that further qualifies primary data; data about data.</xs:documentation>
-	</xs:annotation>
-</xs:element>
-
+```json
+"j:MetadataAugmentation": {
+	"description": "Information that further qualifies the kind of data represented.",
+	"$ref": "#/definitions/j:MetadataAugmentationType"
+}
 ```
+```json
+"j:MetadataAugmentationType": {
+	"description": "A data type for information that further qualifies the kind of data represented.",
+	"type": "object",
+	"properties": {
+		"j:CriminalInformationIndicator": {"$ref": "#/properties/j:CriminalInformationIndicator"},
+		"j:IntelligenceInformationIndicator": {"$ref": "#/properties/j:IntelligenceInformationIndicator"}
+	}
+}
+```
+
 2. New metadata objects can be created in an extension as an augmentation or as a standalone object
 
-```xml
-<xs:element name="PrivacyMetadataAugmentation"
-			type="ext:PrivacyMetadataAugmentationType"
-			substitutionGroup="nc:MetadataAugmentationPoint">
-	<xs:annotation>
-		<xs:documentation>Additional information about Privacy.</xs:documentation>
-	</xs:annotation>
-</xs:element>
-<xs:complexType name="PrivacyMetadataAugmentationType">
-	<xs:annotation>
-		<xs:documentation>A data type for Additional information about Privacy.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:AugmentationType">
-			<xs:sequence>
-				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
-
-<xs:element name="InjuryPrivacyMetadataAugmentation"
-			type="ext:InjuryPrivacyMetadataAugmentationType"
-			substitutionGroup="nc:InjuryAugmentationPoint">
-	<xs:annotation>
-		<xs:documentation>Additional information about Privacy.</xs:documentation>
-	</xs:annotation>
-</xs:element>
-<xs:complexType name="InjuryPrivacyMetadataAugmentationType">
-	<xs:annotation>
-		<xs:documentation>A data type for Additional information about Privacy.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:AugmentationType">
-			<xs:sequence>
-				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
-
+```json
+"ext:PrivacyMetadataType": {
+	"description": "A data type for Additional information about Privacy.",
+	"type": "object",
+	"properties": {
+		"ext:PrivacyCode": {"$ref": "#/properties/ext:PrivacyCode"}
+	}
+}
 ```
 
-```xml
-<xs:element name="Injury" type="ext:InjuryType">
-	<xs:annotation>
-		<xs:documentation>A form of harm or damage sustained by a person.</xs:documentation>
-	</xs:annotation>
-</xs:element>
-<xs:complexType name="InjuryType">
-	<xs:annotation>
-		<xs:documentation>A data type for a form of harm or damage sustained by a person.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="nc:InjuryType">
-			<xs:sequence>
-				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
+```json
+"ext:PrivacyMetadata": {
+	"description": "Metadata about Privacy.",
+	"type": "array",
+	"items": {"$ref": "#/definitions/ext:PrivacyMetadataType"}
+}
 ```
+
+```json
+"ext:PrivacyCode": {
+	"description": "A code representing a kind of property.",
+	"type": "array",
+	"items": {"$ref": "#/definitions/ext:PrivacyCodeType"},
+	"maxItems": 2
+}
+```
+
 ### Instance Documents
 
 There are also multiple methods to relate that metadata to objects in instance documents: 
 
-1. Using a `nc:metadataRef` attribute, which allows simple data objects to point to a standalone metadata object
-
-```xml
-<nc:Person>
-	<nc:PersonBirthDate>
-		<nc:Date nc:metadataRef="PMD01">1890-05-04</nc:Date>
-	</nc:PersonBirthDate>
-</nc:Person>
-
-<nc:Metadata structures:id="PMD01">
-	<ext:PrivacyMetadataAugmentation>
-		<ext:PrivacyCode>PII</ext:PrivacyCode>
-	</ext:PrivacyMetadataAugmentation>
-</nc:Metadata>
-```
-
-```xml
-<j:Charge nc:metadataRef="JMD01">
-	<j:ChargeDescriptionText>Furious Driving</j:ChargeDescriptionText>
-	<j:ChargeFelonyIndicator>false</j:ChargeFelonyIndicator>
-</j:Charge>
-
-<nc:Metadata structures:id="JMD01">
-	<j:MetadataAugmentation>
-		<j:CriminalInformationIndicator>true</j:CriminalInformationIndicator>
-	</j:MetadataAugmentation>
-</nc:Metadata>
-```
 1. Extend an object to include a metadata object
-2. Add a metadata augmentation to an object (metadata or otherwise) via the object's AugmentationPoint
-
-```xml
-<j:CrashPerson>
-	<j:CrashPersonInjury>
-		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
-		<j:InjurySeverityCode>3</j:InjurySeverityCode>
-		<!-- replacing nc:InjuryAugmentationPoint -->
-		<ext:InjuryPrivacyMetadataAugmentation>
-			<ext:PrivacyCode>PII</ext:PrivacyCode>
-		</ext:InjuryPrivacyMetadataAugmentation>
-	</j:CrashPersonInjury>
-	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
-</j:CrashPerson>
-```
-JSON-LD doesn't support a specific metadata link, so for JSON we just use `@id` and rely on the term "Metadata".
 
 ```json
-"j:Metadata" : {
-	"@id": "#CH01",
-	"j:CriminalInformationIndicator": true
-},
+"nc:InjuryType": {
+	"description": "A data type for a form of harm or damage sustained by a person.",
+	"type": "object",
+	"properties": {
+		"nc:InjuryDescriptionText": {"$ref": "#/properties/nc:InjuryDescriptionText"},
+		"j:InjurySeverityCode": {"$ref": "#/properties/j:InjurySeverityCode"},
+		"nc:InjurySeverityText": {"$ref": "#/properties/nc:InjurySeverityText"},
+		"ext:PrivacyMetadata": {"$ref": "#/properties/ext:PrivacyMetadata"}
+	},
+}
+```
+Giving us an instance like this:
 
+```json
+"j:CrashPersonInjury": [
+	{
+		"nc:InjuryDescriptionText": "Broken Arm",
+		"j:InjurySeverityCode": "3",
+		"ext:PrivacyMetadata": [{
+			"ext:PrivacyCode": [
+				"PII",
+				"MEDICAL"
+			]
+		}]
+	}
+]
+```
+2. Link metadata objects and the data objects to which they apply
+
+```json
 "j:Charge": {
 	"@id": "#CH01",
 	"j:ChargeDescriptionText": "Furious Driving",
 	"j:ChargeFelonyIndicator": false
+},
+"j:Metadata": {
+	"@id": "#CH01",
+	"j:CriminalInformationIndicator": true,
+	"j:IntelligenceInformationIndicator": false
 }
-
 ```
 
 ### Artifacts
@@ -1738,29 +1671,31 @@ ___
 	- Folks generally do this anyway, for consistency
 - Follow the naming format of existing NIEM elements of that type, especially regarding the last term, e.g. “Text”, “Code”, etc.
 
-Create `PersonDefenestrationIndicator` using the existing NIEM type `niem-xs:boolean`. By giving it `j:CrashPersonAugmentationPoint` as a substitution group head, it can go inside of the `j:CrashPerson`:
+Create `PersonDefenestrationIndicator` using the existing NIEM type `niem-xs:boolean`:
 
-```xml
-<xs:element name="PersonDefenestrationIndicator" type="niem-xs:boolean"
-	substitutionGroup="j:CrashPersonAugmentationPoint">
-	<xs:annotation>
-		<xs:documentation>True if this person was thrown through a window; false otherwise.</xs:documentation>
-	</xs:annotation>
-</xs:element>
+```json
+"ext:PersonDefenestrationIndicator": {
+	"description": "True if this person was thrown through a window; false otherwise.",
+	"type": "boolean"
+}
 ```
-The resulting XML instance is then:
+Then we add it to `j:CrashPersonType` so that it can go inside of the `j:CrashPerson`:
 
-```xml
-<j:CrashPerson>
-	<nc:RoleOfPerson structures:ref="P01" xsi:nil="true"/>
-	<j:CrashPersonInjury structures:metadata="PMD01 PMD02">
-		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
-		<j:InjurySeverityCode>3</j:InjurySeverityCode>
-	</j:CrashPersonInjury>
-	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
-</j:CrashPerson>
+```json
+"j:CrashPersonType": {
+	"description": "A data type for any person involved in a traffic accident.",
+	"type": "object",
+	"properties": {
+		"nc:RoleOfPerson": {"$ref": "#/properties/nc:RoleOfPerson"},
+		"j:CrashPersonInjury": {"$ref": "#/properties/j:CrashPersonInjury"},
+		"ext:PersonDefenestrationIndicator": {"$ref": "#/properties/ext:PersonDefenestrationIndicator"}
+	},
+	"required": ["nc:RoleOfPerson"]
+}
 ```
-And the equivalent JSON-LD is:
+
+
+The resulting JSON is:
 
 ```json
 "j:CrashPerson": {
@@ -1778,120 +1713,92 @@ Note the `@id` that links to an identical `@id` in the nc:Person object.
 
 For a more complicated example, we can create the `ext:PrivacyCode` element along with a `ext:PrivacyMetadata` to hold it.
 
-The actual codes are defined in the simple type, `ext:PrivacyCodeSimpleType`. Each `enumeration` defines a code. The `documentation` tags provide a longer text description of the code:
+The actual codes are defined in `ext:PrivacyCodeSimpleType`. Each `const` defines a code. The `description` tags provide a longer text description of the code:
 
-```xml
-<xs:simpleType name="PrivacyCodeSimpleType">
-	<xs:annotation>
-		<xs:documentation>A data type for a code representing a kind of
-			property.</xs:documentation>
-	</xs:annotation>
-	<xs:restriction base="xs:token">
-		<xs:enumeration value="PII">
-			<xs:annotation>
-				<xs:documentation>Personally Identifiable Information</xs:documentation>
-			</xs:annotation>
-		</xs:enumeration>
-		<xs:enumeration value="MEDICAL">
-			<xs:annotation>
-				<xs:documentation>Medical Information</xs:documentation>
-			</xs:annotation>
-		</xs:enumeration>
-	</xs:restriction>
-</xs:simpleType>
-
+```json
+"ext:PrivacyCodeType": {
+	"description": "A data type for a code representing a kind of property.",
+	"type": "string",
+	"oneOf": [
+		{
+			"const": "PII",
+			"description": "Personally Identifiable Information"
+		},
+		{
+			"const": "MEDICAL",
+			"description": "Medical Information"
+		}
+	]
+}
 ```
 
-The complex type `ext:PrivacyCodeType` is then extended from `ext:PrivacyCodeSimpleType`. All this does is add infrastructure attributes to allow things of this type to refer to other elements, or be referred to in turn:
-
-```xml
-<xs:complexType name="PrivacyCodeType">
-	<xs:annotation>
-		<xs:documentation>A data type for a code representing a kind of
-			property.</xs:documentation>
-	</xs:annotation>
-	<xs:simpleContent>
-		<xs:extension base="ext:PrivacyCodeSimpleType">
-			<xs:attributeGroup ref="structures:SimpleObjectAttributeGroup"/>
-		</xs:extension>
-	</xs:simpleContent>
-</xs:complexType>
-```
 Then `ext:PrivacyCode` is created to be of `ext:PrivacyCodeType`:
 
-```xml
-<xs:element name="PrivacyCode" type="ext:PrivacyCodeType">
-	<xs:annotation>
-		<xs:documentation>A code representing a kind of property.</xs:documentation>
-	</xs:annotation>
-</xs:element>
+```json
+"ext:PrivacyCode": {
+	"description": "A code representing a kind of property.",
+	"type": "array",
+	"items": {"$ref": "#/definitions/ext:PrivacyCodeType"},
+	"maxItems": 2
+}
 ```
 
-In this exchange, this code is metadata to be applied to other objects, so we can create `ext:PrivacyMetadata` to hold it:
+In this exchange, this code is metadata to be applied to other objects, so we can create `ext:PrivacyMetadata` and `ext:PrivacyMetadataType` to hold it:
 
-```xml
-<xs:element name="PrivacyMetadata" type="ext:PrivacyMetadataType">
-	<xs:annotation>
-		<xs:documentation>Metadata about Privacy.</xs:documentation>
-	</xs:annotation>
-</xs:element>
-<xs:complexType name="PrivacyMetadataType">
-	<xs:annotation>
-		<xs:documentation>A data type for metadata about Privacy.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:MetadataType">
-			<xs:sequence>
-				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
+```json
+"ext:PrivacyMetadata": {
+	"description": "Metadata about Privacy.",
+	"type": "array",
+	"items": {"$ref": "#/definitions/ext:PrivacyMetadataType"}
+}
+```
+```json
+"ext:PrivacyMetadataType": {
+	"description": "A data type for metadata about Privacy.",
+	"type": "object",
+	"properties": {
+		"ext:PrivacyCode": {"$ref": "#/properties/ext:PrivacyCode"}
+	}
+}
 ```
 
 ### Instance Documents
 
-The resulting XML instance document is:
-
-```xml
-<ext:PrivacyMetadata structures:id="PMD01">  
-	<ext:PrivacyCode>PII</ext:PrivacyCode>  
-</ext:PrivacyMetadata>  
-
-<ext:PrivacyMetadata structures:id="PMD02">  
-	<ext:PrivacyCode>MEDICAL</ext:PrivacyCode>  
-</ext:PrivacyMetadata>
-
-<j:CrashPerson>
-	<nc:RoleOfPerson structures:ref="P01" xsi:nil="true"/>
-	<j:CrashPersonInjury structures:metadata="PMD01 PMD02">
-		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
-		<j:InjurySeverityCode>3</j:InjurySeverityCode>
-	</j:CrashPersonInjury>
-	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
-</j:CrashPerson>
-
-```
-
-An equivalent JSON document would be:
+The resulting JSON instance document is:
 
 ```json
-"j:CrashPerson": {
-	"nc:RoleOfPerson": {
-	  "@id": "#P01"
-	},
-	"j:CrashPersonInjury": {
-	  "nc:InjuryDescriptionText": "Broken Arm",
-	  "j:InjurySeverityCode": "3",
-	  "ext:PrivacyCode": [
-		"PII", "MEDICAL"
-	  ]
-	},
-	"ext:PersonDefenestrationIndicator": "false"
-}
+"j:CrashPerson": [
+	{
+		"nc:RoleOfPerson": {"@id": "#P01"},
+		"j:CrashPersonInjury": [
+			{
+				"nc:InjuryDescriptionText": "Broken Arm",
+				"j:InjurySeverityCode": "3",
+				"ext:PrivacyMetadata": [
+					{
+						"ext:PrivacyCode": [
+							"PII",
+							"MEDICAL"
+						]
+					}
+				]
+			}
+		],
+		"ext:PersonDefenestrationIndicator": false
+	}
+]
 ```
 
-Instead of linking to two separate metadata objects, we've embedded those into the `j:CrashPeson`.
+Instead of linking to two separate metadata objects, we've embedded those into the `j:CrashPeson`. We could also have the `ext:PrivacyMetadata` object as a standalone object with an `@id` that we can link with other objects:
+
+```json
+"ext:PrivacyMetadata": [
+	{
+		"@id": "#PM01",
+		"ext:PrivacyCode": ["PII"]
+	}
+]
+```
 
 ### Artifacts
 
@@ -1916,30 +1823,35 @@ Here we're making the root element that will hold everything else. We create `Cr
 
 To that empty object, we add all the major objects in our exchange, `nc:Person`, `j:Crash`, and `j:Charge`. We also add a `j:PersonChargeAssociation` which lets us link together people and charges. Finally, we add a couple metadata object, the built-in `j:Metadata`, and `ext:PrivacyMetadata`, which we create in the extension schema and is in the prior example.
 
-```xml
-<xs:element name="CrashDriverInfo" type="exch:CrashDriverInfoType">
-	<xs:annotation>
-		<xs:documentation>A collection of information about the driver of a vehicle in a crash.</xs:documentation>
-	</xs:annotation>
-</xs:element>
-
-<xs:complexType name="CrashDriverInfoType">
-	<xs:annotation>
-		<xs:documentation>A data type for a collection of information about the driver of a vehicle in a crash.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:ObjectType">
-			<xs:sequence>
-				<xs:element ref="nc:Person"/>
-				<xs:element ref="j:Crash"/>
-				<xs:element ref="j:PersonChargeAssociation" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:Charge" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:Metadata" minOccurs="0"/>
-				<xs:element ref="ext:PrivacyMetadata" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
+```json
+"ext:CrashDriverInfo": {
+	"description": "A collection of information about the driver of a vehicle in a crash.",
+	"anyOf": [
+		{"$ref": "#/definitions/ext:CrashDriverInfoType"},
+		{
+			"type": "array",
+			"items": {"$ref": "#/definitions/ext:CrashDriverInfoType"}
+		}
+	]
+}
+```
+```json
+"ext:CrashDriverInfoType": {
+	"description": "A data type for a collection of information about the driver of a vehicle in a crash.",
+	"type": "object",
+	"properties": {
+		"nc:Person": {"$ref": "#/properties/nc:Person"},
+		"j:Crash": {"$ref": "#/properties/j:Crash"},
+		"j:PersonChargeAssociation": {"$ref": "#/properties/j:PersonChargeAssociation"},
+		"j:Charge": {"$ref": "#/properties/j:Charge"},
+		"j:MetadataAugmentation": {"$ref": "#/properties/j:MetadataAugmentation"},
+		"ext:PrivacyMetadata": {"$ref": "#/properties/ext:PrivacyMetadata"}
+	},
+	"required": [
+		"nc:Person",
+		"j:Crash"
+	]
+}
 ```
 
 Another example is when we created `ext:LicenseAugmentation` and `ext:LicenseAugmentationType` when talking about augmentations.
@@ -1948,13 +1860,20 @@ Another example is when we created `ext:LicenseAugmentation` and `ext:LicenseAug
 
 To summarize, there are two major ways to add new content to an exchange. We've seen them both above.
 
-If you're _already_ creating a new complex object and type, like `CrashDriverInfo` and `CrashDriverInfoType` above, you can simply add new elements to the new type, as we did with `ext:PrivacyMetadata`. This is called "concrete extension."
+If you're _already_ creating a new complex object and type, like `CrashDriverInfo` and `CrashDriverInfoType` above, you can simply add new elements to the new type, as we did with `ext:PrivacyMetadata`. 
 
-But if you're not already creating the new type for other reasons, you should use augmentations. We used added `j:CrashPersonAugmentationPoint` to our exchange and used it as a hook on which we hung `ext:PersonDefenestrationIndicator`.
+But if you're not already creating the new type for other reasons, XML would use augmentations via substitution groups. However, JSON doesn't support substitution groups. That leaves us with two options:
+
+1. Just add the new object to an existing NIEM type.
+2. Make a new type extending an existing type, adding the new object to this new type. This is called "concrete extension."
+
+In an XML context, NIEM schemas and user extension schemas are separate documents. You don't change the NIEM schemas directly to add new objects. That's where substitution groups are handy for extensions. But in a JSON context, it's all one big schema document. Changing NIEM types directly to add new elements makes the resulting JSON instance better match the equivalent XML instance.
+
+The other option is concrete extensions. This is also done in an XML context, but not often as using augmentations via substitution groups is much cleaner. Concrete extensions are an option, but they come with a big drawback.
 
 ### Problems with Concrete Extensions
 
-The issue with concrete extensions is that if the extension is happening deep inside an object, all the surrounding objects will also need to be extended. For example, if instead of using `j:DriverLicenseAugmentationPoint`, suppose we extended `j:DriverLicenseType`, making a new `ext:DriverLicenseType` to hold our new object. Now we need a new element for it, `ext:DriverLicense`.
+The issue with concrete extensions is that if the extension is happening deep inside an object, all the surrounding objects will also need to be extended. For example, if instead of adding `ext:LicenseAugmentation` directly to `j:DriverLicenseType` we extended `j:DriverLicenseType`, making a new `ext:DriverLicenseType` to hold our new object. Now we need a new element for it, `ext:DriverLicense`.
 
 But `j:CrashDriver` doesn't hold an `ext:DriverLicense`, so we need to make a new `ext:CrashDriverType` and `ext:CrashDriver` that can hold an `ext:DriverLicense`.
 
@@ -2051,9 +1970,9 @@ flowchart LR
 	gml.xsd --> xlinks.xsd
 ```
 
-
 ## Help with Schemas
-- Use a good validating XML editor
+
+- Use a good validating XML/JSON editor
 	- XMLSpy
 		- Windows
 	- oXygen
@@ -2200,4 +2119,4 @@ ___
 
 ___
 Generated on: 
-Fri May  9 18:17:59 UTC 2025
+Thu Aug 28 17:42:46 UTC 2025

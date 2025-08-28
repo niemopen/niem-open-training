@@ -808,7 +808,7 @@ In the resulting instance document, you don't see `nc:DateRepresentation` at all
 ___
 ## An Aside about Namespaces
 
-Below you can see object with different prefixes, `j:Crash` and `nc:ActivityDate`. The `j` and `nc` refer to different namespaces in XML Schema.
+In our examples, you've seen objects with different prefixes, like `j:Crash` and `nc:ActivityDate`. The `j` and `nc` refer to different namespaces in XML Schema.
 
 - Namespaces organize elements by context
 - Identified by prefix, a nickname for the namespace
@@ -2054,7 +2054,7 @@ Here we're making the root element that will hold everything else. We create `Cr
 To that empty object, we add all the major objects in our exchange, `nc:Person`, `j:Crash`, and `ext:Charge`. We also add a `j:PersonChargeAssociation` which lets us link together people and charges. Finally, we add a metadata object, the built-in  `nc:Metadata`.
 
 ```xml
-<xs:element name="CrashDriverInfo" type="exch:CrashDriverInfoType">
+<xs:element name="CrashDriverInfo" type="ext:CrashDriverInfoType">
 	<xs:annotation>
 		<xs:documentation>A collection of information about the driver of a vehicle in a crash.</xs:documentation>
 	</xs:annotation>
@@ -2187,9 +2187,9 @@ flowchart LR
 	gml.xsd --> xlinks.xsd
 ```
 
-
 ## Help with Schemas
-- Use a good validating XML editor
+
+- Use a good validating XML/JSON editor
 	- XMLSpy
 		- Windows
 	- oXygen
@@ -2336,4 +2336,4 @@ ___
 
 ___
 Generated on: 
-Fri May  9 18:17:59 UTC 2025
+Thu Aug 28 17:42:46 UTC 2025
