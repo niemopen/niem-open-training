@@ -73,6 +73,7 @@ And we finally get to [`nc:ActivityType`](https://niemopen.github.io/niem-open-t
 	"required": ["nc:ActivityDate"]
 }
 ```
+If you're coming from an XML perspective to JSON Schema, it's important to realize that this isn't true inheritance from an object oriented perspective, although it functions identically in most situations.
 
 What this all means is that a `j:Crash` object can contain a `nc:ActivityDate`, which is, contextually, a Crash Date.
 

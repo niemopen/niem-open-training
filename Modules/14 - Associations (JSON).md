@@ -60,7 +60,7 @@
 
 ### Instance Documents
 
-In the instance document, the association object can specify the objects being associated together by pointing to then with `ref` attributes, or by including the object inside the association object.
+In the instance document, the association object can specify the objects being associated together by pointing to then with `@id` attributes, or by including the object inside the association object.
 
 First, here's the association using referencing. The applicable `nc:Person` and `j:Charge` objects are external to `j:PersonChargeAssociation`. While shown next to the `j:PersonChargeAssociation` object, they could be _anywhere_ in the instance document.
 
@@ -94,7 +94,7 @@ This beings with it two advantages:
 ```
 
 
-The disadvantage with using referencing is that it can be more difficult to implement. Implementations need to look for `ref` attributes and find matching `id` attributes.
+The disadvantage with using referencing is that it can be more difficult to implement. Implementations need to look for matching `@id` attributes.
 
 The alternative to referencing is to just include the `nc:Person` and `j:Charge` information inside the association:
 

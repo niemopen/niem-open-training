@@ -13,7 +13,9 @@
 	- `j:DriverLicense` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-lb))
 	- `j:DriverLicenseAugmentationPoint` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-11rg))
 
-Does driver's license have what we need? Does it have an email address?
+In XML, we would use substitution groups to add the augmentation to the exchange. _However_, JSON and JSON Schema lack this concept of substitution groups. (As do most other serializations.) So in JSON Schema, we will need to extend an existing type to hold the new information. This is one reason why NIEM transformations from XML to JSON are possible, but transformations the other direction are not. Transformations to JSON are _lossy_.
+
+Our first step is to determine whether driver's license has what we need. Does it have an email address?
 
 - Try searching for "drivers license":
 	- [SSGT](http://niem5.org/ssgt_redirect.php?query=drivers+license)
@@ -38,104 +40,70 @@ The SSGT is best for learning overall structure, so check out [`j:Crash`](https:
 
 `j:DriverLicense` is defined to be of `j:DriverLicenseType`:
 
-```xml
-<xs:element name="DriverLicense" type="j:DriverLicenseType" nillable="true">
-	<xs:annotation>
-		<xs:documentation>A license issued to a person granting driving privileges.</xs:documentation>
-	</xs:annotation>
-</xs:element>
+```json
+"j:DriverLicense": {
+	"description": "A license issued to a person granting driving privileges.",
+	"$ref": "#/definitions/j:DriverLicenseType"
+}
 ```
 
-`j:DriverLicenseType` contains `j:DriverLicenseAugmentationPoint` as a hook for a augmentation bags:
+`j:DriverLicenseType` contains `j:DriverLicenseAugmentationPoint` as a hook for a augmentation bags, but this isn't usable in JSON due to the aforementioned XML-specific substitution groups:
 
-```xml
-<xs:complexType name="DriverLicenseType">
-	<xs:annotation>
-		<xs:documentation>A data type for a license issued to a person granting driving privileges.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="j:DriverLicenseBaseType">
-			<xs:sequence>
-				<xs:element ref="j:DriverLicenseEnhancedIndicator" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseCommercialClassAbstract" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseCommercialStatusAbstract" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseNonCommercialClassText" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseNonCommercialStatusAbstract" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicensePermit" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicensePermitQuantity" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseWithdrawal" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseWithdrawalPendingIndicator" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseCardIdentification" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseRestriction" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseEndorsement" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:DriverLicenseAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
+```json
+"j:DriverLicenseType": {
+	"description": "A data type for a license issued to a person granting driving privileges.",
+	"allOf": [
+		{"$ref": "#/definitions/j:DriverLicenseBaseType"},
+		{
+			"type": "object",
+			"properties": {
+				"j:DriverLicenseCardIdentification": {"$ref": "#/properties/j:DriverLicenseCardIdentification"},
+			},
+			"required": ["j:DriverLicenseCardIdentification"]
+		}
+	]
+}
 ```
 
 While NIEM does have some augmentations pre-defined, they're particularly useful for adding new objects, or just putting existing NIEM objects somewhere else. Here we do the latter, creating a bag called `LicenseAugmentation` with `nc:ContactInformation` inside. 
 
-`ext:` is the nickname we're going to use for our own extension namespace, where we'll create our own objects. This is a separate file _we_ create. In it we build new objects, based on existing NIEM objects. We'll learn more about how these files fit together when we get to creating schemas.
+`ext:` is the nickname we're going to use for our own extension namespace. This identifies our own objects apart from NIEM-supplied ones.
 
-We can now "hang" it on the `j:DriverLicenseAugmentationPoint` hook with nothing more than a `substitutionGroup` attribute:
+```json
+"ext:LicenseAugmentationType": {
+	"description": "A data type for additional information about a license.",
+	"type": "object",
+	"properties": {
+		"nc:ContactInformation": {"$ref": "#/properties/nc:ContactInformation"}
+	}
+},
 
-```xml
-<xs:complexType name="LicenseAugmentationType">
-	<xs:annotation>
-		<xs:documentation>
-			A data type for additional information about a license.
-		</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:AugmentationType">
-			<xs:sequence>
-				<xs:element ref="nc:ContactInformation"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
-
-<xs:element name="LicenseAugmentation" type="ext:LicenseAugmentationType" substitutionGroup="j:DriverLicenseAugmentationPoint">
-	<xs:annotation>
-		<xs:documentation>
-			Additional information about a license.
-		</xs:documentation>
-	</xs:annotation>
-</xs:element>
+"ext:LicenseAugmentation": {
+	"description": "Additional information about a license.",
+	"$ref": "#/definitions/ext:LicenseAugmentationType"
+}
 ```
 
-Our new `ext:LicenseAugmentationType` is based on the built-in [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType). That base type merely adds in infrastructure support for linking objects together:
+Finally, we add it directly to `j:DriverLicenseType`. In XML, this would be done with a substitution, but those aren't available to JSON. XML would also put extensions like this into a separate file and namespace. In JSON, we just use one single schema document.
 
-```xml
-<xs:complexType name="AugmentationType" abstract="true">
-	<xs:annotation>
-		<xs:documentation>A data type for a set of properties to be applied to a base type.</xs:documentation>
-	</xs:annotation>
-	<xs:attribute ref="structures:id"/>
-	<xs:attribute ref="structures:ref"/>
-	<xs:attribute ref="structures:uri"/>
-	<xs:anyAttribute namespace="urn:us:gov:ic:ism urn:us:gov:ic:ntk" processContents="lax"/>
-</xs:complexType>
+```json
+"j:DriverLicenseType": {
+	"description": "A data type for a license issued to a person granting driving privileges.",
+	"allOf": [
+		{"$ref": "#/definitions/j:DriverLicenseBaseType"},
+		{
+			"type": "object",
+			"properties": {
+				"j:DriverLicenseCardIdentification": {"$ref": "#/properties/j:DriverLicenseCardIdentification"},
+				"ext:LicenseAugmentation": {"$ref": "#/properties/ext:LicenseAugmentation"}
+			},
+			"required": ["j:DriverLicenseCardIdentification"]
+		}
+	]
+}
 ```
 
-The resulting XML Instance Document looks like:
-
-```xml
-<j:DriverLicense>
-	<j:DriverLicenseCardIdentification>
-		<nc:IdentificationID>A1234567</nc:IdentificationID>
-	</j:DriverLicenseCardIdentification>
-	<ext:LicenseAugmentation>
-		<nc:ContactInformation>
-			<nc:ContactEmailID>peter@wimsey.org</nc:ContactEmailID>
-		</nc:ContactInformation>
-	</ext:LicenseAugmentation>
-</j:DriverLicense>
-```
-
-The equivalent JSON-LD would be:
+The resulting JSON instance looks like this:
 
 ```json
 "j:DriverLicense": {

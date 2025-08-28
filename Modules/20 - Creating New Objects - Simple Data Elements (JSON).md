@@ -15,29 +15,31 @@ ___
 	- Folks generally do this anyway, for consistency
 - Follow the naming format of existing NIEM elements of that type, especially regarding the last term, e.g. “Text”, “Code”, etc.
 
-Create `PersonDefenestrationIndicator` using the existing NIEM type `niem-xs:boolean`. By giving it `j:CrashPersonAugmentationPoint` as a substitution group head, it can go inside of the `j:CrashPerson`:
+Create `PersonDefenestrationIndicator` using the existing NIEM type `niem-xs:boolean`:
 
-```xml
-<xs:element name="PersonDefenestrationIndicator" type="niem-xs:boolean"
-	substitutionGroup="j:CrashPersonAugmentationPoint">
-	<xs:annotation>
-		<xs:documentation>True if this person was thrown through a window; false otherwise.</xs:documentation>
-	</xs:annotation>
-</xs:element>
+```json
+"ext:PersonDefenestrationIndicator": {
+	"description": "True if this person was thrown through a window; false otherwise.",
+	"type": "boolean"
+}
 ```
-The resulting XML instance is then:
+Then we add it to `j:CrashPersonType` so that it can go inside of the `j:CrashPerson`:
 
-```xml
-<j:CrashPerson>
-	<nc:RoleOfPerson structures:ref="P01" xsi:nil="true"/>
-	<j:CrashPersonInjury structures:metadata="PMD01 PMD02">
-		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
-		<j:InjurySeverityCode>3</j:InjurySeverityCode>
-	</j:CrashPersonInjury>
-	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
-</j:CrashPerson>
+```json
+"j:CrashPersonType": {
+	"description": "A data type for any person involved in a traffic accident.",
+	"type": "object",
+	"properties": {
+		"nc:RoleOfPerson": {"$ref": "#/properties/nc:RoleOfPerson"},
+		"j:CrashPersonInjury": {"$ref": "#/properties/j:CrashPersonInjury"},
+		"ext:PersonDefenestrationIndicator": {"$ref": "#/properties/ext:PersonDefenestrationIndicator"}
+	},
+	"required": ["nc:RoleOfPerson"]
+}
 ```
-And the equivalent JSON-LD is:
+
+
+The resulting JSON is:
 
 ```json
 "j:CrashPerson": {
@@ -55,120 +57,92 @@ Note the `@id` that links to an identical `@id` in the nc:Person object.
 
 For a more complicated example, we can create the `ext:PrivacyCode` element along with a `ext:PrivacyMetadata` to hold it.
 
-The actual codes are defined in the simple type, `ext:PrivacyCodeSimpleType`. Each `enumeration` defines a code. The `documentation` tags provide a longer text description of the code:
+The actual codes are defined in `ext:PrivacyCodeSimpleType`. Each `const` defines a code. The `description` tags provide a longer text description of the code:
 
-```xml
-<xs:simpleType name="PrivacyCodeSimpleType">
-	<xs:annotation>
-		<xs:documentation>A data type for a code representing a kind of
-			property.</xs:documentation>
-	</xs:annotation>
-	<xs:restriction base="xs:token">
-		<xs:enumeration value="PII">
-			<xs:annotation>
-				<xs:documentation>Personally Identifiable Information</xs:documentation>
-			</xs:annotation>
-		</xs:enumeration>
-		<xs:enumeration value="MEDICAL">
-			<xs:annotation>
-				<xs:documentation>Medical Information</xs:documentation>
-			</xs:annotation>
-		</xs:enumeration>
-	</xs:restriction>
-</xs:simpleType>
-
+```json
+"ext:PrivacyCodeType": {
+	"description": "A data type for a code representing a kind of property.",
+	"type": "string",
+	"oneOf": [
+		{
+			"const": "PII",
+			"description": "Personally Identifiable Information"
+		},
+		{
+			"const": "MEDICAL",
+			"description": "Medical Information"
+		}
+	]
+}
 ```
 
-The complex type `ext:PrivacyCodeType` is then extended from `ext:PrivacyCodeSimpleType`. All this does is add infrastructure attributes to allow things of this type to refer to other elements, or be referred to in turn:
-
-```xml
-<xs:complexType name="PrivacyCodeType">
-	<xs:annotation>
-		<xs:documentation>A data type for a code representing a kind of
-			property.</xs:documentation>
-	</xs:annotation>
-	<xs:simpleContent>
-		<xs:extension base="ext:PrivacyCodeSimpleType">
-			<xs:attributeGroup ref="structures:SimpleObjectAttributeGroup"/>
-		</xs:extension>
-	</xs:simpleContent>
-</xs:complexType>
-```
 Then `ext:PrivacyCode` is created to be of `ext:PrivacyCodeType`:
 
-```xml
-<xs:element name="PrivacyCode" type="ext:PrivacyCodeType">
-	<xs:annotation>
-		<xs:documentation>A code representing a kind of property.</xs:documentation>
-	</xs:annotation>
-</xs:element>
+```json
+"ext:PrivacyCode": {
+	"description": "A code representing a kind of property.",
+	"type": "array",
+	"items": {"$ref": "#/definitions/ext:PrivacyCodeType"},
+	"maxItems": 2
+}
 ```
 
-In this exchange, this code is metadata to be applied to other objects, so we can create `ext:PrivacyMetadata` to hold it:
+In this exchange, this code is metadata to be applied to other objects, so we can create `ext:PrivacyMetadata` and `ext:PrivacyMetadataType` to hold it:
 
-```xml
-<xs:element name="PrivacyMetadata" type="ext:PrivacyMetadataType">
-	<xs:annotation>
-		<xs:documentation>Metadata about Privacy.</xs:documentation>
-	</xs:annotation>
-</xs:element>
-<xs:complexType name="PrivacyMetadataType">
-	<xs:annotation>
-		<xs:documentation>A data type for metadata about Privacy.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:MetadataType">
-			<xs:sequence>
-				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
+```json
+"ext:PrivacyMetadata": {
+	"description": "Metadata about Privacy.",
+	"type": "array",
+	"items": {"$ref": "#/definitions/ext:PrivacyMetadataType"}
+}
+```
+```json
+"ext:PrivacyMetadataType": {
+	"description": "A data type for metadata about Privacy.",
+	"type": "object",
+	"properties": {
+		"ext:PrivacyCode": {"$ref": "#/properties/ext:PrivacyCode"}
+	}
+}
 ```
 
 ### Instance Documents
 
-The resulting XML instance document is:
-
-```xml
-<ext:PrivacyMetadata structures:id="PMD01">  
-	<ext:PrivacyCode>PII</ext:PrivacyCode>  
-</ext:PrivacyMetadata>  
-
-<ext:PrivacyMetadata structures:id="PMD02">  
-	<ext:PrivacyCode>MEDICAL</ext:PrivacyCode>  
-</ext:PrivacyMetadata>
-
-<j:CrashPerson>
-	<nc:RoleOfPerson structures:ref="P01" xsi:nil="true"/>
-	<j:CrashPersonInjury structures:metadata="PMD01 PMD02">
-		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
-		<j:InjurySeverityCode>3</j:InjurySeverityCode>
-	</j:CrashPersonInjury>
-	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
-</j:CrashPerson>
-
-```
-
-An equivalent JSON document would be:
+The resulting JSON instance document is:
 
 ```json
-"j:CrashPerson": {
-	"nc:RoleOfPerson": {
-	  "@id": "#P01"
-	},
-	"j:CrashPersonInjury": {
-	  "nc:InjuryDescriptionText": "Broken Arm",
-	  "j:InjurySeverityCode": "3",
-	  "ext:PrivacyCode": [
-		"PII", "MEDICAL"
-	  ]
-	},
-	"ext:PersonDefenestrationIndicator": "false"
-}
+"j:CrashPerson": [
+	{
+		"nc:RoleOfPerson": {"@id": "#P01"},
+		"j:CrashPersonInjury": [
+			{
+				"nc:InjuryDescriptionText": "Broken Arm",
+				"j:InjurySeverityCode": "3",
+				"ext:PrivacyMetadata": [
+					{
+						"ext:PrivacyCode": [
+							"PII",
+							"MEDICAL"
+						]
+					}
+				]
+			}
+		],
+		"ext:PersonDefenestrationIndicator": false
+	}
+]
 ```
 
-Instead of linking to two separate metadata objects, we've embedded those into the `j:CrashPeson`.
+Instead of linking to two separate metadata objects, we've embedded those into the `j:CrashPeson`. We could also have the `ext:PrivacyMetadata` object as a standalone object with an `@id` that we can link with other objects:
+
+```json
+"ext:PrivacyMetadata": [
+	{
+		"@id": "#PM01",
+		"ext:PrivacyCode": ["PII"]
+	}
+]
+```
 
 ### Artifacts
 

@@ -1,6 +1,6 @@
 ## An Aside about Namespaces
 
-Below you can see object with different prefixes, `j:Crash` and `nc:ActivityDate`. The `j` and `nc` refer to different namespaces in XML Schema.
+In our examples, you've seen objects with different prefixes, like `j:Crash` and `nc:ActivityDate`. The `j` and `nc` refer to different namespaces in JSON-LD.
 
 - Namespaces organize elements by context
 - Identified by prefix, a nickname for the namespace
@@ -8,15 +8,17 @@ Below you can see object with different prefixes, `j:Crash` and `nc:ActivityDate
 
 ![Namespaces and Case](Mapping_Graphics/Namespace_Case.png)
 
-JSON-LD maps JSON objects to NIEM namespaces in the `@context`. Each of these entries maps a prefix to a NIEM namespace, providing a link back to the NIEM object. 
+JSON-LD maps JSON objects to NIEM namespaces in the `@context` object. Each of these entries maps a prefix to a NIEM namespace, providing a link back to the NIEM object. 
 
 ```json
 "@context": {
 	"ext": "http://training.niem.gov/CrashDriver/1.0/extension#",
-	"j": "http://release.niem.gov/niem/domains/jxdm/7.0/#",
-	"nc": "http://release.niem.gov/niem/niem-core/5.0/#"
+	"j": "https://docs.oasis-open.org/niemopen/ns/model/domains/justice/6.0/#",
+	"nc": "https://docs.oasis-open.org/niemopen/ns/model/niem-core/6.0/#"
 }
 ```
 
-As mentioned earlier, NIEM doesn't support JSON Schema well yet. Using NIEM with JSON is currently focused on creating matching instance documents. Upcoming NIEM developments will greatly enhance the ability to work in JSON as a similar level as with XML and XML Schema.
+The `@context` object does _not_ have to be included in every exchange. It's enough that it exists _somewhere_.
+
+In an XML context, NIEM namespaces are mapped to individual files. Each XML Schema file defines a single namespace. In JSON, these can all be kept in a single JSON Schema file.
 ___

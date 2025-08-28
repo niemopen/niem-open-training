@@ -7,8 +7,6 @@
 - A few in NIEM are integers
 - Elements defined in the domains
 - Types are often defined in their own namespaces
-- NIEM wraps them in a complex type in order to apply some attributes needed for infrastructure
-	- Which we will need in the next section…
 - Examples:
 	- `j:InjurySeverityCode` ([SSGT](https://tools.niem.gov/niemtools/ssgt/SSGT-GetProperty.iepd?propertyKey=o4-45s)/[Wayfarer](http://niem5.org/wayfarer/j/InjurySeverityCode.html))
 		- In the SSGT, the actual codes are viewable on the page for the base simple type, e.g. [`aamva_d20:AccidentSeverityCodeSimpleType`](https://tools.niem.gov/niemtools/ssgt/SSGT-GetType.iepd?typeKey=o4-c)

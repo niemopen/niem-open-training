@@ -14,7 +14,7 @@ Here we're making the root element that will hold everything else. We create `Cr
 To that empty object, we add all the major objects in our exchange, `nc:Person`, `j:Crash`, and `ext:Charge`. We also add a `j:PersonChargeAssociation` which lets us link together people and charges. Finally, we add a metadata object, the built-in  `nc:Metadata`.
 
 ```xml
-<xs:element name="CrashDriverInfo" type="exch:CrashDriverInfoType">
+<xs:element name="CrashDriverInfo" type="ext:CrashDriverInfoType">
 	<xs:annotation>
 		<xs:documentation>A collection of information about the driver of a vehicle in a crash.</xs:documentation>
 	</xs:annotation>

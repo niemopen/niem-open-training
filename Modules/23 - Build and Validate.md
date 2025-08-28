@@ -63,9 +63,9 @@ flowchart LR
 	gml.xsd --> xlinks.xsd
 ```
 
-
 ## Help with Schemas
-- Use a good validating XML editor
+
+- Use a good validating XML/JSON editor
 	- XMLSpy
 		- Windows
 	- oXygen

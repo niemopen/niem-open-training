@@ -37,187 +37,123 @@ Metadata is Data about Data. What does that mean? Here's an example:
 
 The [`j:MetadataAugmentation`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentation) object is of `j:MetadataAugmentationType`. 
 
-```xml
-<xs:element name="MetadataAugmentation" type="j:MetadataAugmentationType" substitutionGroup="nc:MetadataAugmentationPoint" nillable="true">
-	<xs:annotation>
-		<xs:documentation>Additional information about metadata.</xs:documentation>
-	</xs:annotation>
-</xs:element>
+```json
+"j:MetadataAugmentation": {
+	"description": "Information that further qualifies the kind of data represented.",
+	"$ref": "#/definitions/j:Metadata## AugmentationType"
+}
 ```
 
-There's nothing special about [`j:MetadataAugmentationType`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentationType). It's just an object holding some other objects, in this case a couple booleans indicators, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`. It's based on [`structures:AugmentationType`](https://niemopen.github.io/niem-open-training/structures.html#AugmentationType), which is just an empty container. Substituting it for `nc:MetadataAugmentationPoint` provides the linking infrastructure we've seen with associations and roles as part of the `nc:Metadata` parent object:
+There's nothing special about [`j:MetadataAugmentationType`](https://niemopen.github.io/niem-open-training/j.html#MetadataAugmentationType). It's just defines an object holding some other objects, in this case a couple booleans indicators, `j:CriminalInformationIndicator` and `j:IntelligenceInformationIndicator`:
 
-```xml
-<xs:complexType name="MetadataAugmentationType">
-	<xs:annotation>
-		<xs:documentation>A data type for additional information about metadata.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:AugmentationType">
-			<xs:sequence>
-				<xs:element ref="j:CriminalInformationIndicator" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="j:IntelligenceInformationIndicator" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
+```json
+"j:MetadataAugmentationType": {
+	"description": "A data type for information that further qualifies the kind of data represented.",
+	"type": "object",
+	"properties": {
+		"j:CriminalInformationIndicator": {"$ref": "#/properties/j:CriminalInformationIndicator"},
+		"j:IntelligenceInformationIndicator": {"$ref": "#/properties/j:IntelligenceInformationIndicator"}
+	}
+}
 ```
 
 There are multiple methods for creating metadata objects:
 
 1. NIEM-supplied metadata objects can added to a subset and included in your exchange
 
-```xml
-<xs:complexType name="MetadataType">
-	<xs:annotation>
-		<xs:documentation>A data type for information that further qualifies primary data; data about data.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:ObjectType">
-			<xs:sequence>
-				<xs:element ref="nc:AdministrativeID" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="nc:CaveatText" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="nc:Comment" minOccurs="0" maxOccurs="unbounded"/>
-				<!-- additional elements remvoed for clarity -->
-				<xs:element ref="nc:MetadataAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
-
-<xs:element name="Metadata" type="nc:MetadataType" nillable="true">
-	<xs:annotation>
-		<xs:documentation>Information that further qualifies primary data; data about data.</xs:documentation>
-	</xs:annotation>
-</xs:element>
-
+```json
+"j:MetadataAugmentation": {
+	"description": "Information that further qualifies the kind of data represented.",
+	"$ref": "#/definitions/j:MetadataAugmentationType"
+}
 ```
+```json
+"j:MetadataAugmentationType": {
+	"description": "A data type for information that further qualifies the kind of data represented.",
+	"type": "object",
+	"properties": {
+		"j:CriminalInformationIndicator": {"$ref": "#/properties/j:CriminalInformationIndicator"},
+		"j:IntelligenceInformationIndicator": {"$ref": "#/properties/j:IntelligenceInformationIndicator"}
+	}
+}
+```
+
 2. New metadata objects can be created in an extension as an augmentation or as a standalone object
 
-```xml
-<xs:element name="PrivacyMetadataAugmentation"
-			type="ext:PrivacyMetadataAugmentationType"
-			substitutionGroup="nc:MetadataAugmentationPoint">
-	<xs:annotation>
-		<xs:documentation>Additional information about Privacy.</xs:documentation>
-	</xs:annotation>
-</xs:element>
-<xs:complexType name="PrivacyMetadataAugmentationType">
-	<xs:annotation>
-		<xs:documentation>A data type for Additional information about Privacy.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:AugmentationType">
-			<xs:sequence>
-				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
-
-<xs:element name="InjuryPrivacyMetadataAugmentation"
-			type="ext:InjuryPrivacyMetadataAugmentationType"
-			substitutionGroup="nc:InjuryAugmentationPoint">
-	<xs:annotation>
-		<xs:documentation>Additional information about Privacy.</xs:documentation>
-	</xs:annotation>
-</xs:element>
-<xs:complexType name="InjuryPrivacyMetadataAugmentationType">
-	<xs:annotation>
-		<xs:documentation>A data type for Additional information about Privacy.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="structures:AugmentationType">
-			<xs:sequence>
-				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
-
+```json
+"ext:PrivacyMetadataType": {
+	"description": "A data type for Additional information about Privacy.",
+	"type": "object",
+	"properties": {
+		"ext:PrivacyCode": {"$ref": "#/properties/ext:PrivacyCode"}
+	}
+}
 ```
 
-```xml
-<xs:element name="Injury" type="ext:InjuryType">
-	<xs:annotation>
-		<xs:documentation>A form of harm or damage sustained by a person.</xs:documentation>
-	</xs:annotation>
-</xs:element>
-<xs:complexType name="InjuryType">
-	<xs:annotation>
-		<xs:documentation>A data type for a form of harm or damage sustained by a person.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="nc:InjuryType">
-			<xs:sequence>
-				<xs:element ref="ext:PrivacyCode" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
+```json
+"ext:PrivacyMetadata": {
+	"description": "Metadata about Privacy.",
+	"type": "array",
+	"items": {"$ref": "#/definitions/ext:PrivacyMetadataType"}
+}
 ```
+
+```json
+"ext:PrivacyCode": {
+	"description": "A code representing a kind of property.",
+	"type": "array",
+	"items": {"$ref": "#/definitions/ext:PrivacyCodeType"},
+	"maxItems": 2
+}
+```
+
 ### Instance Documents
 
 There are also multiple methods to relate that metadata to objects in instance documents: 
 
-1. Using a `nc:metadataRef` attribute, which allows simple data objects to point to a standalone metadata object
-
-```xml
-<nc:Person>
-	<nc:PersonBirthDate>
-		<nc:Date nc:metadataRef="PMD01">1890-05-04</nc:Date>
-	</nc:PersonBirthDate>
-</nc:Person>
-
-<nc:Metadata structures:id="PMD01">
-	<ext:PrivacyMetadataAugmentation>
-		<ext:PrivacyCode>PII</ext:PrivacyCode>
-	</ext:PrivacyMetadataAugmentation>
-</nc:Metadata>
-```
-
-```xml
-<j:Charge nc:metadataRef="JMD01">
-	<j:ChargeDescriptionText>Furious Driving</j:ChargeDescriptionText>
-	<j:ChargeFelonyIndicator>false</j:ChargeFelonyIndicator>
-</j:Charge>
-
-<nc:Metadata structures:id="JMD01">
-	<j:MetadataAugmentation>
-		<j:CriminalInformationIndicator>true</j:CriminalInformationIndicator>
-	</j:MetadataAugmentation>
-</nc:Metadata>
-```
 1. Extend an object to include a metadata object
-2. Add a metadata augmentation to an object (metadata or otherwise) via the object's AugmentationPoint
-
-```xml
-<j:CrashPerson>
-	<j:CrashPersonInjury>
-		<nc:InjuryDescriptionText>Broken Arm</nc:InjuryDescriptionText>
-		<j:InjurySeverityCode>3</j:InjurySeverityCode>
-		<!-- replacing nc:InjuryAugmentationPoint -->
-		<ext:InjuryPrivacyMetadataAugmentation>
-			<ext:PrivacyCode>PII</ext:PrivacyCode>
-		</ext:InjuryPrivacyMetadataAugmentation>
-	</j:CrashPersonInjury>
-	<ext:PersonDefenestrationIndicator>false</ext:PersonDefenestrationIndicator>
-</j:CrashPerson>
-```
-JSON-LD doesn't support a specific metadata link, so for JSON we just use `@id` and rely on the term "Metadata".
 
 ```json
-"j:Metadata" : {
-	"@id": "#CH01",
-	"j:CriminalInformationIndicator": true
-},
+"nc:InjuryType": {
+	"description": "A data type for a form of harm or damage sustained by a person.",
+	"type": "object",
+	"properties": {
+		"nc:InjuryDescriptionText": {"$ref": "#/properties/nc:InjuryDescriptionText"},
+		"j:InjurySeverityCode": {"$ref": "#/properties/j:InjurySeverityCode"},
+		"nc:InjurySeverityText": {"$ref": "#/properties/nc:InjurySeverityText"},
+		"ext:PrivacyMetadata": {"$ref": "#/properties/ext:PrivacyMetadata"}
+	},
+}
+```
+Giving us an instance like this:
 
+```json
+"j:CrashPersonInjury": [
+	{
+		"nc:InjuryDescriptionText": "Broken Arm",
+		"j:InjurySeverityCode": "3",
+		"ext:PrivacyMetadata": [{
+			"ext:PrivacyCode": [
+				"PII",
+				"MEDICAL"
+			]
+		}]
+	}
+]
+```
+2. Link metadata objects and the data objects to which they apply
+
+```json
 "j:Charge": {
 	"@id": "#CH01",
 	"j:ChargeDescriptionText": "Furious Driving",
 	"j:ChargeFelonyIndicator": false
+},
+"j:Metadata": {
+	"@id": "#CH01",
+	"j:CriminalInformationIndicator": true,
+	"j:IntelligenceInformationIndicator": false
 }
-
 ```
 
 ### Artifacts

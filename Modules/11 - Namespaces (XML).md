@@ -1,6 +1,6 @@
 ## An Aside about Namespaces
 
-Below you can see object with different prefixes, `j:Crash` and `nc:ActivityDate`. The `j` and `nc` refer to different namespaces in XML Schema.
+In our examples, you've seen objects with different prefixes, like `j:Crash` and `nc:ActivityDate`. The `j` and `nc` refer to different namespaces in XML Schema.
 
 - Namespaces organize elements by context
 - Identified by prefix, a nickname for the namespace
