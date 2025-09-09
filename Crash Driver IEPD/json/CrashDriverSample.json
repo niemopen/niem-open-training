@@ -1,7 +1,7 @@
 {
     "ext:CrashDriverInfo": {
         "nc:Person": {
-    	"@uri": "http://some.uri/",
+            "@uri": "http://some.uri/",
             "nc:PersonBirthDate": {"nc:Date": "1890-05-04"},
             "nc:PersonName": {
                 "nc:PersonGivenName": "Peter",
@@ -41,7 +41,7 @@
             },
             "j:CrashPerson": [
                 {
-                	"@uri": "http://some.uri/",
+                    "@uri": "http://some.uri/",
                     "j:CrashPersonInjury": [
                         {
                             "nc:InjuryDescriptionText": "Broken Arm",
