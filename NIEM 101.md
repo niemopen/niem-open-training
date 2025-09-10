@@ -347,7 +347,7 @@ ___
 - Prior NIEM Releases
 	- [http://niem.github.io/niem-releases/](http://niem.github.io/niem-releases/)
 - Current NIEM Specifications
-        -[https://github.com/niemopen#specifications/](https://github.com/niemopen#specifications/)
+	- [https://github.com/niemopen#specifications/](https://github.com/niemopen#specifications/)
 - Prior NIEM Specifications
 	- [http://niem.github.io/reference/specifications/](http://niem.github.io/reference/specifications/)
 - Materials from this course:
@@ -356,6 +356,7 @@ ___
 	- [https://www.niemopen.org/contact](https://niemopen.org/contact/)
 
 ## Tools
+
 - NIEM Toolbox
 	- [https://niemopen.github.io/niem-toolbox/](https://niemopen.github.io/niem-toolbox/)
 - SSGT:
@@ -372,9 +373,10 @@ ___
 	- [https://niem.github.io/reference/tools/oxygen/snippets/](https://niem.github.io/reference/tools/oxygen/snippets/)
 
 ## Repositories
+
 - Message Exchange Package (MEP) Registry & Repository
 	- https://www.niem.gov/about-niem/message-exchange-package-mep-registry-repository
 
 ___
 Generated on: 
-Tue Sep  9 20:35:31 UTC 2025
+Wed Sep 10 15:00:30 UTC 2025
